@@ -44,6 +44,13 @@ class TipoProducto
      * })
      */
     private $idProducto;
+    
+    /**
+     * @var string $cantidad_vendido
+     *
+     * @ORM\Column(name="cantidad_vendido", type="string", length=200, nullable=true)
+     */
+    private $cantidad_vendido;
 
 
 
@@ -124,5 +131,28 @@ class TipoProducto
     public function getIdProducto()
     {
         return $this->idProducto;
+    }
+    
+    /**
+     * Set cantidad_vendido
+     *
+     * @param string $cantidad_vendido
+     * @return Producto
+     */
+    public function setCantidadVendido($cantidad_vendido)
+    {
+        $this->cantidad_vendido = $cantidad_vendido;
+    
+        return $this;
+    }
+
+    /**
+     * Get cantidad_vendido
+     *
+     * @return string 
+     */
+    public function getCantidadVendido()
+    {
+        return $this->cantidad_vendido;
     }
 }

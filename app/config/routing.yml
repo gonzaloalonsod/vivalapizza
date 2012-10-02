@@ -1,7 +1,7 @@
 sistema_admin:
     resource: "@SistemaAdminBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /admin/
 
 sistema_usuario:
     resource: "@SistemaUsuarioBundle/Controller/"
