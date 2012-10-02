@@ -1,0 +1,5 @@
+# app/config.yml
+twig:
+    form:
+        resources:
+            - LexikFormFilterBundle:Form:form_div_layout.html.twig

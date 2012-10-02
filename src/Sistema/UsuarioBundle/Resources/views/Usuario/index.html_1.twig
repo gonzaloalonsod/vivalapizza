@@ -1,0 +1,54 @@
+{% extends '::backend.html.twig' %}
+{% block article %}
+<h1>Lista Usuarios</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>{{ entities.sortable('Username', 'u.username')|raw }}</th>
+            <th>{{ entities.sortable('Email', 'u.email')|raw }}</th>
+            <th>{{ entities.sortable('Activo', 'u.enabled')|raw }}</th>
+            <th>{{ entities.sortable('Roles', 'u.roles')|raw }}</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    {% for key,entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], key) }}">
+            <td><a href="{{ path('admin_usuario_show', { 'id': entity.id }) }}">{{ entity.username }}</a></td>
+            <td>{{ entity.email }}</td>
+            <td>{{ entity.enabled ? '<span class="si">&#10004;</span>' : '<span class="no">&#10008;</span>'}}</td>
+            <td>{{ entity.roles[0]|trans({}, 'SistemaUsuarioBundle') }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('admin_usuario_show', { 'id': entity.id }) }}">
+                            <img src="{{asset('images/bullet_go.png')}}" />Ver
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_usuario_edit', { 'id': entity.id }) }}">
+                            <img src="{{asset('images/bullet_go.png')}}" />Editar
+                        </a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{# display navigation #}
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_usuario_new') }}">
+            <button>Crear Usuario</button>
+        </a>
+    </li>
+</ul>
+{% endblock article %}

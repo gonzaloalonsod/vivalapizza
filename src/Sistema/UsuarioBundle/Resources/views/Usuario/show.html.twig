@@ -1,0 +1,44 @@
+{% extends '::backend.html.twig' %}
+{% block article %}
+<h1>Ver Usuario</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Username</th>
+            <td>{{ entity.username }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ entity.email }}</td>
+        </tr>
+        <tr>
+            <th>Activo</th>
+            <td>{{ entity.enabled ? '<span class="si">&#10004;</span>' : '<span class="no">&#10008;</span>'}}</td>
+        </tr>
+        <tr>
+            <th>Roles</th>
+            <td>{{ entity.roles[0]|trans({}, 'SistemaUsuarioBundle') }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_usuario') }}">
+            <button>Volver</button>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('admin_usuario_edit', { 'id': entity.id }) }}">
+            <button>Editar</button>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('admin_usuario_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Borrar</button>
+        </form>
+    </li>
+</ul>
+{% endblock article %}

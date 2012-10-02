@@ -1,0 +1,27 @@
+{% extends '::backend.html.twig' %}
+{% block article %}
+<h1>Editar Usuario</h1>
+
+<form action="{{ path('admin_usuario_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
+    <div>
+        {{ form_widget(form) }}
+        <p>
+            <button type="submit">Editar</button>
+        </p>
+    </div>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_usuario') }}">
+            <button>Volver</button>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('admin_usuario_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Borrar</button>
+        </form>
+    </li>
+</ul>
+{% endblock article %}

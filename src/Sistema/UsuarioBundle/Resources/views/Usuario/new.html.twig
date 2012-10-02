@@ -1,0 +1,41 @@
+{% extends '::backend.html.twig' %}
+{% block article %}
+<h1>Crear Usuario</h1>
+
+{% for key, message in app.session.getFlashes() %}
+    <div class="alert-message {{ key }}">
+		{{ message }}
+    </div>
+{% endfor %}
+
+<form action="{{ path('admin_usuario_create') }}" method="post" {{ form_enctype(form) }}>
+    <div>
+        {{ form_errors(form) }}
+    
+        {{ form_row(form.nombre) }}
+        {{ form_row(form.apellido) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.email) }}
+        <div>
+            {{ form_label(form.password) }}
+            {{ form_errors(form.password) }}
+            {{ form_widget(form.password, {'required': true }) }}
+        </div>
+        {{ form_row(form.roles) }}
+        {{ form_row(form.enabled) }}
+
+        {{ form_rest(form) }}
+        <p>
+            <button type="submit">Crear</button>
+        </p>
+    </div>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_usuario') }}">
+            <button>Volver</button>
+        </a>
+    </li>
+</ul>
+{% endblock article %}

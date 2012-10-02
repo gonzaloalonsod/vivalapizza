@@ -19,6 +19,15 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
+            //BUNDLES SISTEMA
+            new Sistema\AdminBundle\SistemaAdminBundle(),
+            new Sistema\UsuarioBundle\SistemaUsuarioBundle(),
+            //BUNDLES TERCEROS
+            //FOS USER BUNDLE
+            new FOS\UserBundle\FOSUserBundle(),
+            //CRUD GENERATOR
+            new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
+            new JordiLlonch\Bundle\CrudGeneratorBundle\JordiLlonchCrudGeneratorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
