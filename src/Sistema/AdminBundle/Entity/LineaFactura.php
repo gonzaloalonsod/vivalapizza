@@ -36,16 +36,6 @@ class LineaFactura
     private $total;
 
     /**
-     * @var Producto
-     *
-     * @ORM\ManyToOne(targetEntity="Producto")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_producto", referencedColumnName="id")
-     * })
-     */
-    private $idProducto;
-
-    /**
      * @var Factura
      *
      * @ORM\ManyToOne(targetEntity="Factura")
@@ -54,6 +44,16 @@ class LineaFactura
      * })
      */
     private $idFactura;
+
+    /**
+     * @var Producto
+     *
+     * @ORM\ManyToOne(targetEntity="Producto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_producto", referencedColumnName="id")
+     * })
+     */
+    private $idProducto;
 
 
 
@@ -114,29 +114,6 @@ class LineaFactura
     }
 
     /**
-     * Set idProducto
-     *
-     * @param Sistema\AdminBundle\Entity\Producto $idProducto
-     * @return LineaFactura
-     */
-    public function setIdProducto(\Sistema\AdminBundle\Entity\Producto $idProducto = null)
-    {
-        $this->idProducto = $idProducto;
-    
-        return $this;
-    }
-
-    /**
-     * Get idProducto
-     *
-     * @return Sistema\AdminBundle\Entity\Producto 
-     */
-    public function getIdProducto()
-    {
-        return $this->idProducto;
-    }
-
-    /**
      * Set idFactura
      *
      * @param Sistema\AdminBundle\Entity\Factura $idFactura
@@ -157,5 +134,28 @@ class LineaFactura
     public function getIdFactura()
     {
         return $this->idFactura;
+    }
+
+    /**
+     * Set idProducto
+     *
+     * @param Sistema\AdminBundle\Entity\Producto $idProducto
+     * @return LineaFactura
+     */
+    public function setIdProducto(\Sistema\AdminBundle\Entity\Producto $idProducto = null)
+    {
+        $this->idProducto = $idProducto;
+    
+        return $this;
+    }
+
+    /**
+     * Get idProducto
+     *
+     * @return Sistema\AdminBundle\Entity\Producto 
+     */
+    public function getIdProducto()
+    {
+        return $this->idProducto;
     }
 }

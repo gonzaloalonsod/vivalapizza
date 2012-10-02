@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CierreCaja" table="cierre_caja">
+    <id name="id" type="bigint" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="responsable" type="string" column="responsable" length="200" nullable="false"/>
+    <field name="fecha" type="date" column="fecha" nullable="false"/>
+    <field name="ingresos" type="string" column="ingresos" length="200" nullable="false"/>
+    <field name="egresos" type="string" column="egresos" length="200" nullable="false"/>
+    <field name="total" type="string" column="total" length="200" nullable="false"/>
+    <many-to-one field="idCaja" target-entity="Caja">
+      <join-columns>
+        <join-column name="id_caja" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

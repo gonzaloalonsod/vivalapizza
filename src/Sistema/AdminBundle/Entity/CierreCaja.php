@@ -22,6 +22,13 @@ class CierreCaja
     private $id;
 
     /**
+     * @var string $responsable
+     *
+     * @ORM\Column(name="responsable", type="string", length=200, nullable=false)
+     */
+    private $responsable;
+
+    /**
      * @var \DateTime $fecha
      *
      * @ORM\Column(name="fecha", type="date", nullable=false)
@@ -69,6 +76,29 @@ class CierreCaja
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set responsable
+     *
+     * @param string $responsable
+     * @return CierreCaja
+     */
+    public function setResponsable($responsable)
+    {
+        $this->responsable = $responsable;
+    
+        return $this;
+    }
+
+    /**
+     * Get responsable
+     *
+     * @return string 
+     */
+    public function getResponsable()
+    {
+        return $this->responsable;
     }
 
     /**

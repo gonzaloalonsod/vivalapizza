@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Factura" table="factura">
+    <id name="id" type="bigint" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="fecha" type="datetime" column="fecha" nullable="false"/>
+    <field name="total" type="float" column="total" nullable="false"/>
+    <field name="formaPago" type="string" column="forma_pago" length="200" nullable="false"/>
+    <field name="nroComprobante" type="string" column="nro_comprobante" length="200" nullable="false"/>
+    <field name="banco" type="string" column="banco" length="200" nullable="false"/>
+    <many-to-one field="idCliente" target-entity="Persona">
+      <join-columns>
+        <join-column name="id_cliente" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idMozo" target-entity="Persona">
+      <join-columns>
+        <join-column name="id_mozo" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idCaja" target-entity="Caja">
+      <join-columns>
+        <join-column name="id_caja" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

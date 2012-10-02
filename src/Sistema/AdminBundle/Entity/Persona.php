@@ -49,12 +49,10 @@ class Persona
      */
     private $tipo;
 
-    public function __toString() {
-        return $this->nombre;
-    }
+
 
     /**
-     * Get idPersona
+     * Get id
      *
      * @return integer 
      */

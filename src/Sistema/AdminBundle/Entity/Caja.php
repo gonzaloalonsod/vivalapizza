@@ -52,9 +52,7 @@ class Caja
      */
     private $idCajero;
 
-    public function __toString() {
-        return $this->id;
-    }
+
 
     /**
      * Get id

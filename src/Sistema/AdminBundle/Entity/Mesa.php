@@ -48,7 +48,7 @@ class Mesa
 
 
     /**
-     * Get idMesa
+     * Get id
      *
      * @return integer 
      */

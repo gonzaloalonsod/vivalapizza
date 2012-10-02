@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Detalle" table="detalle">
+    <id name="id" type="bigint" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="nroFactura" type="string" column="nro_factura" length="200" nullable="false"/>
+    <field name="total" type="float" column="total" nullable="false"/>
+    <field name="comision" type="float" column="comision" nullable="false"/>
+    <many-to-one field="idComprobante" target-entity="Comprobante">
+      <join-columns>
+        <join-column name="id_comprobante" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>
