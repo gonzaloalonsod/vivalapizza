@@ -52,7 +52,9 @@ class TipoProducto
      */
     private $cantidad_vendido;
 
-
+    public function __toString() {
+        return $this->idProducto->getNombre().' - '.$this->descripcion;
+    }
 
     /**
      * Get id

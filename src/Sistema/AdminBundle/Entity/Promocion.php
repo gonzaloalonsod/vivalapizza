@@ -20,6 +20,13 @@ class Promocion
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+    
+    /**
+     * @var string $nombre
+     *
+     * @ORM\Column(name="nombre", type="string", length=200, nullable=false)
+     */
+    private $nombre;
 
     /**
      * @var float $precio
@@ -35,13 +42,33 @@ class Promocion
      */
     private $validoHasta;
 
+//    /**
+//     * @var \Doctrine\Common\Collections\ArrayCollection
+//     *
+//     * @ORM\ManyToMany(targetEntity="Producto", inversedBy="idPromocion")
+//     * @ORM\JoinTable(name="Producto_de_Promocion",
+//     *   joinColumns={
+//     *     @ORM\JoinColumn(name="id_Promocion", referencedColumnName="id")
+//     *   },
+//     *   inverseJoinColumns={
+//     *     @ORM\JoinColumn(name="id_Producto", referencedColumnName="id")
+//     *   }
+//     * )
+//     */
+//    private $idProducto;
+    
     /**
-     * @var Producto
+     * @var \Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\ManyToOne(targetEntity="Producto")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_producto", referencedColumnName="id")
-     * })
+     * @ORM\ManyToMany(targetEntity="TipoProducto", inversedBy="idPromocion")
+     * @ORM\JoinTable(name="TipoProducto_de_Promocion",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_Promocion", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_Producto", referencedColumnName="id")
+     *   }
+     * )
      */
     private $idProducto;
     
@@ -52,7 +79,13 @@ class Promocion
      */
     private $cantidad_vendido;
 
-
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idProducto = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -109,29 +142,6 @@ class Promocion
     {
         return $this->validoHasta;
     }
-
-    /**
-     * Set idProducto
-     *
-     * @param Sistema\AdminBundle\Entity\Producto $idProducto
-     * @return Promocion
-     */
-    public function setIdProducto(\Sistema\AdminBundle\Entity\Producto $idProducto = null)
-    {
-        $this->idProducto = $idProducto;
-    
-        return $this;
-    }
-
-    /**
-     * Get idProducto
-     *
-     * @return Sistema\AdminBundle\Entity\Producto 
-     */
-    public function getIdProducto()
-    {
-        return $this->idProducto;
-    }
     
     /**
      * Set cantidad_vendido
@@ -154,5 +164,94 @@ class Promocion
     public function getCantidadVendido()
     {
         return $this->cantidad_vendido;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Promocion
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+//    /**
+//     * Add idProducto
+//     *
+//     * @param Sistema\AdminBundle\Entity\Producto $idProducto
+//     * @return Promocion
+//     */
+//    public function addIdProducto(\Sistema\AdminBundle\Entity\Producto $idProducto)
+//    {
+//        $this->idProducto[] = $idProducto;
+//    
+//        return $this;
+//    }
+//
+//    /**
+//     * Remove idProducto
+//     *
+//     * @param Sistema\AdminBundle\Entity\Producto $idProducto
+//     */
+//    public function removeIdProducto(\Sistema\AdminBundle\Entity\Producto $idProducto)
+//    {
+//        $this->idProducto->removeElement($idProducto);
+//    }
+//
+//    /**
+//     * Get idProducto
+//     *
+//     * @return Doctrine\Common\Collections\Collection 
+//     */
+//    public function getIdProducto()
+//    {
+//        return $this->idProducto;
+//    }
+
+    /**
+     * Add idProducto
+     *
+     * @param Sistema\AdminBundle\Entity\TipoProducto $idProducto
+     * @return Promocion
+     */
+    public function addIdProducto(\Sistema\AdminBundle\Entity\TipoProducto $idProducto)
+    {
+        $this->idProducto[] = $idProducto;
+    
+        return $this;
+    }
+
+    /**
+     * Remove idProducto
+     *
+     * @param Sistema\AdminBundle\Entity\TipoProducto $idProducto
+     */
+    public function removeIdProducto(\Sistema\AdminBundle\Entity\TipoProducto $idProducto)
+    {
+        $this->idProducto->removeElement($idProducto);
+    }
+
+    /**
+     * Get idProducto
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getIdProducto()
+    {
+        return $this->idProducto;
     }
 }

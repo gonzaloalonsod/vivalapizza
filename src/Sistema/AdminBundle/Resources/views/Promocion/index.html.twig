@@ -33,6 +33,7 @@
 
             <form class="well" action="{{ path('promocion') }}" method="post" {{ form_enctype(filterForm) }}>
                 {{ form_row(filterForm.id) }}
+                {{ form_row(filterForm.nombre) }}
                 {{ form_row(filterForm.precio) }}
                 {{ form_row(filterForm.validoHasta) }}
                 {{ form_row(filterForm.cantidad_vendido) }}
@@ -52,6 +53,7 @@
     <thead>
         <tr>
             {#<th>Id</th>#}
+            <th>Nombre</th>
             <th>Precio</th>
             <th>V&aacute;lido hasta</th>
             {#<th>Cantidad_vendido</th>#}
@@ -62,8 +64,9 @@
     {% for entity in entities %}
         <tr>
             {#<td><a href="{{ path('promocion_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>#}
-            <td>{{ entity.precio }}</td>
-            <td>{{ entity.validoHasta }}</td>
+            <td>{{ entity.nombre }}</td>
+            <td>{{ '$ '~entity.precio }}</td>
+            <td>{{ entity.validoHasta|date('Y-m-d') }}</td>
             {#<td>{{ entity.cantidadvendido }}</td>#}
             <td>
         <a class="btn btn-mini" href="{{ path('promocion_show', { 'id': entity.id }) }}">

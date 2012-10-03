@@ -15,6 +15,7 @@ class PromocionFilterType extends AbstractType
     {
         $builder
             ->add('id', 'filter_number_range')
+            ->add('nombre', 'filter_text')
             ->add('precio', 'filter_number_range')
             ->add('validoHasta', 'filter_text')
             ->add('cantidad_vendido', 'filter_text')
