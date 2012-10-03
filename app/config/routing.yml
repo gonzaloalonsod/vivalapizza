@@ -6,7 +6,7 @@ sistema_admin:
 sistema_usuario:
     resource: "@SistemaUsuarioBundle/Controller/"
     type:     annotation
-    prefix:   /admin/
+    prefix:   /
 
 # Internal routing configuration to handle ESI
 #_internal:

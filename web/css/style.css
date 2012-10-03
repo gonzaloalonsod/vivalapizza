@@ -29,7 +29,7 @@ h3 span {color:#a80002}
 p {padding-bottom:24px}
 /* header */
 header {height:121px;padding-top:31px;width:100%;overflow:hidden}
-#logo {display:block;background:url(../images/logo.png) 0 0 no-repeat;width:259px;height:94px;text-indent:-9999px}
+#logo {display:block;background:url(../images/as_logo.jpg) 0 0 no-repeat;width:259px;height:94px;text-indent:-9999px;background-size:250px}
 #top_nav {float:right;padding:4px 43px 30px 0}
 #top_nav li {float:left;padding:3px 26px 5px 0;background:url(../images/top_line.gif) right 0 no-repeat;margin-right:25px}
 #top_nav li a {display:block;line-height:0}

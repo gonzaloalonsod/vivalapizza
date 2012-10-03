@@ -1,1 +1,72 @@
-Hello {{ name }}!
+{% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
+{% block stylesheet %}{% endblock %}
+{% block javascript %}{% endblock %}
+
+{% block content %}
+<div class="slider_bg">
+        <div class="slider">
+                <ul class="items">
+                        <li>
+                                <img src="/images/img1.jpg" alt="">
+                                <div class="banner">
+                                        <strong>Viva<span>La Pizza!</span></strong>
+                                        <b>La mejor opción</b>
+                                        <p>
+                                                <span>Disponemos de una amplia variedad de empanadas, pizzas, sandwiches, postres, vinos y bebidas. Veni a deleitar tu paladar!<br>
+                                                </span>
+                                        </p>
+                                </div>
+                        </li>
+                        <li>
+                                <img src="/images/img2.jpg" alt="">
+                                <div class="banner">
+                                        <strong>Empanadas<span>salteñas</span></strong>										
+                                        <p>
+                                                <span>también jamón y queso<br>
+                                                , verduras, cebolla y otras variedades</span>
+                                        </p>
+                                </div>
+                        </li>
+                        <li>
+                                <img src="/images/img3.jpg" alt="">
+                                <div class="banner">
+                                        <strong>Pizzas<span> Variadas</span></strong>										
+                                        <p>
+                                                <span>Vení a probar la pizza de la casa .. VIVALAPIZZA!<br>
+                                        </p>
+                                </div>
+                        </li>
+                </ul>
+        </div>
+</div>
+<div class="wrap">
+        <section class="cols">
+                <div class="box">
+                        <div>
+                                <h2>Bienvenido <span>A Viva la Pizza!</span></h2>
+                                <figure><img src="/images/page1_img1.jpg" alt="" ></figure>									
+                                <a href="#" class="button1">Ver mas</a>
+                        </div>
+                </div>
+        </section>
+        <section class="cols pad_left1">
+                <div class="box">
+                        <div>
+                                <h2>Acerca de  <span>nosotros</span></h2>
+                                <figure><img src="/images/page1_img2.jpg" alt="" ></figure>
+                                <a href="#" class="button1">Ver mas</a>
+                        </div>
+                </div>
+        </section>
+        <section class="cols pad_left1">
+                <div class="box">
+                        <div>
+                                <h2>Nuestros <span>Servicios</span></h2>
+                                <figure><img src="/images/page1_img3.jpg" alt="" ></figure>
+
+                                <a href="#" class="button1">Ver mas</a>
+                        </div>
+                </div>
+        </section>
+</div>
+{% endblock %}

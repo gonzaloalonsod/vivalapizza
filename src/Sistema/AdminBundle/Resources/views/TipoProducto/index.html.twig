@@ -52,10 +52,10 @@
     <thead>
         <tr>
             {#<th>Id</th>#}
+            <th>Producto</th>
             <th>Descripci&oacute;n</th>
             <th>Precio</th>
             {#<th>Cantidad_vendido</th>#}
-            <th>Producto</th>
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
         </tr>
     </thead>
@@ -63,10 +63,10 @@
     {% for entity in entities %}
         <tr>
             {#<td><a href="{{ path('tipoproducto_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>#}
-            <td>{{ entity.descripcion }}</td>
-            <td>{{ entity.precio }}</td>
-            {#<td>{{ entity.cantidadvendido }}</td>#}
             <td>{{ entity.idProducto }}</td>
+            <td>{{ entity.descripcion }}</td>
+            <td>{{ '$ '~entity.precio }}</td>
+            {#<td>{{ entity.cantidadvendido }}</td>#}
             <td>
         <a class="btn btn-mini" href="{{ path('tipoproducto_show', { 'id': entity.id }) }}">
             {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}

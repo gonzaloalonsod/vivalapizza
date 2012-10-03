@@ -9,11 +9,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="admin_index")
      * @Template()
      */
     public function indexAction()
     {
-        return array('name' => 'ADMINISTRADOR INDEX DEFAULT');
+        return array();
     }
 }

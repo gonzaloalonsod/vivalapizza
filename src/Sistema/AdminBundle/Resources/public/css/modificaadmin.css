@@ -1,0 +1,28 @@
+.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+    width: 980px;
+}
+#logo {
+    top: -10px;
+}
+.nav_sup{
+    margin-top: 30px;
+}
+#site-nav ul li.current_page_item {
+    background-position: center 34px;
+}
+.span12 {
+    width: 100%;
+}
+.contenedor_page{
+    width: 960px;
+    background-color: #FFFFFF;
+}
+.row{
+    margin: 0;
+}
+.span12{
+    margin: 0;
+}
+.well{
+    padding-top: 80px;
+}
