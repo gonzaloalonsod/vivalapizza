@@ -3,12 +3,15 @@
 namespace Sistema\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Sistema\AdminBundle\Entity\Persona
  *
  * @ORM\Table(name="persona")
  * @ORM\Entity
+ * @UniqueEntity("dni")
  */
 class Persona
 {
@@ -49,7 +52,9 @@ class Persona
      */
     private $tipo;
 
-
+    public function __toString() {
+        return $this->apellido.', '.$this->nombre;
+    }
 
     /**
      * Get id

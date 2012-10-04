@@ -1,0 +1,42 @@
+{% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
+
+{% block title %}
+{{ parent() }} - Mesa {{ 'views.show.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+{% endblock %}
+
+{% block page %}
+
+<h1>Mesa</h1>
+
+<form class="form-horizontal">
+    <fieldset>        <div class="control-group">
+            <label class="control-label">Numero</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.numero }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Ubicacion</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.ubicacion }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Mozo</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.idMozo }}</span>            </div>
+        </div>    </fieldset>
+</form>
+
+<div>
+    <div class="float-left">
+        <a class="btn" href="{{ path('mesa') }}">
+            {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+        </a>
+    </div>
+    <div class="float-left">
+        <a class="btn btn-primary" href="{{ path('mesa_edit', { 'id': entity.id }) }}">
+            {{ 'views.recordactions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+        </a>
+    </div>
+    <div class="float-left">
+        <form action="{{ path('mesa_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger" type="submit" onclick="return confirm('Desea eliminar al proyecto del sistema?');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
