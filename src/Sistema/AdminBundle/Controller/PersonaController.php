@@ -288,4 +288,38 @@ class PersonaController extends Controller
             ->getForm()
         ;
     }
+    
+    /**
+     * @Route("/nuevo", name="persona_nuevo")
+     * @Template()
+     */
+   public function nuevoAction() {
+       $user = new Persona(); // Should be your user entity. Has to be an object, won't work properly with an array.
+
+       $flow = $this->get('sistemaAdmin.form.flow.nuevoPersona'); // must match the flow's service id
+       $flow->bind($user);
+
+       // form of the current step
+       $form = $flow->createForm($user);
+       if ($flow->isValid($form)) {
+           $flow->saveCurrentStepData();
+
+           if ($flow->nextStep()) {
+               // form for the next step
+               $form = $flow->createForm($user);
+           } else {
+               // flow finished
+               $em = $this->getDoctrine()->getEntityManager();
+               $em->persist($user);
+               $em->flush();
+
+               return $this->redirect($this->generateUrl('persona')); // redirect when done
+           }
+       }
+
+       return array(
+           'form' => $form->createView(),
+           'flow' => $flow,
+       );
+   }
 }

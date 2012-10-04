@@ -15,8 +15,8 @@ class UsuarioType extends AbstractType
 //            ->add('usernameCanonical')
             ->add('email')
 //            ->add('emailCanonical')
-            ->add('enabled')
-            ->add('salt')
+//            ->add('enabled')
+//            ->add('salt')
             ->add('password')
 //            ->add('lastLogin')
 //            ->add('locked')
@@ -27,6 +27,7 @@ class UsuarioType extends AbstractType
             ->add('roles')
 //            ->add('credentialsExpired')
 //            ->add('credentialsExpireAt')
+//            ->add('groups')
         ;
     }
 

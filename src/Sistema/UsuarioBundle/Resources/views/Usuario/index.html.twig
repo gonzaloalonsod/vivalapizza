@@ -1,131 +1,133 @@
-<html>
-    <head>
-        <style>
-.grid table
-{
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    color: #555555;
-    font-size: 1em;
-    width: 100%;
-}
+{% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
 
-.grid td, .grid th
-{
-    border: 1px solid #D4E0EE;
-    padding: 3px 7px 2px 7px;
-}
-.grid th
-{
-    background-color: #E6EDF5;
-    vertical-align: top;
-}
+{% block title %}
+{{ parent() }} - Usuario {{ 'views.index.list'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+{% endblock %}
 
-.grid th a {
-    color: #4F76A3;
-    text-decoration: none;
-}
+{% block page %}
 
-.grid th a.grid-reset {
-    margin-left: 5px;
-    font-weight: normal;
-}
+<div class="row">
 
-.grid tr.even
-{
-    background-color: #FCFDFE;
-}
+    <div class="span8">
+        <h1>Usuario {{ 'views.index.list'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
+    </div>
+    <div class="span2">
+        {% if form_errors(filterForm) %}
+        <div class="alert alert-block alert-error fade in form-errors">
+            {{ form_errors(filterForm) }}
+        </div>
+        {% endif %}
+        &nbsp;
+    </div>
+    <div class="span2">
+        <div class="filters-right">
+            <a class="btn dropdown-toggle" data-toggle="collapse" data-target="#filters">
+                {{ 'views.index.filters'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                <span class="caret"></span>
+            </a>
+        </div>
+    </div>
 
-.grid tr.odd {
-    background-color: #F7F9FC;
+    <div class="span12">
+        <div id="filters" class="collapse">
 
-}
+            <form class="well" action="{{ path('usuario') }}" method="post" {{ form_enctype(filterForm) }}>
+                {{ form_row(filterForm.id) }}
+                    {#
+                {{ form_row(filterForm.username) }}
+                {{ form_row(filterForm.usernameCanonical) }}
+                {{ form_row(filterForm.email) }}
+                {{ form_row(filterForm.emailCanonical) }}
+                {{ form_row(filterForm.enabled) }}
+                {{ form_row(filterForm.salt) }}
+                {{ form_row(filterForm.password) }}
+                {{ form_row(filterForm.lastLogin) }}
+                {{ form_row(filterForm.locked) }}
+                {{ form_row(filterForm.expired) }}
+                {{ form_row(filterForm.expiresAt) }}
+                {{ form_row(filterForm.confirmationToken) }}
+                {{ form_row(filterForm.passwordRequestedAt) }}
+                {{ form_row(filterForm.roles) }}
+                {{ form_row(filterForm.credentialsExpired) }}
+                {{ form_row(filterForm.credentialsExpireAt) }}
+                {{ form_rest(filterForm) }}
+                    #}
 
-.grid_header, .grid_footer {
-    margin: 5px 0;
-}
+                <p>
+                    <button type="submit" name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                    <button type="submit" name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                </p>
+            </form>
+        </div>
+    </div>
 
-/* Icons for order */
-/* You can find this icons in the images directory of the docuementation */
-th div {
-    height: 10px;
-    width: 20px;
-    float: right;
-    padding-top: 4px;
-}
+    <div class="span12">
 
-.grid th div.sort_up {
-    background: transparent url("data:image/gif;base64,R0lGODlhFwAKAIABAJCQkO/v7yH+EUNyZWF0ZWQgd2l0aCBHSU1QACH5BAEKAAEALAAAAAAXAAoAAAIajI+py+0GwGsxTmVDvlqe/YCQ52wmyaXqUQAAOw==") no-repeat bottom left;
-}
+    <table class="table table-striped table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Usernamecanonical</th>
+            <th>Email</th>
+            <th>Emailcanonical</th>
+            <th>Enabled</th>
+            <th>Salt</th>
+            <th>Password</th>
+            <th>Lastlogin</th>
+            <th>Locked</th>
+            <th>Expired</th>
+            {#<th>Expiresat</th>#}
+            <th>Confirmationtoken</th>
+            <th>Passwordrequestedat</th>
+            <th>Roles</th>
+            <th>Credentialsexpired</th>
+            {#<th>Credentialsexpireat</th>#}
+            <th>Id</th>
+            <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('usuario_show', { 'id': entity.id }) }}">{{ entity.username }}</a></td>
+            <td>{{ entity.usernameCanonical }}</td>
+            <td>{{ entity.email }}</td>
+            <td>{{ entity.emailCanonical }}</td>
+            <td>{{ entity.enabled }}</td>
+            <td>{{ entity.salt }}</td>
+            <td>{{ entity.password }}</td>
+            <td>{% if entity.lastLogin %}{{ entity.lastLogin|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{{ entity.locked }}</td>
+            <td>{{ entity.expired }}</td>
+            {#<td>{% if entity.expiresAt %}{{ entity.expiresAt|date('Y-m-d H:i:s') }}{% endif %}</td>#}
+            <td>{{ entity.confirmationToken }}</td>
+            <td>{% if entity.passwordRequestedAt %}{{ entity.passwordRequestedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{{ entity.roles }}</td>
+            <td>{{ entity.credentialsExpired }}</td>
+            {#<td>{% if entity.credentialsExpireAt %}{{ entity.credentialsExpireAt|date('Y-m-d H:i:s') }}{% endif %}</td>#}
+            <td>{{ entity.id }}</td>
+            <td>
+        <a class="btn btn-mini" href="{{ path('usuario_show', { 'id': entity.id }) }}">
+            {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+        </a>
+        <a class="btn btn-mini" href="{{ path('usuario_edit', { 'id': entity.id }) }}">
+            {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+        </a>            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    </div>
 
-.grid th div.sort_down {
-    background: transparent url("data:image/gif;base64,R0lGODlhFwAKAHAAACH5BAEAAAIALAAAAAAXAAoAgQAAAJCQkAAAAAAAAAIalI+py60RDpTRiZmwvdXozXkdKH6keKZqUwAAOw==") no-repeat bottom left;
-}
+    <div class="span4">
+    {{ pagerHtml|raw }}
+    </div>
 
-/* Boolean column */
-.grid .grid_boolean_true {
-    background: transparent url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACl0lEQVR42q2T60uTYRiH/Tv2bnttAwlkRCGChFD7FCQSm2ZDMQ/L0nRnj7TNGDbTooychzFSSssstdqc8zB1anNrSpm47FVCzH3pQLVhdLBfzztoJlifvOEHz4fnuu7nGBe311XgOyLMnTmsz/akMBljB8OSEVFY4kpkJM5Efbp9v/C/cJ43VSrzJId0HhluBy3oW+mKpnOpGSWuExD30iFxDy3dFSZdpZkTSZHr80Y41/phe3UDpvnKaNixY60PjbNVOGTjRZJtvJ2SHE+KINOdtMHC7MSaQBkq/CXQzJ6DjqScpNp3HvY3D3B5ugIiC3dDdJMriAlk7iSDajwr2pmFWVDlPQPFTCEU0wVQTxfCvT4Ig1cJB5Hk9hxDwjWuISbIGBExncFmWINNqPAVQ/lUTsB8KKdIPPmYeOsCW6HIOtpeNMI234j4ei4TExy3J2w+Wr2L2oAGWm8RWckAlj4uQDVZiPH1oSj8c+sH2p5fgWGyGH3BTvCN1GZMIH5Ib/avdMPoV6HWr8Xnb5+i0Iev72KwZa4ealc29O6z6A92gF/zt6CHZm4tNKF98Sp0U3KYfdWIfP8Shbd+bcHy7BLKnFnQEEFLoA7tXjPoKmp7C6l3+Ab5QBrsq/dRPSmH2n0adTPlWH6/iLa5BpQOnoTCcQo6Zw7sr7uRbj0KupLaPsRkK09wgFyN2aPBY+YeKkfzoB3OgWpIBqWDDQtn48lyF4xDxeCrORu0mhLseAuJTVxpfAMVMbnL4CCS1oAZ+tEiXBiWo5VswU5gvbMIvFJOhMC7v8Z9DVwpbaJCkg4x2v1m9L60onfBCovXhLSWVPAVnBCt+gf8p+iLXCFtoPR0DcXwtZwwX8UJk44MiZ4upYR7/nt/A+w9sdKFchsrAAAAAElFTkSuQmCC") no-repeat bottom left;
-    display: inline-block;
-    text-indent: 16px;
-    width: 16px;
-    overflow: hidden;
-}
+        <div class="span8">
+    <a class="btn btn-primary likepaginator" href="{{ path('usuario_new') }}">
+            {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Usuario
+        </a>
+    </div>
+    </div>
 
-.grid .grid_boolean_false {
-    background: transparent url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACSElEQVR42q2Ty0vUURTHv/5SJ1SmUaGckUYdG5FyVdAicGMkFAXBtEl8gJseIP0FEVEtbNNiFm0iMMUgGKhVIUj0oqKFQ40N2TwwdewxOik6zcy953tbmD/HxFV9d/dwz+f7PXAO8I8q+bugb1xspjFdhuwlWUcSJL+SvEfhaPXgcHxbQOH6hYChCa6WlLvLm/eh1OkEAKjlJWSjUVjZpXlSBvbcehDaAshfOx8w5FB+t7eyosUPSU2DqWkAgOX2wvI0YPljFLmpD6sU6fPefhSyAbmr53wkXxTqvJ7KlhYUXo0BACou3wEArFzpB2hQ3t6JpcgkVqITKSHb/XefJCwAENHdWcux0WwMDI09GjUh2iA7/hjO1v0wVbUerVQ3AFgAoLXucfj9kNkkDA0oBkZzE4BKIAUin4hjV2sblFI9xYD6MpcLeiYJo2k7rksKhKi1ei4WR5mrBlrp+g2A0jBi7MZ1RzUV2RhB/YEIASG0VihKoOby6UVY7gY7qiji18txrDy8b7tTEaV7G5FNp6GVnitOMPwz8h47PI32Z1GEs/8Sqk6fBRUhmhAhHI0+fA+/g9Z62AYopUYKC6lUZjKCio7jNmQxeBMLwUGIrL1dJ07iRySMzMznlNZ6ZNMiTXZ3BCgy5DpwuLK6tQ25ZAK5WBzGGDiafHA0+ZCOhPHl9dgqyb6jTz+FtqzyxJkjASGDO2s87tq2g3C4qmEMkMss4tvEW2RmY/MkB449mwpte0xvTh1qJtlFYS8pm4+JHO18Hovjf+o3Xg+XX4ZLBPIAAAAASUVORK5CYII=") no-repeat bottom left;
-    display: inline-block;
-    text-indent: 16px;
-    width: 16px;
-    overflow: hidden;
-}
-
-/* Alignement */
-.grid .align-left {
-    text-align: left;
-}
-
-.grid .align-center {
-    text-align: center;
-}
-
-.grid .align-right {
-    text-align: right;
-}
-
-/* Column filter */
-.grid .grid-filter-operator select{
-    width: 70px;
-
-}
-
-.grid .grid-filter-input-query input, .grid .grid-filter-select-query select{
-    width: 50px;
-}
-
-.grid .grid-filter-input-query-to, .grid .grid-filter-select-query-to{
-    margin-left: 77px;
-    display: block;
-}
-
-/* Grid Search */
-
-.grid-search {
-    border: 1px solid #D4E0EE;
-    padding: 10px;
-}
-
-.grid-search label{
-    width: 80px;
-    display: inline-block;
-    text-align: right;
-}
-
-.grid-search select, .grid-search .grid-filter-input-query input {
-    width: 150px;
-}
-        </style>
-</head>
-<body>
-{{ grid(grid) }}
-</body>
-</html>
+{% endblock %}

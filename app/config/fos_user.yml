@@ -3,3 +3,5 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Sistema\UsuarioBundle\Entity\Usuario
+    group:
+        group_class: Sistema\UsuarioBundle\Entity\Group

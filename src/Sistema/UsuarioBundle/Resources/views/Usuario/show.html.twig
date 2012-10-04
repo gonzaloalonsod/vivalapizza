@@ -1,44 +1,84 @@
-{% extends '::backend.html.twig' %}
-{% block article %}
-<h1>Ver Usuario</h1>
+{% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
 
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Username</th>
-            <td>{{ entity.username }}</td>
-        </tr>
-        <tr>
-            <th>Email</th>
-            <td>{{ entity.email }}</td>
-        </tr>
-        <tr>
-            <th>Activo</th>
-            <td>{{ entity.enabled ? '<span class="si">&#10004;</span>' : '<span class="no">&#10008;</span>'}}</td>
-        </tr>
-        <tr>
-            <th>Roles</th>
-            <td>{{ entity.roles[0]|trans({}, 'SistemaUsuarioBundle') }}</td>
-        </tr>
-    </tbody>
-</table>
+{% block title %}
+{{ parent() }} - Usuario {{ 'views.show.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+{% endblock %}
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_usuario') }}">
-            <button>Volver</button>
+{% block page %}
+
+<h1>Usuario</h1>
+
+<form class="form-horizontal">
+    <fieldset>        <div class="control-group">
+            <label class="control-label">Username</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.username }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Usernamecanonical</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.usernameCanonical }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Email</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.email }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Emailcanonical</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.emailCanonical }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Enabled</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.enabled }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Salt</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.salt }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Password</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.password }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Lastlogin</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.lastLogin|date('Y-m-d H:i:s') }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Locked</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.locked }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Expired</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.expired }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Expiresat</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.expiresAt|date('Y-m-d H:i:s') }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Confirmationtoken</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.confirmationToken }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Passwordrequestedat</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.passwordRequestedAt|date('Y-m-d H:i:s') }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Roles</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.roles }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Credentialsexpired</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.credentialsExpired }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Credentialsexpireat</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.credentialsExpireAt|date('Y-m-d H:i:s') }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Id</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.id }}</span>            </div>
+        </div>    </fieldset>
+</form>
+
+<div>
+    <div class="float-left">
+        <a class="btn" href="{{ path('usuario') }}">
+            {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
         </a>
-    </li>
-    <li>
-        <a href="{{ path('admin_usuario_edit', { 'id': entity.id }) }}">
-            <button>Editar</button>
+    </div>
+    <div class="float-left">
+        <a class="btn btn-primary" href="{{ path('usuario_edit', { 'id': entity.id }) }}">
+            {{ 'views.recordactions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
         </a>
-    </li>
-    <li>
-        <form action="{{ path('admin_usuario_delete', { 'id': entity.id }) }}" method="post">
+    </div>
+    <div class="float-left">
+        <form action="{{ path('usuario_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button type="submit">Borrar</button>
+            <button class="btn btn-danger" type="submit" onclick="return confirm('Desea eliminar al proyecto del sistema?');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
         </form>
-    </li>
-</ul>
-{% endblock article %}
+    </div>
+</div>
+{% endblock %}

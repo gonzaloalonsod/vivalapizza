@@ -10,21 +10,21 @@ use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\View\TwitterBootstrapView;
 
-use Sistema\UsuarioBundle\Entity\Usuario;
-use Sistema\UsuarioBundle\Form\UsuarioType;
-use Sistema\UsuarioBundle\Form\UsuarioFilterType;
+use Sistema\UsuarioBundle\Entity\Group;
+use Sistema\UsuarioBundle\Form\GroupType;
+use Sistema\UsuarioBundle\Form\GroupFilterType;
 
 /**
- * Usuario controller.
+ * Group controller.
  *
- * @Route("/usuario")
+ * @Route("/group")
  */
-class UsuarioController extends Controller
+class GroupController extends Controller
 {
     /**
-     * Lists all Usuario entities.
+     * Lists all Group entities.
      *
-     * @Route("/", name="usuario")
+     * @Route("/", name="group")
      * @Template()
      */
     public function indexAction()
@@ -49,13 +49,13 @@ class UsuarioController extends Controller
     {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $filterForm = $this->createForm(new UsuarioFilterType());
+        $filterForm = $this->createForm(new GroupFilterType());
         $em = $this->getDoctrine()->getManager();
-        $queryBuilder = $em->getRepository('SistemaUsuarioBundle:Usuario')->createQueryBuilder('e');
+        $queryBuilder = $em->getRepository('SistemaUsuarioBundle:Group')->createQueryBuilder('e');
     
         // Reset filter
         if ($request->getMethod() == 'POST' && $request->get('filter_action') == 'reset') {
-            $session->remove('UsuarioControllerFilter');
+            $session->remove('GroupControllerFilter');
         }
     
         // Filter action
@@ -68,13 +68,13 @@ class UsuarioController extends Controller
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
                 // Save filter to session
                 $filterData = $filterForm->getData();
-                $session->set('UsuarioControllerFilter', $filterData);
+                $session->set('GroupControllerFilter', $filterData);
             }
         } else {
             // Get filter from session
-            if ($session->has('UsuarioControllerFilter')) {
-                $filterData = $session->get('UsuarioControllerFilter');
-                $filterForm = $this->createForm(new UsuarioFilterType(), $filterData);
+            if ($session->has('GroupControllerFilter')) {
+                $filterData = $session->get('GroupControllerFilter');
+                $filterForm = $this->createForm(new GroupFilterType(), $filterData);
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
             }
         }
@@ -99,7 +99,7 @@ class UsuarioController extends Controller
         $me = $this;
         $routeGenerator = function($page) use ($me)
         {
-            return $me->generateUrl('usuario', array('page' => $page));
+            return $me->generateUrl('group', array('page' => $page));
         };
     
         // Paginator - view
@@ -115,19 +115,19 @@ class UsuarioController extends Controller
     }
     
     /**
-     * Finds and displays a Usuario entity.
+     * Finds and displays a Group entity.
      *
-     * @Route("/{id}/show", name="usuario_show")
+     * @Route("/{id}/show", name="group_show")
      * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SistemaUsuarioBundle:Usuario')->find($id);
+        $entity = $em->getRepository('SistemaUsuarioBundle:Group')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Usuario entity.');
+            throw $this->createNotFoundException('Unable to find Group entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -139,15 +139,15 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Displays a form to create a new Usuario entity.
+     * Displays a form to create a new Group entity.
      *
-     * @Route("/new", name="usuario_new")
+     * @Route("/new", name="group_new")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Usuario();
-        $form   = $this->createForm(new UsuarioType(), $entity);
+        $entity = new Group();
+        $form   = $this->createForm(new GroupType(), $entity);
 
         return array(
             'entity' => $entity,
@@ -156,17 +156,17 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Creates a new Usuario entity.
+     * Creates a new Group entity.
      *
-     * @Route("/create", name="usuario_create")
+     * @Route("/create", name="group_create")
      * @Method("post")
-     * @Template("SistemaUsuarioBundle:Usuario:new.html.twig")
+     * @Template("SistemaUsuarioBundle:Group:new.html.twig")
      */
     public function createAction()
     {
-        $entity  = new Usuario();
+        $entity  = new Group();
         $request = $this->getRequest();
-        $form    = $this->createForm(new UsuarioType(), $entity);
+        $form    = $this->createForm(new GroupType(), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -175,7 +175,7 @@ class UsuarioController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
 
-            return $this->redirect($this->generateUrl('usuario_show', array('id' => $entity->getId())));        } else {
+            return $this->redirect($this->generateUrl('group_show', array('id' => $entity->getId())));        } else {
             $this->get('session')->getFlashBag()->add('error', 'flash.create.error');
         }
 
@@ -185,22 +185,22 @@ class UsuarioController extends Controller
         );
     }
     /**
-     * Displays a form to edit an existing Usuario entity.
+     * Displays a form to edit an existing Group entity.
      *
-     * @Route("/{id}/edit", name="usuario_edit")
+     * @Route("/{id}/edit", name="group_edit")
      * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SistemaUsuarioBundle:Usuario')->find($id);
+        $entity = $em->getRepository('SistemaUsuarioBundle:Group')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Usuario entity.');
+            throw $this->createNotFoundException('Unable to find Group entity.');
         }
 
-        $editForm = $this->createForm(new UsuarioType(), $entity);
+        $editForm = $this->createForm(new GroupType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -211,23 +211,23 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Edits an existing Usuario entity.
+     * Edits an existing Group entity.
      *
-     * @Route("/{id}/update", name="usuario_update")
+     * @Route("/{id}/update", name="group_update")
      * @Method("post")
-     * @Template("SistemaUsuarioBundle:Usuario:edit.html.twig")
+     * @Template("SistemaUsuarioBundle:Group:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SistemaUsuarioBundle:Usuario')->find($id);
+        $entity = $em->getRepository('SistemaUsuarioBundle:Group')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Usuario entity.');
+            throw $this->createNotFoundException('Unable to find Group entity.');
         }
 
-        $editForm   = $this->createForm(new UsuarioType(), $entity);
+        $editForm   = $this->createForm(new GroupType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -239,7 +239,7 @@ class UsuarioController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
 
-            return $this->redirect($this->generateUrl('usuario_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('group_edit', array('id' => $id)));
         } else {
             $this->get('session')->getFlashBag()->add('error', 'flash.update.error');
         }
@@ -251,9 +251,9 @@ class UsuarioController extends Controller
         );
     }
     /**
-     * Deletes a Usuario entity.
+     * Deletes a Group entity.
      *
-     * @Route("/{id}/delete", name="usuario_delete")
+     * @Route("/{id}/delete", name="group_delete")
      * @Method("post")
      */
     public function deleteAction($id)
@@ -265,10 +265,10 @@ class UsuarioController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SistemaUsuarioBundle:Usuario')->find($id);
+            $entity = $em->getRepository('SistemaUsuarioBundle:Group')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Usuario entity.');
+                throw $this->createNotFoundException('Unable to find Group entity.');
             }
 
             $em->remove($entity);
@@ -278,7 +278,7 @@ class UsuarioController extends Controller
             $this->get('session')->getFlashBag()->add('error', 'flash.delete.error');
         }
 
-        return $this->redirect($this->generateUrl('usuario'));
+        return $this->redirect($this->generateUrl('group'));
     }
 
     private function createDeleteForm($id)

@@ -51,6 +51,12 @@ class Persona
      * @ORM\Column(name="tipo", type="string", length=100, nullable=false)
      */
     private $tipo;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Sistema\UsuarioBundle\Entity\Usuario")
+     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", nullable=true)
+     **/
+    private $usuario;
 
     public function __toString() {
         return $this->apellido.', '.$this->nombre;
@@ -156,5 +162,28 @@ class Persona
     public function getTipo()
     {
         return $this->tipo;
+    }
+
+    /**
+     * Set usuario
+     *
+     * @param Sistema\UsuarioBundle\Entity\Usuario $usuario
+     * @return Persona
+     */
+    public function setUsuario(\Sistema\UsuarioBundle\Entity\Usuario $usuario = null)
+    {
+        $this->usuario = $usuario;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return Sistema\UsuarioBundle\Entity\Usuario 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
     }
 }
