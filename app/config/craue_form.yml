@@ -4,9 +4,9 @@ services:
         tags:
             - { name: form.type, alias: nuevoPersona }
 
-    sistemaADmin.form.flow.nuevoPersona:
+    sistemaAdmin.form.flow.nuevoPersona:
         class: Sistema\AdminBundle\Form\PersonaFlow
         parent: craue.form.flow
         scope: request
         calls:
-            - [ setFormType, [ @sistemaAdmin.form.nuevoPersona ] ]
+            - [ setFormType, [ '@sistemaAdmin.form.nuevoPersona' ] ]

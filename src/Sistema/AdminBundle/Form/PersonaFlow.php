@@ -15,14 +15,17 @@ class PersonaFlow extends FormFlow {
 //        );
 //    }
     
-//    public function getFormOptions($formData, $step, array $options = array()) {
-//        $options = parent::getFormOptions($formData, $step, $options);
-//
-//        if ($step > 1) {
-//            $options['tipo'] = $formData->getTipo();
-//        }
-//
-//        return $options;
-//    }
+    public function getFormOptions($formData, $step, array $options = array()) {
+        $options = parent::getFormOptions($formData, $step, $options);
+
+        if ($step > 1) {
+            if ($formData->getTipo() != 'cajero'){
+                $options['required'] = false;
+                $options['disabled'] = true;
+            }
+        }
+
+        return $options;
+    }
 
 }

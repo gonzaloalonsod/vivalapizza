@@ -138,23 +138,44 @@ class PersonaController extends Controller
         );
     }
 
+//    /**
+//     * Displays a form to create a new Persona entity.
+//     *
+//     * @Route("/new", name="persona_new")
+//     * @Template()
+//     */
+//    public function newAction()
+//    {
+//        $entity = new Persona();
+//        $form   = $this->createForm(new PersonaType(), $entity);
+//
+//        return array(
+//            'entity' => $entity,
+//            'form'   => $form->createView(),
+//        );
+//    }
+
     /**
      * Displays a form to create a new Persona entity.
      *
      * @Route("/new", name="persona_new")
      * @Template()
      */
-    public function newAction()
-    {
-        $entity = new Persona();
-        $form   = $this->createForm(new PersonaType(), $entity);
+    public function newAction() {
+       $user = new Persona(); // Should be your user entity. Has to be an object, won't work properly with an array.
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+       $flow = $this->get('sistemaAdmin.form.flow.nuevoPersona'); // must match the flow's service id
+       $flow->bind($user);
+
+       // form of the current step
+       $form = $flow->createForm($user);
+
+       return array(
+           'form' => $form->createView(),
+           'flow' => $flow,
+       );
     }
-
+    
     /**
      * Creates a new Persona entity.
      *
@@ -164,26 +185,71 @@ class PersonaController extends Controller
      */
     public function createAction()
     {
-        $entity  = new Persona();
-        $request = $this->getRequest();
-        $form    = $this->createForm(new PersonaType(), $entity);
-        $form->bind($request);
+       $user = new Persona(); // Should be your user entity. Has to be an object, won't work properly with an array.
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
+       $flow = $this->get('sistemaAdmin.form.flow.nuevoPersona'); // must match the flow's service id
+       $flow->bind($user);
 
-            return $this->redirect($this->generateUrl('persona_show', array('id' => $entity->getId())));        } else {
-            $this->get('session')->getFlashBag()->add('error', 'flash.create.error');
-        }
+       // form of the current step
+       $form = $flow->createForm($user);
+       if ($flow->isValid($form)) {
+           $flow->saveCurrentStepData();
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+           if ($flow->nextStep()) {
+               // form for the next step
+               $form = $flow->createForm($user);
+           } else {
+               if($user->getTipo() == 'cajero'){//si el tipo es cajero.
+                   $user->getUsuario()->setRoles(array('ROLE_CAJERO'));//el rol es cajero.
+               }
+               // flow finished
+               $em = $this->getDoctrine()->getEntityManager();
+               $em->persist($user);
+               $em->flush();
+               $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
+
+               return $this->redirect($this->generateUrl('persona_show', array('id' => $user->getId())));
+           }
+       }
+//       else {
+//           $this->get('session')->getFlashBag()->add('error', 'flash.create.error');
+//       }
+
+       return array(
+           'form' => $form->createView(),
+           'flow' => $flow,
+       );
     }
+   
+//    /**
+//     * Creates a new Persona entity.
+//     *
+//     * @Route("/create", name="persona_create")
+//     * @Method("post")
+//     * @Template("SistemaAdminBundle:Persona:new.html.twig")
+//     */
+//    public function createAction()
+//    {
+//        $entity  = new Persona();
+//        $request = $this->getRequest();
+//        $form    = $this->createForm(new PersonaType(), $entity);
+//        $form->bind($request);
+//
+//        if ($form->isValid()) {
+//            $em = $this->getDoctrine()->getManager();
+//            $em->persist($entity);
+//            $em->flush();
+//            $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
+//
+//            return $this->redirect($this->generateUrl('persona_show', array('id' => $entity->getId())));        } else {
+//            $this->get('session')->getFlashBag()->add('error', 'flash.create.error');
+//        }
+//
+//        return array(
+//            'entity' => $entity,
+//            'form'   => $form->createView(),
+//        );
+//    }
     /**
      * Displays a form to edit an existing Persona entity.
      *
@@ -194,22 +260,26 @@ class PersonaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SistemaAdminBundle:Persona')->find($id);
+        $user = $em->getRepository('SistemaAdminBundle:Persona')->find($id);
 
-        if (!$entity) {
+        if (!$user) {
             throw $this->createNotFoundException('Unable to find Persona entity.');
         }
-
-        $editForm = $this->createForm(new PersonaType(), $entity);
+        
+        $flow = $this->get('sistemaAdmin.form.flow.nuevoPersona'); // must match the flow's service id
+        $flow->bind($user);
+        
+        $form = $flow->createForm($user);
         $deleteForm = $this->createDeleteForm($id);
-
+       
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'user' => $user,
+            'form' => $form->createView(),
+            'flow' => $flow,
             'delete_form' => $deleteForm->createView(),
         );
     }
-
+    
     /**
      * Edits an existing Persona entity.
      *
@@ -221,35 +291,119 @@ class PersonaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SistemaAdminBundle:Persona')->find($id);
+        $user = $em->getRepository('SistemaAdminBundle:Persona')->find($id);
 
-        if (!$entity) {
+        if (!$user) {
             throw $this->createNotFoundException('Unable to find Persona entity.');
         }
 
-        $editForm   = $this->createForm(new PersonaType(), $entity);
+        $flow = $this->get('sistemaAdmin.form.flow.nuevoPersona'); // must match the flow's service id
+        $flow->bind($user);
+        
+        $form = $flow->createForm($user);
         $deleteForm = $this->createDeleteForm($id);
+        
+       // form of the current step
+       $form = $flow->createForm($user);
+       if ($flow->isValid($form)) {
+           $flow->saveCurrentStepData();
 
-        $request = $this->getRequest();
+           if ($flow->nextStep()) {
+               // form for the next step
+               $form = $flow->createForm($user);
+           } else {
+               $em = $this->getDoctrine()->getEntityManager();
+               
+               if($user->getTipo() == 'cajero'){//si el tipo es cajero.
+                   $user->getUsuario()->setRoles(array('ROLE_CAJERO'));//el rol es cajero.
+               }  else {
+                   if ($usuario = $user->getUsuario()) {
+                       $user->setUsuario(null);
+                       $em->remove($usuario);
+                   }
+               }
+               // flow finished
+               $em->persist($user);
+               $em->flush();
+               $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
 
-        $editForm->bind($request);
-
-        if ($editForm->isValid()) {
-            $em->persist($entity);
-            $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
-
-            return $this->redirect($this->generateUrl('persona_edit', array('id' => $id)));
-        } else {
-            $this->get('session')->getFlashBag()->add('error', 'flash.update.error');
-        }
+               return $this->redirect($this->generateUrl('persona_edit', array('id' => $id)));
+           }
+       }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'user' => $user,
+            'form' => $form->createView(),
+            'flow' => $flow,
             'delete_form' => $deleteForm->createView(),
         );
     }
+//    /**
+//     * Displays a form to edit an existing Persona entity.
+//     *
+//     * @Route("/{id}/edit", name="persona_edit")
+//     * @Template()
+//     */
+//    public function editAction($id)
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $entity = $em->getRepository('SistemaAdminBundle:Persona')->find($id);
+//
+//        if (!$entity) {
+//            throw $this->createNotFoundException('Unable to find Persona entity.');
+//        }
+//
+//        $editForm = $this->createForm(new PersonaType(), $entity);
+//        $deleteForm = $this->createDeleteForm($id);
+//
+//        return array(
+//            'entity'      => $entity,
+//            'edit_form'   => $editForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
+//        );
+//    }
+
+//    /**
+//     * Edits an existing Persona entity.
+//     *
+//     * @Route("/{id}/update", name="persona_update")
+//     * @Method("post")
+//     * @Template("SistemaAdminBundle:Persona:edit.html.twig")
+//     */
+//    public function updateAction($id)
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $entity = $em->getRepository('SistemaAdminBundle:Persona')->find($id);
+//
+//        if (!$entity) {
+//            throw $this->createNotFoundException('Unable to find Persona entity.');
+//        }
+//
+//        $editForm   = $this->createForm(new PersonaType(), $entity);
+//        $deleteForm = $this->createDeleteForm($id);
+//
+//        $request = $this->getRequest();
+//
+//        $editForm->bind($request);
+//
+//        if ($editForm->isValid()) {
+//            $em->persist($entity);
+//            $em->flush();
+//            $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
+//
+//            return $this->redirect($this->generateUrl('persona_edit', array('id' => $id)));
+//        } else {
+//            $this->get('session')->getFlashBag()->add('error', 'flash.update.error');
+//        }
+//
+//        return array(
+//            'entity'      => $entity,
+//            'edit_form'   => $editForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
+//        );
+//    }
     /**
      * Deletes a Persona entity.
      *
@@ -289,37 +443,38 @@ class PersonaController extends Controller
         ;
     }
     
-    /**
-     * @Route("/nuevo", name="persona_nuevo")
-     * @Template()
-     */
-   public function nuevoAction() {
-       $user = new Persona(); // Should be your user entity. Has to be an object, won't work properly with an array.
+//    /**
+//     * @Route("/nuevo", name="persona_nuevo")
+//     * @Template()
+//     */
+//   public function nuevoAction() {
+//       $user = new Persona(); // Should be your user entity. Has to be an object, won't work properly with an array.
+//
+//       $flow = $this->get('sistemaAdmin.form.flow.nuevoPersona'); // must match the flow's service id
+//       $flow->bind($user);
+//
+//       // form of the current step
+//       $form = $flow->createForm($user);
+//       if ($flow->isValid($form)) {
+//           $flow->saveCurrentStepData();
+//
+//           if ($flow->nextStep()) {
+//               // form for the next step
+//               $form = $flow->createForm($user);
+//           } else {
+//               // flow finished
+//               $em = $this->getDoctrine()->getEntityManager();
+//               $em->persist($user);
+//               $em->flush();
+//
+//               return $this->redirect($this->generateUrl('persona')); // redirect when done
+//           }
+//       }
+//
+//       return array(
+//           'form' => $form->createView(),
+//           'flow' => $flow,
+//       );
+//   }
 
-       $flow = $this->get('sistemaAdmin.form.flow.nuevoPersona'); // must match the flow's service id
-       $flow->bind($user);
-
-       // form of the current step
-       $form = $flow->createForm($user);
-       if ($flow->isValid($form)) {
-           $flow->saveCurrentStepData();
-
-           if ($flow->nextStep()) {
-               // form for the next step
-               $form = $flow->createForm($user);
-           } else {
-               // flow finished
-               $em = $this->getDoctrine()->getEntityManager();
-               $em->persist($user);
-               $em->flush();
-
-               return $this->redirect($this->generateUrl('persona')); // redirect when done
-           }
-       }
-
-       return array(
-           'form' => $form->createView(),
-           'flow' => $flow,
-       );
-   }
 }
