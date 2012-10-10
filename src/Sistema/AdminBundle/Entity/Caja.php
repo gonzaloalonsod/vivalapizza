@@ -103,7 +103,7 @@ class Caja
     /**
      * Get cierreCaja
      *
-     * @return \DateTime 
+     * @return \Time 
      */
     public function getCierreCaja()
     {
@@ -154,5 +154,10 @@ class Caja
     public function getIdCajero()
     {
         return $this->idCajero;
+    }
+    
+    public function __toString()
+    {
+        return $this->getId();
     }
 }
