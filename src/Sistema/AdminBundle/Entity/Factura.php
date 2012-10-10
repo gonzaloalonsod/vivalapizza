@@ -3,6 +3,8 @@
 namespace Sistema\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * Sistema\AdminBundle\Entity\Factura
@@ -85,7 +87,23 @@ class Factura
      * })
      */
     private $idCliente;
+    
+    protected $lineaFactura;
+    
+    public function __construct()
+    {
+        $this->lineaFactura = new ArrayCollection();
+    }
+    
+    public function getLineaFactura()
+    {
+        return $this->lineaFactura;
+    }
 
+    public function setlineaFactura(ArrayCollection $lineaFactura)
+    {
+        $this->lineaFactura = $lineaFactura;
+    }
 
 
     /**
@@ -280,5 +298,10 @@ class Factura
     public function getIdCliente()
     {
         return $this->idCliente;
+    }
+    
+    public function __toString()
+    {
+        return $this->getId();
     }
 }
