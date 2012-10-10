@@ -15,7 +15,9 @@ class TipoProductoType extends AbstractType
                 'label' => 'Producto'
             ))
             ->add('descripcion')
-            ->add('precio')
+            ->add('precio', null, array(
+                'label' => 'Precio $'
+            ))
 //            ->add('cantidad_vendido')
         ;
     }

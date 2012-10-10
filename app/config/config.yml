@@ -62,3 +62,17 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+
+avalanche_imagine:
+    cache_prefix: uploads/cache
+    driver:       gd
+    filters:
+        micromini_producto:
+            type:    thumbnail
+            options: { size: [60, 45], mode: inset }
+        miniatura_producto:
+            type:    thumbnail
+            options: { size: [120, 90], mode: inset }
+        grande_producto:
+            type:    thumbnail
+            options: { size: [360, 270], mode: inset }

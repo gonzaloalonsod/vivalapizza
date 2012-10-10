@@ -30,6 +30,8 @@ class AppKernel extends Kernel
             new JordiLlonch\Bundle\CrudGeneratorBundle\JordiLlonchCrudGeneratorBundle(),
             //FORMULARIOS COPETES
             new Craue\FormFlowBundle\CraueFormFlowBundle(),
+            //RESIZE IMAGEN
+            new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

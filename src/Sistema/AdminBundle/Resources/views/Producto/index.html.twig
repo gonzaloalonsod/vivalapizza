@@ -65,7 +65,7 @@
         <tr>
             {#<td><a href="{{ path('producto_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>#}
             <td>{{ entity.nombre }}</td>
-            <td><img src="{{ asset('/uploads/producto/'~entity.imagen) }}{# | apply_filter('my_thumb') #}" /></td>
+            <td><img src="{{ asset('/uploads/producto/'~entity.imagen) | apply_filter('miniatura_producto') }}" /></td>
             {#<td>{{ entity.cantidadvendido }}</td>
             <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>#}
             <td>

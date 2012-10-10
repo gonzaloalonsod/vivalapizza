@@ -20,7 +20,8 @@
         "jms/di-extra-bundle": "1.1.*",
         "friendsofsymfony/user-bundle": "*",
         "jordillonch/crud-generator": "dev-master",
-        "craue/formflow-bundle": "dev-master"
+        "craue/formflow-bundle": "dev-master",
+        "avalanche123/imagine-bundle": "*"
     },
     "scripts": {
         "post-install-cmd": [

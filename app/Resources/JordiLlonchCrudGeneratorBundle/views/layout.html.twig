@@ -62,13 +62,21 @@
 					</nav>
 					<nav>
 						<ul id="menu">
-							<li class="active"><a href="{{ path('admin_index') }}">Inicio</a></li>
-							<li><a href="{{ path('producto') }}">Producto</a></li>
-							<li><a href="{{ path('tipoproducto') }}">Tipo Producto</a></li>
-                                                        <li><a href="{{ path('promocion') }}">Promoci&oacute;n</a></li>
-                                                        <li><a href="{{ path('persona') }}">Persona</a></li>
-                                                        <li><a href="{{ path('mesa') }}">Mesa</a></li>
-                                                        <li><a href="{{ path('comprobante') }}">Comprobante</a></li>
+                                                        <li {% if app.request.pathinfo ==  '/admin/' %} class="active" {% endif %}>
+                                                            <a href="{{ path('admin_index') }}">Inicio</a></li>
+							{#<li class="active"><a href="{{ path('admin_index') }}">Inicio</a></li>#}
+							<li {% if app.request.pathinfo ==  '/admin/producto/' %} class="active" {% endif %}>
+                                                            <a href="{{ path('producto') }}">Producto</a></li>
+							<li {% if app.request.pathinfo ==  '/admin/tipoproducto/' %} class="active" {% endif %}>
+                                                            <a href="{{ path('tipoproducto') }}">Tipo Producto</a></li>
+                                                        <li {% if app.request.pathinfo ==  '/admin/promocion/' %} class="active" {% endif %}>
+                                                            <a href="{{ path('promocion') }}">Promoci&oacute;n</a></li>
+                                                        <li {% if app.request.pathinfo ==  '/admin/persona/' %} class="active" {% endif %}>
+                                                            <a href="{{ path('persona') }}">Persona</a></li>
+                                                        <li {% if app.request.pathinfo ==  '/admin/mesa/' %} class="active" {% endif %}>
+                                                            <a href="{{ path('mesa') }}">Mesa</a></li>
+                                                        <li {% if app.request.pathinfo ==  '/admin/comprobante/' %} class="active" {% endif %}>
+                                                            <a href="{{ path('comprobante') }}">Comprobante</a></li>
 							{#<li><a href="Contacts.html"></a></li>#}
 						</ul>
 					</nav>

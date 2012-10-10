@@ -16,7 +16,13 @@ class PromocionType extends AbstractType
                 'label' => 'Producto'
             ))
             ->add('precio')
-            ->add('validoHasta')
+//            ->add('validoHasta')
+            ->add('validoHasta','date',array(
+                                        'widget' => 'single_text',
+                                        'format' => 'dd-MM-yyyy',
+                                        'attr' => array('class' => 'date')
+                                    ))
+
 //            ->add('cantidad_vendido')
         ;
     }

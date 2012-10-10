@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block page %}
-
-<h1>Promocion {{ 'views.edit.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
+<link href="{{ asset('css/blitzer/jquery-ui-1.9.0.custom.min.css') }}" rel="stylesheet">
+<h1>Promoci&oacute;n {{ 'views.edit.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
 
 <form class="well" action="{{ path('promocion_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_widget(edit_form) }}
@@ -28,4 +28,9 @@
         </form>
     </div>
 </div>
+<script src="{{ asset('js/jquery-1.8.2.min.js') }}"></script>
+<script src="{{ asset('js/jquery-ui-1.9.0.custom.min.js') }}"></script>
+<script>
+    $('.date').datepicker({ dateFormat: 'dd-mm-yy' })
+</script>
 {% endblock %}
