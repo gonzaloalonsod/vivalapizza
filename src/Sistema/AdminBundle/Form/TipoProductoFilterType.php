@@ -9,15 +9,37 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 
+use Lexik\Bundle\FormFilterBundle\Filter\Expr;
+use Doctrine\ORM\QueryBuilder;
+
 class TipoProductoFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id', 'filter_number_range')
-            ->add('descripcion', 'filter_text')
-            ->add('precio', 'filter_number_range')
-            ->add('cantidad_vendido', 'filter_text')
+//            ->add('id', 'filter_number_range')
+//            ->add('descripcion', 'filter_text')
+//            ->add('precio', 'filter_number_range')
+//            ->add('cantidad_vendido', 'filter_text')
+            ->add('idProducto', new TipoIdProductoFilterType(), array(
+                'label' => 'Producto'
+            ))
+//            ->add('descripcion', 'filter_text', array(
+//                'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
+//                    // add conditions you need :)
+//                    echo $field.' - ';
+//                    echo var_dump($expr).' - ';
+//                    echo var_dump($values).' - ';
+//                    echo $values['value'];//die;
+//                    if ($values['value']) {
+//                        $value = '%'.$values['value'].'%';
+//                    }  else {
+//                        $value = $values['value'];
+//                    }
+//                    $queryBuilder
+//                        ->where($field.' LIKE :value')
+//                        ->setParameter('value', $value);
+//            }))
         ;
 
         $listener = function(FormEvent $event)
