@@ -13,9 +13,9 @@ class CierreCajaType extends AbstractType
         $builder
             ->add('responsable')
             ->add('fecha')
-            ->add('ingresos')
-            ->add('egresos')
-            ->add('total')
+            //->add('ingresos')
+            //->add('egresos')
+            //->add('total')
             ->add('idCaja')
         ;
     }

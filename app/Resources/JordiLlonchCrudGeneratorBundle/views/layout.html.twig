@@ -95,6 +95,15 @@
                                                             <a href="{{ path('lineafactura') }}">L&iacute;nea de factura</a></li>
                                                         <li {% if app.request.pathinfo ==  '/admin/comprobante/' %} class="active" {% endif %}>
                                                             <a href="{{ path('comprobante') }}">Comprobante</a></li>
+                                                        <li {% if app.request.pathinfo ==  '/admin/caja/' %} class="active" {% endif %}>
+                                                            <a href="{{ path('caja') }}">Abrir Caja</a></li>
+                                                        <li {% if app.request.pathinfo ==  '/admin/cierrecaja/' %} class="active" {% endif %}>
+                                                            <a href="{{ path('cierrecaja') }}">Cerrar Caja</a></li>
+                                                        <li {% if app.request.pathinfo ==  '/admin/factura/' %} class="active" {% endif %}>
+                                                            <a href="{{ path('factura') }}">facturar</a></li>
+                                                        <li {% if app.request.pathinfo ==  '/admin/lineafactura/' %} class="active" {% endif %}>
+                                                            <a href="{{ path('lineafactura') }}">lineafactura</a></li>
+                                                        
 							{#<li><a href="Contacts.html"></a></li>#}
 						</ul>
 					</nav>
