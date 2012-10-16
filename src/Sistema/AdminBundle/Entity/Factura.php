@@ -47,14 +47,14 @@ class Factura
     /**
      * @var string $nroComprobante
      *
-     * @ORM\Column(name="nro_comprobante", type="string", length=200, nullable=false)
+     * @ORM\Column(name="nro_comprobante", type="string", length=200, nullable=true)
      */
     private $nroComprobante;
 
     /**
      * @var string $banco
      *
-     * @ORM\Column(name="banco", type="string", length=200, nullable=false)
+     * @ORM\Column(name="banco", type="string", length=200, nullable=true)
      */
     private $banco;
 
@@ -97,6 +97,7 @@ class Factura
     public function __construct()
     {
         $this->idLineaFactura = new ArrayCollection();
+        $this->fecha =  new \DateTime();
     }
 
 

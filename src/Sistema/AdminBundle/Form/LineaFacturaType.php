@@ -10,10 +10,16 @@ class LineaFacturaType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('cantidad')
-                ->add('total')
+                ->add('cantidad', null, array(
+                    'label' => ' '
+                ))
+                ->add('total', null, array(
+                    'label' => ' '
+                ))
 //                ->add('idFactura')
-                ->add('idTipoProducto')
+                ->add('idTipoProducto', null, array(
+                    'label' => ' '
+                ))
         ;
     }
 

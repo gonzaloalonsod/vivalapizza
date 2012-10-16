@@ -10,11 +10,14 @@ class FacturaType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('fecha', 'date', array(
-                    'widget' => 'single_text',
-                    'format' => 'dd-MM-yyyy hh:mm:ss',
-                    'attr' => array('class' => 'date')
+                ->add('idCaja', null, array(
+                    'label' => 'Caja nro'
                 ))
+//                ->add('fecha', 'date', array(
+//                    'widget' => 'single_text',
+//                    'format' => 'dd-MM-yyyy hh:mm:ss',
+//                    'attr' => array('class' => 'date')
+//                ))
                 ->add('idLineaFactura', 'collection', array(
                     'type' => new LineaFacturaType(),
                     'allow_add' => true,
@@ -22,12 +25,23 @@ class FacturaType extends AbstractType {
                     'by_reference' => false
                 ))
                 ->add('total')
-                ->add('formaPago')
-                ->add('nroComprobante')
+                ->add('formaPago', 'choice', array(
+                    'choices' => array(
+                        'contado' => 'Contado',
+                        'tarjeta' => 'Tarjeta'
+                    ),
+                    'label' => 'Forma de pago'
+                ))
+                ->add('nroComprobante', null, array(
+                    'label' => 'Nro de comprobante'
+                ))
                 ->add('banco')
-                ->add('idCaja')
-                ->add('idMozo')
-                ->add('idCliente')
+                ->add('idMozo', null, array(
+                    'label' => 'Mozo'
+                ))
+                ->add('idCliente', null, array(
+                    'label' => 'Cliente'
+                ))
         ;
     }
 

@@ -5,18 +5,62 @@
 {% endblock %}
 
 {% block page %}
+<style>
+    form.well ul li div div{
+        float: left;
+        margin: 0 10px;
+    }
+    form.well ul li {
+        height: 40px;
+    }
+    .titulos {
+        height: 20px;
+    }
+    .titulo{
+        float: left;
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0 100px;
+    }
+    .add_tag_link,
+    .del_tag_link{
+        font-size: 14px;
+        font-weight: bold;
+        color: #FFFFFF;
+    }
+</style>
+
 <link href="{{ asset('css/blitzer/jquery-ui-1.9.0.custom.min.css') }}" rel="stylesheet">
 <h1>factura {{ 'views.new.creation'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
 
 <form class="well" action="{{ path('factura_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_row(form.fecha) }}
-    {{ form_row(form.formaPago) }}
-    {{ form_row(form.nroComprobante) }}
-    {{ form_row(form.banco) }}
-    {{ form_row(form.idCaja) }}
-    {{ form_row(form.idMozo) }}
-    {{ form_row(form.idCliente) }}    
-    <h3>Lineas de Factura</h3>
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ form_row(form.idCaja) }}</td>
+                <td>{{ form_row(form.formaPago) }}</td>
+                <td>{{ form_row(form.idMozo) }}</td>
+                <td>{{ form_row(form.idCliente) }}</td>
+            </tr>
+            <tr>
+                <td><div id="ocultoComp" style="display:none;">
+                    {{ form_row(form.nroComprobante) }}
+                </div></td>
+                <td><div id="ocultoBanc" style="display:none;">
+                    {{ form_row(form.banco) }}
+                </div></td>
+            </tr>
+        </tbody>
+    </table>
+    {#{{ form_row(form.fecha) }}#}
+    <div class="titulos">
+        <div class="titulo">Cantidad</div>
+        <div class="titulo">Total</div>
+        <div class="titulo">Producto</div>
+    </div>
+    {#<h3>Lineas de Factura</h3>#}
     <ul class="tags" data-prototype="{{ form_widget(form.idLineaFactura.vars.prototype)|e }}">
         {# iterate over each existing tag and render its only field: name #}
         {% for idLineaFactura in form.idLineaFactura %}
@@ -87,7 +131,7 @@ function addTagForm(collectionHolder, $newLinkLi) {
 }
 
 function addTagFormDeleteLink($tagFormLi) {
-    var $removeFormA = $('<a href="#">Eliminar Linea</a>');
+    var $removeFormA = $('<a href="#" class="del_tag_link">Eliminar Linea</a>');
     $tagFormLi.append($removeFormA);
 
     $removeFormA.on('click', function(e) {
@@ -98,5 +142,20 @@ function addTagFormDeleteLink($tagFormLi) {
         $tagFormLi.remove();
     });
 }
+</script>
+
+<script>
+    $('#sistema_adminbundle_facturatype_formaPago').change(function() {
+        mostrarCampos();
+    });
+    function mostrarCampos(){
+        if ($('#sistema_adminbundle_facturatype_formaPago').val() == 'tarjeta'){
+            $('#ocultoComp').css("display","block");
+            $('#ocultoBanc').css("display","block");
+        }else{
+            $('#ocultoComp').css("display","none");
+            $('#ocultoBanc').css("display","none");
+        }
+    }
 </script>
 {% endblock %}
