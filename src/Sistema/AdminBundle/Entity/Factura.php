@@ -92,7 +92,6 @@ class Factura {
      */
     private $idLineaFactura;
 
-
     public function __construct()
     {
         $this->idLineaFactura = new ArrayCollection();
