@@ -157,5 +157,6 @@ class LineaFactura
     public function getIdProducto()
     {
         return $this->idProducto;
-    }
+    }    
+
 }
