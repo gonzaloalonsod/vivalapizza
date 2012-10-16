@@ -32,11 +32,11 @@
         <div id="filters" class="collapse">
 
             <form class="well" action="{{ path('producto') }}" method="post" {{ form_enctype(filterForm) }}>
-                {{ form_row(filterForm.id) }}
+                {#{{ form_row(filterForm.id) }}#}
                 {{ form_row(filterForm.nombre) }}
-                {{ form_row(filterForm.imagen) }}
+                {#{{ form_row(filterForm.imagen) }}
                 {{ form_row(filterForm.cantidad_vendido) }}
-                {{ form_row(filterForm.created) }}
+                {{ form_row(filterForm.created) }}#}
                 {{ form_rest(filterForm) }}
 
                 <p>

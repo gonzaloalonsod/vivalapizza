@@ -169,15 +169,16 @@ class FacturaController extends Controller
         $form    = $this->createForm(new FacturaType(), $entity);
         $form->bind($request);
 
-        if ($form->isValid()) {
+//        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
 
-            return $this->redirect($this->generateUrl('factura_show', array('id' => $entity->getId())));        } else {
-            $this->get('session')->getFlashBag()->add('error', 'flash.create.error');
-        }
+            return $this->redirect($this->generateUrl('factura_show', array('id' => $entity->getId())));
+//        } else {
+//            $this->get('session')->getFlashBag()->add('error', 'flash.create.error');
+//        }
 
         return array(
             'entity' => $entity,
@@ -226,6 +227,11 @@ class FacturaController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Factura entity.');
         }
+        
+        $originalIdLineaFactura = array();
+
+        // Create an array of the current Tag objects in the database
+        foreach ($entity->getIdLineaFactura() as $lf) $originalIdLineaFactura[] = $lf;
 
         $editForm   = $this->createForm(new FacturaType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
@@ -235,6 +241,15 @@ class FacturaController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            // filter $originalTags to contain tags no longer present
+            foreach ($entity->getIdLineaFactura() as $lf) {
+                foreach ($originalIdLineaFactura as $key => $toDel) {
+                    if ($toDel->getId() === $lf->getId()) {
+                        unset($originalIdLineaFactura[$key]);
+                    }
+                }
+            }
+            
             $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.update.success');

@@ -38,22 +38,22 @@ class LineaFactura
     /**
      * @var Factura
      *
-     * @ORM\ManyToOne(targetEntity="Factura")
+     * @ORM\ManyToOne(targetEntity="Factura", inversedBy="idLineaFactura")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_factura", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_factura", referencedColumnName="id", onDelete="CASCADE")
      * })
      */
     private $idFactura;
 
     /**
-     * @var Producto
+     * @var TipoProducto
      *
-     * @ORM\ManyToOne(targetEntity="Producto")
+     * @ORM\ManyToOne(targetEntity="TipoProducto")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_producto", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_tipoproducto", referencedColumnName="id")
      * })
      */
-    private $idProducto;
+    private $idTipoProducto;
 
 
 
@@ -137,26 +137,25 @@ class LineaFactura
     }
 
     /**
-     * Set idProducto
+     * Set idTipoProducto
      *
-     * @param Sistema\AdminBundle\Entity\Producto $idProducto
+     * @param Sistema\AdminBundle\Entity\TipoProducto $idTipoProducto
      * @return LineaFactura
      */
-    public function setIdProducto(\Sistema\AdminBundle\Entity\Producto $idProducto = null)
+    public function setIdTipoProducto(\Sistema\AdminBundle\Entity\TipoProducto $idTipoProducto = null)
     {
-        $this->idProducto = $idProducto;
+        $this->idTipoProducto = $idTipoProducto;
     
         return $this;
     }
 
     /**
-     * Get idProducto
+     * Get idTipoProducto
      *
-     * @return Sistema\AdminBundle\Entity\Producto 
+     * @return Sistema\AdminBundle\Entity\TipoProducto 
      */
-    public function getIdProducto()
+    public function getIdTipoProducto()
     {
-        return $this->idProducto;
-    }    
-
+        return $this->idTipoProducto;
+    }
 }

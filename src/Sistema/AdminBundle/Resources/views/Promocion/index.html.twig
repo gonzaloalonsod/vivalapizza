@@ -9,7 +9,11 @@
 <div class="row">
 
     <div class="span8">
-        <h1>Promoci&oacute;n {{ 'views.index.list'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
+        {% if app.request.pathinfo ==  '/admin/promocion/' %}
+            <h1>Promoci&oacute;n {{ 'views.index.list'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
+        {% else %}
+            <h1>Promociones vigentes</h1>
+        {% endif %}
     </div>
     <div class="span2">
         {% if form_errors(filterForm) %}
@@ -85,11 +89,20 @@
     {{ pagerHtml|raw }}
     </div>
 
-        <div class="span8">
-    <a class="btn btn-primary likepaginator" href="{{ path('promocion_new') }}">
-            {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Promocion
+    <div class="span8">
+        <a class="btn btn-primary likepaginator" href="{{ path('promocion_new') }}">
+            {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Promoci&oacute;n
         </a>
+        {% if app.request.pathinfo ==  '/admin/promocion/' %}
+            <a class="btn btn-success likepaginator" href="{{ path('promocion_vigentes') }}">
+                Promociones vigentes
+            </a>
+        {% else %}
+            <a class="btn likepaginator" href="{{ path('promocion') }}">
+                Listar Promociones
+            </a>
+        {% endif %}
     </div>
-    </div>
+</div>
 
 {% endblock %}

@@ -1,3 +1,8 @@
+sistema_frontend:
+    resource: "@SistemaFrontendBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 sistema_admin:
     resource: "@SistemaAdminBundle/Controller/"
     type:     annotation

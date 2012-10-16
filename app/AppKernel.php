@@ -32,6 +32,7 @@ class AppKernel extends Kernel
             new Craue\FormFlowBundle\CraueFormFlowBundle(),
             //RESIZE IMAGEN
             new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
+            new Sistema\FrontendBundle\SistemaFrontendBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

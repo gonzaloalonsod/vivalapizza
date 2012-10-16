@@ -45,13 +45,22 @@ class PromocionController extends Controller
     * Create filter form and process filter request.
     *
     */
-    protected function filter()
+    protected function filter($vigentes = null)
     {
         $request = $this->getRequest();
         $session = $request->getSession();
         $filterForm = $this->createForm(new PromocionFilterType());
         $em = $this->getDoctrine()->getManager();
-        $queryBuilder = $em->getRepository('SistemaAdminBundle:Promocion')->createQueryBuilder('e');
+        if (!$vigentes) {//obtengo todas las promociones
+            $queryBuilder = $em->getRepository('SistemaAdminBundle:Promocion')->createQueryBuilder('e');
+        } else {//obtengo las promociones vigentes
+            $fecha = new \DateTime('yesterday');
+            $queryBuilder = $em->getRepository('SistemaAdminBundle:Promocion')->createQueryBuilder('e')
+                    ->where('e.validoHasta > :fecha')
+                    ->setParameter('fecha', $fecha)
+            ;
+        }
+        
     
         // Reset filter
         if ($request->getMethod() == 'POST' && $request->get('filter_action') == 'reset') {
@@ -287,5 +296,25 @@ class PromocionController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+    /**
+     * Lists all Promocion entities.
+     *
+     * @Route("/vigentes", name="promocion_vigentes")
+     * @Template("SistemaAdminBundle:Promocion:index.html.twig")
+     */
+    public function vigentesAction()
+    {
+        list($filterForm, $queryBuilder) = $this->filter(1);
+
+        list($entities, $pagerHtml) = $this->paginator($queryBuilder);
+
+    
+        return array(
+            'entities' => $entities,
+            'pagerHtml' => $pagerHtml,
+            'filterForm' => $filterForm->createView(),
+        );
     }
 }
