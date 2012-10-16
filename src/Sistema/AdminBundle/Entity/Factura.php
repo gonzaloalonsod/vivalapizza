@@ -5,15 +5,14 @@ namespace Sistema\AdminBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-
 /**
  * Sistema\AdminBundle\Entity\Factura
  *
  * @ORM\Table(name="factura")
  * @ORM\Entity
  */
-class Factura
-{
+class Factura {
+
     /**
      * @var integer $id
      *
@@ -93,20 +92,17 @@ class Factura
      */
     private $idLineaFactura;
 
-
     public function __construct()
     {
         $this->idLineaFactura = new ArrayCollection();
     }
-
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -116,10 +112,9 @@ class Factura
      * @param \DateTime $fecha
      * @return Factura
      */
-    public function setFecha($fecha)
-    {
+    public function setFecha($fecha) {
         $this->fecha = $fecha;
-    
+
         return $this;
     }
 
@@ -128,8 +123,7 @@ class Factura
      *
      * @return \DateTime 
      */
-    public function getFecha()
-    {
+    public function getFecha() {
         return $this->fecha;
     }
 
@@ -139,10 +133,9 @@ class Factura
      * @param float $total
      * @return Factura
      */
-    public function setTotal($total)
-    {
+    public function setTotal($total) {
         $this->total = $total;
-    
+
         return $this;
     }
 
@@ -151,8 +144,7 @@ class Factura
      *
      * @return float 
      */
-    public function getTotal()
-    {
+    public function getTotal() {
         return $this->total;
     }
 
@@ -162,10 +154,9 @@ class Factura
      * @param string $formaPago
      * @return Factura
      */
-    public function setFormaPago($formaPago)
-    {
+    public function setFormaPago($formaPago) {
         $this->formaPago = $formaPago;
-    
+
         return $this;
     }
 
@@ -174,8 +165,7 @@ class Factura
      *
      * @return string 
      */
-    public function getFormaPago()
-    {
+    public function getFormaPago() {
         return $this->formaPago;
     }
 
@@ -185,10 +175,9 @@ class Factura
      * @param string $nroComprobante
      * @return Factura
      */
-    public function setNroComprobante($nroComprobante)
-    {
+    public function setNroComprobante($nroComprobante) {
         $this->nroComprobante = $nroComprobante;
-    
+
         return $this;
     }
 
@@ -197,8 +186,7 @@ class Factura
      *
      * @return string 
      */
-    public function getNroComprobante()
-    {
+    public function getNroComprobante() {
         return $this->nroComprobante;
     }
 
@@ -208,10 +196,9 @@ class Factura
      * @param string $banco
      * @return Factura
      */
-    public function setBanco($banco)
-    {
+    public function setBanco($banco) {
         $this->banco = $banco;
-    
+
         return $this;
     }
 
@@ -220,8 +207,7 @@ class Factura
      *
      * @return string 
      */
-    public function getBanco()
-    {
+    public function getBanco() {
         return $this->banco;
     }
 
@@ -231,10 +217,9 @@ class Factura
      * @param Sistema\AdminBundle\Entity\Caja $idCaja
      * @return Factura
      */
-    public function setIdCaja(\Sistema\AdminBundle\Entity\Caja $idCaja = null)
-    {
+    public function setIdCaja(\Sistema\AdminBundle\Entity\Caja $idCaja = null) {
         $this->idCaja = $idCaja;
-    
+
         return $this;
     }
 
@@ -243,8 +228,7 @@ class Factura
      *
      * @return Sistema\AdminBundle\Entity\Caja 
      */
-    public function getIdCaja()
-    {
+    public function getIdCaja() {
         return $this->idCaja;
     }
 
@@ -254,10 +238,9 @@ class Factura
      * @param Sistema\AdminBundle\Entity\Persona $idMozo
      * @return Factura
      */
-    public function setIdMozo(\Sistema\AdminBundle\Entity\Persona $idMozo = null)
-    {
+    public function setIdMozo(\Sistema\AdminBundle\Entity\Persona $idMozo = null) {
         $this->idMozo = $idMozo;
-    
+
         return $this;
     }
 
@@ -266,8 +249,7 @@ class Factura
      *
      * @return Sistema\AdminBundle\Entity\Persona 
      */
-    public function getIdMozo()
-    {
+    public function getIdMozo() {
         return $this->idMozo;
     }
 
@@ -277,10 +259,9 @@ class Factura
      * @param Sistema\AdminBundle\Entity\Persona $idCliente
      * @return Factura
      */
-    public function setIdCliente(\Sistema\AdminBundle\Entity\Persona $idCliente = null)
-    {
+    public function setIdCliente(\Sistema\AdminBundle\Entity\Persona $idCliente = null) {
         $this->idCliente = $idCliente;
-    
+
         return $this;
     }
 
@@ -289,13 +270,11 @@ class Factura
      *
      * @return Sistema\AdminBundle\Entity\Persona 
      */
-    public function getIdCliente()
-    {
+    public function getIdCliente() {
         return $this->idCliente;
     }
-    
-    public function __toString()
-    {
+
+    public function __toString() {
         return $this->getId();
     }
 
