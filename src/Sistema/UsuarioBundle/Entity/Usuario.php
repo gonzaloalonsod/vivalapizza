@@ -85,4 +85,41 @@ class Usuario extends BaseUser
 //    {
 //        return $this->apellido;
 //    }
+    /**
+     * @ORM\OneToOne(targetEntity="Sistema\AdminBundle\Entity\Persona", mappedBy="usuario")
+     **/
+    private $idPersona;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set idPersona
+     *
+     * @param Sistema\AdminBundle\Entity\Persona $idPersona
+     * @return Usuario
+     */
+    public function setIdPersona(\Sistema\AdminBundle\Entity\Persona $idPersona = null)
+    {
+        $this->idPersona = $idPersona;
+    
+        return $this;
+    }
+
+    /**
+     * Get idPersona
+     *
+     * @return Sistema\AdminBundle\Entity\Persona 
+     */
+    public function getIdPersona()
+    {
+        return $this->idPersona;
+    }
 }

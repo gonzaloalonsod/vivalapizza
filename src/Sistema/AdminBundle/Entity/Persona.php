@@ -53,7 +53,7 @@ class Persona
     private $tipo;
     
     /**
-     * @ORM\OneToOne(targetEntity="Sistema\UsuarioBundle\Entity\Usuario", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Sistema\UsuarioBundle\Entity\Usuario", inversedBy="idPersona", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", nullable=true)
      **/
     private $usuario;

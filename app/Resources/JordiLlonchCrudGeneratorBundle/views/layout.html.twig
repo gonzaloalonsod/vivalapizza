@@ -50,16 +50,26 @@
 	<div class="body1">
 		<div class="body5">
 			<div class="main">
+            {% if is_granted('ROLE_ADMIN') %} {# el administrador está logueado #}
+                
+                <p>
+                    <span class="label label-important">
+                        Conectado como Administrador: {{ app.user.idPersona }}
+                    </span>
+                    <a href="{{ path('fos_user_security_logout') }}"><span class="label label-important">Cerrar sesión</span></a>
+                </p>
+                
+            {% endif %}
 <!-- header -->
 				<header>
 					<h1><a href="index.html" id="logo">Classic European Cuisine</a></h1>
-					<nav>
+					{#<nav>
 						<ul id="top_nav">
 							<li><a href="{{ path('admin_index') }}"><img src="/images/icon_1.gif" alt=""></a></li>
 							<li><a href="#"><img src="/images/icon_2.gif" alt=""></a></li>
 							<li class="end"><a href="Contacts.html"><img src="/images/icon_3.gif" alt=""></a></li>
 						</ul>
-					</nav>
+					</nav>#}
 					<nav>
 						<ul id="menu">
                                                         <li {% if app.request.pathinfo ==  '/admin/' %} class="active" {% endif %}>

@@ -87,22 +87,16 @@ class Factura
      * })
      */
     private $idCliente;
-    
-    protected $lineaFactura;
-    
+
+    /**
+     * @ORM\OneToMany(targetEntity="LineaFactura", mappedBy="idFactura", cascade={"persist", "remove"})
+     */
+    private $idLineaFactura;
+
+
     public function __construct()
     {
-        $this->lineaFactura = new ArrayCollection();
-    }
-    
-    public function getLineaFactura()
-    {
-        return $this->lineaFactura;
-    }
-
-    public function setlineaFactura(ArrayCollection $lineaFactura)
-    {
-        $this->lineaFactura = $lineaFactura;
+        $this->idLineaFactura = new ArrayCollection();
     }
 
 
@@ -303,5 +297,54 @@ class Factura
     public function __toString()
     {
         return $this->getId();
+    }
+
+    /**
+     * Add idLineaFactura
+     *
+     * @param Sistema\AdminBundle\Entity\LineaFactura $idLineaFactura
+     * @return Factura
+     */
+    public function addIdLineaFactura(\Sistema\AdminBundle\Entity\LineaFactura $idLineaFactura)
+    {
+        $this->idLineaFactura[] = $idLineaFactura;
+    
+        return $this;
+    }
+
+    /**
+     * Remove idLineaFactura
+     *
+     * @param Sistema\AdminBundle\Entity\LineaFactura $idLineaFactura
+     */
+    public function removeIdLineaFactura(\Sistema\AdminBundle\Entity\LineaFactura $idLineaFactura)
+    {
+        $this->idLineaFactura->removeElement($idLineaFactura);
+    }
+
+    /**
+     * Get idLineaFactura
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getIdLineaFactura()
+    {
+        return $this->idLineaFactura;
+    }
+
+    /**
+     * Set idLineaFactura
+     *
+     * @return LineaFactura
+     */
+    public function setIdLineaFactura(ArrayCollection $idLineaFactura)
+    {
+        foreach ($idLineaFactura as $lf) {
+            $lf->setIdFactura($this);
+        }
+
+        $this->idLineaFactura = $idLineaFactura;
+        
+        return $this;
     }
 }
