@@ -6,9 +6,34 @@
 
 {% block page %}
 
+<style>
+    form.well ul li div div{
+        float: left;
+        margin: 0 10px;
+    }
+    form.well ul li {
+        height: 40px;
+    }
+    .titulos {
+        height: 20px;
+    }
+    .titulo{
+        float: left;
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0 100px;
+    }
+    .add_tag_link,
+    .del_tag_link{
+        font-size: 14px;
+        font-weight: bold;
+        color: #FFFFFF;
+    }
+</style>
+
 <h1>CierreCaja</h1>
 
-<form class="form-horizontal">
+<form class="well">
     <fieldset>        <div class="control-group">
             <label class="control-label">Id</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.id }}</span>            </div>
@@ -27,7 +52,34 @@
         </div>        <div class="control-group">
             <label class="control-label">Total</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.total }}</span>            </div>
-        </div>    </fieldset>
+        </div>        
+            
+    <div class="titulos">
+        <div class="titulo">Pagos Con Tarjeta</div>        
+    </div>
+    {#<h3>Lineas de Factura</h3>#}
+    <ul class="tags">       
+        {# iterate over each existing tag and render its only field: name #}
+            {% for detalle in detalles %}
+            <li>Número de Factura: {{ detalle.id }}</li>
+            <li>Número de Comprobante: {{ detalle.nroComprobante }}</li>
+            <li>Monto: ${{ detalle.total }}</li>
+            {% endfor %}     
+    </ul>
+        
+    <div class="titulos">
+        <div class="titulo">Pagos En Efectivo</div>        
+    </div>
+    {#<h3>Lineas de Factura</h3>#}
+    <ul class="tags">       
+        {# iterate over each existing tag and render its only field: name #}
+            {% for efectivo in efectivos %}
+            <li>Número de Factura: {{ efectivo.id }}</li>           
+            <li>Monto: ${{ efectivo.total }}</li>
+            {% endfor %}     
+    </ul>
+            
+        </fieldset>
 </form>
 
 <div>

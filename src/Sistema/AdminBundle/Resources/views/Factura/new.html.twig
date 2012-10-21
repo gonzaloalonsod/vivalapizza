@@ -61,13 +61,13 @@
         <div class="titulo">Producto</div>
     </div>
     {#<h3>Lineas de Factura</h3>#}
-    <ul class="tags" data-prototype="{{ form_widget(form.idLineaFactura.vars.prototype)|e }}">
+    <ul class="tags" data-prototype="{{ form_widget(form.idLineaFactura.vars.prototype)|e }}">       
         {# iterate over each existing tag and render its only field: name #}
         {% for idLineaFactura in form.idLineaFactura %}
             <li>{{ form_row(idLineaFactura.cantidad) }}</li>
             <li>{{ form_row(idLineaFactura.total) }}</li>
             <li>{{ form_row(idLineaFactura.idTipoProducto) }}</li>
-        {% endfor %}
+        {% endfor %}            
     </ul>
     {{ form_row(form.total) }}
     <p>
