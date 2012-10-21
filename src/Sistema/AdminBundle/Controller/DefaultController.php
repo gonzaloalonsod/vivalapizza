@@ -14,6 +14,10 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $roles = $this->getUser()->getRoles();
+        if($roles[0] == 'ROLE_CAJERO'){
+            return $this->redirect($this->generateUrl('caja'));
+        }
         return array();
     }
 }

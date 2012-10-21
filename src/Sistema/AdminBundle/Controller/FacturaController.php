@@ -14,6 +14,8 @@ use Sistema\AdminBundle\Entity\Factura;
 use Sistema\AdminBundle\Form\FacturaType;
 use Sistema\AdminBundle\Form\FacturaFilterType;
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Factura controller.
  *
@@ -302,5 +304,21 @@ class FacturaController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+
+    /**
+     * Finds and displays a precio Tipo Producto entity.
+     *
+     * @Route("/producto/precio", name="factura_producto_precio")
+     */
+    public function retornaPrecioTipoProducto() {
+        $isAjax = $this->getRequest()->isXMLHttpRequest();
+        if ($isAjax) {
+            $id = $this->getRequest()->get('id');
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('SistemaAdminBundle:TipoProducto')->find($id);
+            return new Response($entity->getPrecio());
+        }
+        return new Response('Error. This is not ajax!', 400);
     }
 }

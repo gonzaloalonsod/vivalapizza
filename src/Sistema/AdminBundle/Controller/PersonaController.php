@@ -200,7 +200,13 @@ class PersonaController extends Controller
                $form = $flow->createForm($user);
            } else {
                if($user->getTipo() == 'cajero'){//si el tipo es cajero.
-                   $user->getUsuario()->setRoles(array('ROLE_CAJERO'));//el rol es cajero.
+                    $user->getUsuario()->setRoles(array('ROLE_CAJERO'));//el rol es cajero.
+                    $encoder = $this->get('security.encoder_factory')->getEncoder($user->getUsuario());
+                    $passwordCodificado = $encoder->encodePassword(
+                        $user->getUsuario()->getPassword(),
+                        $user->getUsuario()->getSalt()
+                    );
+                    $user->getUsuario()->setPassword($passwordCodificado);
                }
                // flow finished
                $em = $this->getDoctrine()->getEntityManager();
@@ -315,7 +321,13 @@ class PersonaController extends Controller
                $em = $this->getDoctrine()->getEntityManager();
                
                if($user->getTipo() == 'cajero'){//si el tipo es cajero.
-                   $user->getUsuario()->setRoles(array('ROLE_CAJERO'));//el rol es cajero.
+                    $user->getUsuario()->setRoles(array('ROLE_CAJERO'));//el rol es cajero.
+                    $encoder = $this->get('security.encoder_factory')->getEncoder($user->getUsuario());
+                    $passwordCodificado = $encoder->encodePassword(
+                        $user->getUsuario()->getPassword(),
+                        $user->getUsuario()->getSalt()
+                    );
+                    $user->getUsuario()->setPassword($passwordCodificado);
                }  else {
                    if ($usuario = $user->getUsuario()) {
                        $user->setUsuario(null);

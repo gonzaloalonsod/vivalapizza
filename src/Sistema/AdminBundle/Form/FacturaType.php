@@ -5,6 +5,7 @@ namespace Sistema\AdminBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
 class FacturaType extends AbstractType {
 
@@ -36,9 +37,15 @@ class FacturaType extends AbstractType {
                     'label' => 'Nro de comprobante'
                 ))
                 ->add('banco')
-                ->add('idMozo', null, array(
-                    'label' => 'Mozo'
-                ))
+                ->add('idMozo', 'entity', array(
+                    'label' => 'Mozo',
+                    'class' => 'SistemaAdminBundle:Persona',
+                    'query_builder' => function(EntityRepository $er) {
+                        return $er->createQueryBuilder('m')
+                                ->where('m.tipo = :mozo')
+                                ->setParameter('mozo', 'mozo');
+                    }
+                 ))
                 ->add('idCliente', null, array(
                     'label' => 'Cliente'
                 ))

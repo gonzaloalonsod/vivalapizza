@@ -131,10 +131,13 @@ class CierreCajaController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
+        
+        $propinas = $this->calcularPorMozo($entity->getIdCaja());
 
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'propinas'    => $propinas
         );
     }
 
@@ -352,5 +355,33 @@ class CierreCajaController extends Controller
         $egresos= 0.15*$ingresos;
         return $egresos;
         //var_dump($entity);
+    }
+    
+    public function calcularPorMozo($id){
+        $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT p FROM SistemaAdminBundle:Factura p WHERE p.idCaja = :caja'
+        )->setParameter('caja', $id);
+        $ingresos = array();
+        $entity = $query->getResult();
+        if ($entity) {
+            foreach ($entity as $facturas) {
+                //echo $lf->getTotal();
+                $idMozo = $facturas->getIdMozo()->getId();
+                if(!isset($ingresos[$idMozo])){
+                    $ingresos[$idMozo] = 0;
+                    $nombres[$idMozo] = 0;
+                    $nombres[$idMozo] = $facturas->getIdMozo();
+                }
+                $propina = 0.15*$facturas->getTotal();
+                $ingresos[$idMozo] = $ingresos[$idMozo] + $propina;
+            }
+            $todo = array('0' => $ingresos, '1' => $nombres);
+        } else {
+            $todo = null;
+        }
+//        var_dump($todo);die;
+        return $todo;
+//        return $ingresos;
     }
 }
