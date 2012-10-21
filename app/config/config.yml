@@ -4,6 +4,7 @@ imports:
     - { resource: fos_user.yml }
     - { resource: generator_bundle.yml }
     - { resource: craue_form.yml }
+    - { resource: genemu_form.yml }
 
 framework:
     #esi:             ~
@@ -76,3 +77,16 @@ avalanche_imagine:
         grande_producto:
             type:    thumbnail
             options: { size: [360, 270], mode: inset }
+
+#reescribo el servicio y el bundle para configurar el header.
+services:
+  sistema_tcpdf:
+    class:  Sistema\TcpdfBundle\Helper\Tcpdf
+    arguments:
+      orientation: P
+      unit:        mm
+      format:      A4
+      unicode:     true
+      encoding:    UTF-8
+      diskcache:   false
+      pdfa:        false

@@ -58,6 +58,12 @@ class FacturaType extends AbstractType {
                 ->add('idCliente', null, array(
                     'label' => 'Cliente'
                 ))
+//                ->add('idCliente', 'genemu_jqueryautocomplete_entity', array(
+//                    'label' => 'Cliente',
+//                    'route_name' => 'id_nombre_ajax',
+//                    'class' => 'SistemaAdminBundle:Persona',
+////                    'property' => 'nombre',
+//                ))
         ;
     }
 

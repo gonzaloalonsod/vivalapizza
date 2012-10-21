@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Sistema\AdminBundle\Entity\Factura
  *
  * @ORM\Table(name="factura")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Sistema\AdminBundle\Repository\FacturaRepository")
  */
 class Factura {
 

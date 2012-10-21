@@ -15,6 +15,7 @@ use Sistema\AdminBundle\Form\FacturaType;
 use Sistema\AdminBundle\Form\FacturaFilterType;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Factura controller.
@@ -169,6 +170,9 @@ class FacturaController extends Controller
         $entity  = new Factura();
         $request = $this->getRequest();
         $form    = $this->createForm(new FacturaType(), $entity);
+//        $datosForm = $request->get('sistema_adminbundle_facturatype');
+//        var_dump($datosForm);
+//        die;
         $form->bind($request);
 
 //        if ($form->isValid()) {
@@ -320,5 +324,81 @@ class FacturaController extends Controller
             return new Response($entity->getPrecio());
         }
         return new Response('Error. This is not ajax!', 400);
+    }
+    
+    /**
+     * @Route("/id_nombre_ajax", name="id_nombre_ajax")
+     */
+    public function ajaxMemberAction(Request $request)
+    {
+        $value = $request->get('term');
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $members = $em->getRepository('SistemaAdminBundle:Factura')->buscarPorNomApe($value);
+
+        $json = array();
+        foreach ($members as $member) {
+            $json[] = array(
+                'label' => $member->getNombre().' '.$member->getApellido(),
+                'value' => $member->getId()
+            );
+        }
+
+        $response = new Response();
+        $response->setContent(json_encode($json));
+
+        return $response;
+    }
+    
+        /**
+     * REPORTE DE TORNEO GRUPO EQUIPOS
+     * 
+     * @Route("/{id}/reporte", name="factura_reporte")
+     * @Template()
+     */
+    public function reporteFacturaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('SistemaAdminBundle:Factura')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Factura entity.');
+        }
+        
+        $contenido = $this->renderView('SistemaAdminBundle:Factura:reporteFactura.pdf.twig', array(
+            'entity'    => $entity,
+        ));
+
+        $pdf = <<<EOD
+<style>
+table {
+    table-layout: fixed;
+    width: 100%;
+    font-size: 10pt;
+}
+.table-bordered {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-collapse: separate;
+    border-color: #DDDDDD;
+    border-image: none;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+}
+td {
+    border: solid thin #DDDDDD;
+}
+td.th {
+    font-weight: bold;
+}
+</style>
+$contenido
+EOD;
+        
+        return $this->get('sistema_tcpdf')->quick_pdf($pdf);
     }
 }

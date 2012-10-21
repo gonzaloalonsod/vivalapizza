@@ -33,6 +33,11 @@ class AppKernel extends Kernel
             //RESIZE IMAGEN
             new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
             new Sistema\FrontendBundle\SistemaFrontendBundle(),
+            //FORM VARIOS AUTOCOMPLETE
+            new Genemu\Bundle\FormBundle\GenemuFormBundle(),
+            //GENERA LOS PDF
+            new Io\TcpdfBundle\IoTcpdfBundle(),
+            new Sistema\TcpdfBundle\SistemaTcpdfBundle(),//Bundle Propio - sobreescribo el bundle
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
