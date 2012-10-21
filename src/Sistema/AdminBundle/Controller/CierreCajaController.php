@@ -125,6 +125,9 @@ class CierreCajaController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('SistemaAdminBundle:CierreCaja')->find($id);
+        
+        $detalles = $this->calcularingresosdetalle($id);
+        $efectivo = $this->calcularingresosEfectivo($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CierreCaja entity.');
@@ -133,6 +136,8 @@ class CierreCajaController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
+            'efectivos'   => $efectivo,
+            'detalles'    => $detalles, 
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
         );
@@ -302,21 +307,21 @@ class CierreCajaController extends Controller
      */
     public function jojoAction()
     {
-        //$em = $this->getDoctrine()->getManager();
-        //$entity = $em->getRepository('SistemaAdminBundle:Factura')->find(1);
-        //echo $entity;
-        //$this->calcularingresos();
         $em = $this->getDoctrine()->getEntityManager();
         $query = $em->createQuery(
-            'SELECT p FROM SistemaAdminBundle:Factura p WHERE p.idCaja = :caja'
-        )->setParameter('caja', '1');
+            'SELECT p FROM SistemaAdminBundle:Factura p WHERE p.idCaja = :caja and p.formaPago = :formaPago'
+        )->setParameters(array(
+    'caja' => '1',
+    'formaPago'  => 'tarjeta',
+));        
         $ingresos=0;
         $entity = $query->getResult();
         foreach ($entity as $lf) {
             //echo $lf->getTotal();
-            $ingresos=$ingresos+$lf->getTotal();
+            echo $lf->getFormaPago();
+            echo $lf->getBanco();
         }
-        echo $ingresos;
+        return $ingresos;
         //var_dump($entity);
         return array(
             'entity'      => $entity,            
@@ -351,6 +356,42 @@ class CierreCajaController extends Controller
         }
         $egresos= 0.15*$ingresos;
         return $egresos;
+        //var_dump($entity);
+    }
+    
+    public function calcularingresosdetalle($id){
+         $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT p FROM SistemaAdminBundle:Factura p WHERE p.idCaja = :caja and p.formaPago = :formaPago'
+        )->setParameters(array(
+    'caja' => $id,
+    'formaPago'  => 'tarjeta',
+));         
+        $entity = $query->getResult();
+//        foreach ($entity as $lf) {
+//            //echo $lf->getTotal();
+//            //echo $lf->getFormaPago();
+//            //echo $lf->getBanco();
+//        }
+        return $entity;
+        //var_dump($entity);
+    }
+    
+    public function calcularingresosEfectivo($id){
+         $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT p FROM SistemaAdminBundle:Factura p WHERE p.idCaja = :caja and p.formaPago = :formaPago'
+        )->setParameters(array(
+    'caja' => $id,
+    'formaPago'  => 'contado',
+));        
+        $entity = $query->getResult();
+//        foreach ($entity as $lf) {
+//            //echo $lf->getTotal();
+//            //echo $lf->getFormaPago();
+//            //echo $lf->getBanco();
+//        }
+        return $entity;
         //var_dump($entity);
     }
 }
