@@ -11,9 +11,18 @@ class FacturaType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('idCaja', null, array(
-                    'label' => 'Caja nro'
-                ))
+//                ->add('idCaja', null, array(
+//                    'label' => 'Caja nro'
+//                ))
+                ->add('idCaja', 'entity', array(
+                    'label' => 'Caja nro',
+                    'class' => 'SistemaAdminBundle:Caja',
+                    'query_builder' => function(EntityRepository $er) {
+                        return $er->createQueryBuilder('c')
+                                ->where('c.cierreCaja IS NULL');
+//                                ->setParameter('value', null);
+                    }
+                 ))
 //                ->add('fecha', 'date', array(
 //                    'widget' => 'single_text',
 //                    'format' => 'dd-MM-yyyy hh:mm:ss',

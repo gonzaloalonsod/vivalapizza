@@ -12,7 +12,7 @@ class CajaType extends AbstractType
     {
         $builder
             ->add('inicioCaja')
-            ->add('cierreCaja')
+//            ->add('cierreCaja')
             ->add('montoInicial')
             ->add('idCajero')
         ;
