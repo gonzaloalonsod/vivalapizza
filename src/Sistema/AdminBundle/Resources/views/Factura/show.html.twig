@@ -21,13 +21,36 @@
         </div>        <div class="control-group">
             <label class="control-label">Formapago</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.formaPago }}</span>            </div>
-        </div>        <div class="control-group">
+        </div>
+        {% if entity.formaPago == 'tarjeta' %}
+        <div class="control-group">
             <label class="control-label">Nrocomprobante</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.nroComprobante }}</span>            </div>
-        </div>        <div class="control-group">
+        </div>
+        <div class="control-group">
             <label class="control-label">Banco</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.banco }}</span>            </div>
-        </div>    </fieldset>
+        </div>
+        {% endif %}
+<table class="table-bordered">
+    <tbody>
+        <tr>
+            <td class="th">Producto</td>
+            <td class="th">Precio</td>
+            <td class="th">Cantidad</td>
+            <td class="th">Total</td>
+        </tr>
+        {% for lineaFactura in entity.idLineaFactura %}
+        <tr>
+            <td>{{ lineaFactura.idTipoProducto }}</td>
+            <td>$ {{ lineaFactura.idTipoProducto.precio }}</td>
+            <td>{{ lineaFactura.cantidad }}</td>
+            <td>$ {{ lineaFactura.total }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+        </fieldset>
 </form>
 
 <div>
@@ -53,4 +76,29 @@
         </a>
     </div>
 </div>
+<style>
+table {
+    table-layout: fixed;
+    width: 100%;
+    font-size: 10pt;
+}
+.table-bordered {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-collapse: separate;
+    border-color: #DDDDDD;
+    border-image: none;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+}
+.table-bordered td {
+    border: solid thin #DDDDDD;
+}
+.table-bordered td.th {
+    font-weight: bold;
+}
+</style>
 {% endblock %}

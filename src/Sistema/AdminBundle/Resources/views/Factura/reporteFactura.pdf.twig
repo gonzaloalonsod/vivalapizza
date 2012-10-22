@@ -8,11 +8,14 @@
         </tr>
         <tr>
             <td>Forma de pago: {{ entity.formaPago }}</td>
-            {% if entity.formaPago == 'tarjeta' %}
-                <td>Nro de comprobante: {{ entity.nroComprobante }}</td>
-                <td>Banco: {{ entity.banco }}</td>
-            {% endif %}
         </tr>
+        {% if entity.formaPago == 'tarjeta' %}
+        <tr>
+            <td>Nro de comprobante: {{ entity.nroComprobante }}</td></tr>
+        <tr>
+            <td>Banco: {{ entity.banco }}</td>
+        </tr>
+        {% endif %}
     </tbody>
 </table>
 <br>
@@ -40,23 +43,3 @@
         </tr>
     </tbody>
 </table>
-
-    <div class="control-group">
-            <label class="control-label">Id</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.id }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Fecha</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.fecha|date('Y-m-d H:i:s') }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Total</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.total }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Formapago</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.formaPago }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Nrocomprobante</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.nroComprobante }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Banco</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.banco }}</span>            </div>
-        </div>
