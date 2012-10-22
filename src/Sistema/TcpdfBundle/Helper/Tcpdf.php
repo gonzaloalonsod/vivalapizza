@@ -22,7 +22,7 @@ class Tcpdf extends BaseController{
         // set default header data
         $fecha = new \DateTime();
         $fecha = $fecha->format('d/m/Y');
-        $this->SetHeaderData('../../../../web/images/as_logo.jpg', PDF_HEADER_LOGO_WIDTH, 'Sistema Web Torneo de Hockey', $fecha);
+        $this->SetHeaderData('../../../../web/images/as_logo.jpg', PDF_HEADER_LOGO_WIDTH, 'Sistema Viva la Pizza', $fecha);
 
         // set header and footer fonts
         $this->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));

@@ -1,4 +1,45 @@
-<h1>Factura</h1>
+<table>
+    <tbody>
+        <tr>
+            <td align="right">Factura Nro {{ entity.id }}</td>
+        </tr>
+        <tr>
+            <td align="right">{{ entity.fecha|date('d-m-Y') }}</td>
+        </tr>
+        <tr>
+            <td>Forma de pago: {{ entity.formaPago }}</td>
+            {% if entity.formaPago == 'tarjeta' %}
+                <td>Nro de comprobante: {{ entity.nroComprobante }}</td>
+                <td>Banco: {{ entity.banco }}</td>
+            {% endif %}
+        </tr>
+    </tbody>
+</table>
+<br>
+<table class="table-bordered">
+    <tbody>
+        <tr>
+            <td class="th">Producto</td>
+            <td class="th">Precio</td>
+            <td class="th">Cantidad</td>
+            <td class="th">Total</td>
+        </tr>
+        {% for lineaFactura in entity.idLineaFactura %}
+        <tr>
+            <td>{{ lineaFactura.idTipoProducto }}</td>
+            <td>$ {{ lineaFactura.idTipoProducto.precio }}</td>
+            <td>{{ lineaFactura.cantidad }}</td>
+            <td>$ {{ lineaFactura.total }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Total: </td>
+            <td>$ {{ entity.total }}</td>
+        </tr>
+    </tbody>
+</table>
 
     <div class="control-group">
             <label class="control-label">Id</label>

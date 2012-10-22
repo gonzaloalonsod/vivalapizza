@@ -389,16 +389,16 @@ table {
     border-style: solid;
     border-width: 1px;
 }
-td {
+.table-bordered td {
     border: solid thin #DDDDDD;
 }
-td.th {
+.table-bordered td.th {
     font-weight: bold;
 }
 </style>
 $contenido
 EOD;
-        
+
         return $this->get('sistema_tcpdf')->quick_pdf($pdf);
     }
 }
