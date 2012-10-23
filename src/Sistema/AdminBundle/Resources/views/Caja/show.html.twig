@@ -10,18 +10,40 @@
 
 <form class="form-horizontal">
     <fieldset>        <div class="control-group">
-            <label class="control-label">Id</label>
+            <label class="control-label">Nro</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.id }}</span>            </div>
         </div>        <div class="control-group">
-            <label class="control-label">Iniciocaja</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.inicioCaja|date('H:m:s') }}</span>            </div>
+            <label class="control-label">Inicio</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.inicioCaja|date('d/m/Y H:m:s') }}</span>            </div>
         </div>        <div class="control-group">
-            <label class="control-label">Cierrecaja</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.cierreCaja|date('H:m:s') }}</span>            </div>
+            <label class="control-label">Cierre</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.cierreCaja|date('d/m/Y H:m:s') }}</span>            </div>
         </div>        <div class="control-group">
-            <label class="control-label">Montoinicial</label>
+            <label class="control-label">Monto inicial</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.montoInicial }}</span>            </div>
-        </div>    </fieldset>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Facturas</label>
+        </div>
+<table class="table-bordered">
+    <tbody>
+        <tr>
+            <td class="th">Nro</td>
+            <td class="th">Fecha</td>
+            <td class="th">Forma de pago</td>
+            <td class="th">Total</td>
+        </tr>
+        {% for factura in entity.idFactura %}
+        <tr>
+            <td>{{ factura.id }}</td>
+            <td>{{ factura.fecha|date('Y-m-d H:i:s') }}</td>
+            <td>{{ factura.formaPago }}</td>
+            <td>$ {{ factura.total }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+        </fieldset>
 </form>
 
 <div>
@@ -30,7 +52,7 @@
             {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
         </a>
     </div>
-    <div class="float-left">
+    {#<div class="float-left">
         <a class="btn btn-primary" href="{{ path('caja_edit', { 'id': entity.id }) }}">
             {{ 'views.recordactions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
         </a>
@@ -40,6 +62,31 @@
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
         </form>
-    </div>
+    </div>#}
 </div>
+<style>
+table {
+    table-layout: fixed;
+    width: 100%;
+    font-size: 10pt;
+}
+.table-bordered {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-collapse: separate;
+    border-color: #DDDDDD;
+    border-image: none;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+}
+.table-bordered td {
+    border: solid thin #DDDDDD;
+}
+.table-bordered td.th {
+    font-weight: bold;
+}
+</style>
 {% endblock %}

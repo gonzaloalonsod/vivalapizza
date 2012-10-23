@@ -6,7 +6,7 @@
 
 {% block page %}
 
-<h1>Caja {{ 'views.new.creation'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
+<h3>Abrir nueva caja</h3>
 
 <form class="well" action="{{ path('caja_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
@@ -22,4 +22,12 @@
         </a>
     </div>
 </div>
+<style>
+    form.well {
+        padding-top: 10px;
+    }
+    h3{
+        padding-left: 20px;
+    }
+</style>
 {% endblock %}

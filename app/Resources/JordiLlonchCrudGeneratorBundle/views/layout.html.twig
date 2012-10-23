@@ -100,10 +100,10 @@
                                                             <a href="{{ path('cierrecaja') }}">Cerrar Caja</a></li>
 							{#<li><a href="Contacts.html"></a></li>#}
                                                     {% elseif is_granted('ROLE_CAJERO') %}
-                                                        <li {% if app.request.pathinfo ==  '/admin/' %} class="active" {% endif %}>
-                                                            <a href="{{ path('admin_index') }}">Inicio</a></li>
                                                         <li {% if app.request.pathinfo ==  '/admin/caja/' %} class="active" {% endif %}>
-                                                            <a href="{{ path('caja') }}">Abrir Caja</a></li>
+                                                            <a href="{{ path('admin_index') }}">Inicio</a></li>
+                                                        <li {% if app.request.pathinfo ==  '/admin/caja/new' %} class="active" {% endif %}>
+                                                            <a href="{{ path('caja_new') }}">Abrir Caja</a></li>
                                                         <li {% if app.request.pathinfo ==  '/admin/cierrecaja/' %} class="active" {% endif %}>
                                                             <a href="{{ path('cierrecaja') }}">Cerrar Caja</a></li>
                                                     {% endif %}

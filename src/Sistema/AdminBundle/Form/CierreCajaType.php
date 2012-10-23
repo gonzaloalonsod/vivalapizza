@@ -25,7 +25,7 @@ class CierreCajaType extends AbstractType
             //->add('ingresos')
             //->add('egresos')
             //->add('total')
-            ->add('idCaja')
+//            ->add('idCaja')
         ;
     }
 

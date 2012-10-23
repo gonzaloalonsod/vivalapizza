@@ -51,6 +51,11 @@ class Caja
      * })
      */
     private $idCajero;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Factura", mappedBy="idCaja", cascade={"persist", "remove"})
+     */
+    private $idFactura;
 
 
 
@@ -159,5 +164,45 @@ class Caja
     public function __toString()
     {
         return $this->getId();
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idFactura = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add idFactura
+     *
+     * @param Sistema\AdminBundle\Entity\Factura $idFactura
+     * @return Caja
+     */
+    public function addIdFactura(\Sistema\AdminBundle\Entity\Factura $idFactura)
+    {
+        $this->idFactura[] = $idFactura;
+    
+        return $this;
+    }
+
+    /**
+     * Remove idFactura
+     *
+     * @param Sistema\AdminBundle\Entity\Factura $idFactura
+     */
+    public function removeIdFactura(\Sistema\AdminBundle\Entity\Factura $idFactura)
+    {
+        $this->idFactura->removeElement($idFactura);
+    }
+
+    /**
+     * Get idFactura
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getIdFactura()
+    {
+        return $this->idFactura;
     }
 }

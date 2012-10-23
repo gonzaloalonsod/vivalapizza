@@ -150,12 +150,16 @@ class CierreCajaController extends Controller
     /**
      * Displays a form to create a new CierreCaja entity.
      *
-     * @Route("/new", name="cierrecaja_new")
+     * @Route("/{id}/new", name="cierrecaja_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($id)
     {
+        $em = $this->getDoctrine()->getManager();
+        $idCaja = $em->getRepository('SistemaAdminBundle:Caja')->find($id);
+        
         $entity = new CierreCaja();
+        $entity->setIdCaja($idCaja);
         $form   = $this->createForm(new CierreCajaType(), $entity);
         //$entity->setIngresos($this->calcularingresos());
         return array(

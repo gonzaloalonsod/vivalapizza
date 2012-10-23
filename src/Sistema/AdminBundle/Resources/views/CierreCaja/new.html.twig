@@ -6,12 +6,12 @@
 
 {% block page %}
 
-<h1>CierreCaja {{ 'views.new.creation'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
+<h3>Cerrar caja nro: {{ entity.idCaja }}</h3>
 
 <form class="well" action="{{ path('cierrecaja_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
-        <button type="submit" class="btn btn-success">{{ 'views.new.create'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+        <button type="submit" class="btn btn-success">Cerrar</button>
     </p>
 </form>
 
@@ -22,4 +22,12 @@
         </a>
     </div>
 </div>
+<style>
+    form.well {
+        padding-top: 10px;
+    }
+    h3{
+        padding-left: 20px;
+    }
+</style>
 {% endblock %}

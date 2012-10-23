@@ -14,6 +14,9 @@
     form.well ul li {
         height: 40px;
     }
+    form.well {
+        padding-top: 10px;
+    }
     .titulos {
         height: 20px;
     }
@@ -29,13 +32,16 @@
         font-weight: bold;
         color: #FFFFFF;
     }
+    h3{
+        padding-left: 20px;
+    }
 </style>
 
-<h1>CierreCaja</h1>
+<h3>Cierre de caja</h3>
 
 <form class="well">
     <fieldset>        <div class="control-group">
-            <label class="control-label">Id</label>
+            <label class="control-label">Nro</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.id }}</span>            </div>
         </div>        <div class="control-group">
             <label class="control-label">Responsable</label>
@@ -80,11 +86,13 @@
     {#<h3>Lineas de Factura</h3>#}
     <ul class="tags">       
         {# iterate over each existing tag and render its only field: name #}
+         {% if propinas[0] is defined %}
             {% for key, propina in propinas[0] %}
             {% set nombre = propinas[1] %}
             <li>Nombre de Mozo: {{ nombre[key] }}</li>
             <li>Comisión: {{ '$'~propina }}</li>            
-            {% endfor %}     
+            {% endfor %}
+        {% endif %}
     </ul>        <div class="control-group">
             <label class="control-label">Total</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.total }}</span>            </div>
