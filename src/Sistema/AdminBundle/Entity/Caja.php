@@ -31,7 +31,7 @@ class Caja
     /**
      * @var \DateTime $cierreCaja
      *
-     * @ORM\Column(name="cierre_caja", type="time", nullable=false)
+     * @ORM\Column(name="cierre_caja", type="time", nullable=true)
      */
     private $cierreCaja;
 

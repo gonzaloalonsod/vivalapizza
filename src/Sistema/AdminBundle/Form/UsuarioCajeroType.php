@@ -13,8 +13,18 @@ class UsuarioCajeroType extends AbstractType
         $builder
             ->add('username')
             ->add('email')
-            ->add('password')
+            ->add('password', 'repeated', array(
+                'type' => 'password',
+                'invalid_message' => 'Los campos de contraseña deben coincidir.',
+                'options' => array('label' => 'Contraseña')
+            ))
 //            ->add('roles')
+            ->add('enabled', null, array(
+                'label' => ' ',
+                'data' => true,
+                'read_only' => true,
+                'attr' => array('style' => 'display:none;')
+            ))
         ;
     }
 

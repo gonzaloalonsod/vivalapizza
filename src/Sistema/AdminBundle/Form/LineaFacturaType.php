@@ -10,16 +10,29 @@ class LineaFacturaType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
+                ->add('idTipoProducto', null, array(
+                    'label' => ' ',
+                    'empty_value' => 'Seleccionar producto'
+                ))
+                ->add('Precio', null, array(
+                    'label' => ' ',
+                    'disabled' => true,
+                    'attr' => array('style' => 'width:130px'),
+                    'property_path' => 'false',
+//                    'data' => 0
+                ))
                 ->add('cantidad', null, array(
-                    'label' => ' '
+                    'label' => ' ',
+                    'attr' => array('style' => 'width:130px'),
+//                    'data' => 0
                 ))
                 ->add('total', null, array(
-                    'label' => ' '
+                    'label' => ' ',
+                    'read_only' => true,
+                    'attr' => array('style' => 'width:130px'),
+//                    'data' => 0
                 ))
 //                ->add('idFactura')
-                ->add('idTipoProducto', null, array(
-                    'label' => ' '
-                ))
         ;
     }
 

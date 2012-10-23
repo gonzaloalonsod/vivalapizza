@@ -5,14 +5,24 @@ namespace Sistema\AdminBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
 class FacturaType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('idCaja', null, array(
-                    'label' => 'Caja nro'
-                ))
+//                ->add('idCaja', null, array(
+//                    'label' => 'Caja nro'
+//                ))
+                ->add('idCaja', 'entity', array(
+                    'label' => 'Caja nro',
+                    'class' => 'SistemaAdminBundle:Caja',
+                    'query_builder' => function(EntityRepository $er) {
+                        return $er->createQueryBuilder('c')
+                                ->where('c.cierreCaja IS NULL');
+//                                ->setParameter('value', null);
+                    }
+                 ))
 //                ->add('fecha', 'date', array(
 //                    'widget' => 'single_text',
 //                    'format' => 'dd-MM-yyyy hh:mm:ss',
@@ -36,12 +46,24 @@ class FacturaType extends AbstractType {
                     'label' => 'Nro de comprobante'
                 ))
                 ->add('banco')
-                ->add('idMozo', null, array(
-                    'label' => 'Mozo'
-                ))
+                ->add('idMozo', 'entity', array(
+                    'label' => 'Mozo',
+                    'class' => 'SistemaAdminBundle:Persona',
+                    'query_builder' => function(EntityRepository $er) {
+                        return $er->createQueryBuilder('m')
+                                ->where('m.tipo = :mozo')
+                                ->setParameter('mozo', 'mozo');
+                    }
+                 ))
                 ->add('idCliente', null, array(
                     'label' => 'Cliente'
                 ))
+//                ->add('idCliente', 'genemu_jqueryautocomplete_entity', array(
+//                    'label' => 'Cliente',
+//                    'route_name' => 'id_nombre_ajax',
+//                    'class' => 'SistemaAdminBundle:Persona',
+////                    'property' => 'nombre',
+//                ))
         ;
     }
 

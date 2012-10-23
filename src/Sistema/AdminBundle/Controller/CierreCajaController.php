@@ -134,12 +134,15 @@ class CierreCajaController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
+        
+        $propinas = $this->calcularPorMozo($entity->getIdCaja());
 
         return array(
             'efectivos'   => $efectivo,
             'detalles'    => $detalles, 
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'propinas'    => $propinas
         );
     }
 

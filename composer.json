@@ -21,7 +21,9 @@
         "friendsofsymfony/user-bundle": "*",
         "jordillonch/crud-generator": "dev-master",
         "craue/formflow-bundle": "dev-master",
-        "avalanche123/imagine-bundle": "*"
+        "avalanche123/imagine-bundle": "*",
+        "gergelypolonkai/tcpdfbundle": "*",
+        "genemu/form-bundle": "2.1.*"
     },
     "scripts": {
         "post-install-cmd": [

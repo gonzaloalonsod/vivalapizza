@@ -16,11 +16,22 @@
     .titulos {
         height: 20px;
     }
-    .titulo{
+    .titulos div{
         float: left;
         font-size: 14px;
         font-weight: bold;
-        margin: 0 100px;
+    }
+    .tituloproducto{
+        margin: 0 40px;
+    }
+    .tituloprecio{
+        margin: 0 140px;
+    }
+    .titulocantidad{
+        margin: 0 -20px;
+    }
+    .titulototal{
+        margin: 0 120px;
     }
     .add_tag_link,
     .del_tag_link{
@@ -31,6 +42,10 @@
 </style>
 
 <link href="{{ asset('css/blitzer/jquery-ui-1.9.0.custom.min.css') }}" rel="stylesheet">
+{{ form_stylesheet(form) }}
+<script src="{{ asset('js/jquery-1.8.2.min.js') }}"></script>
+<script src="{{ asset('js/jquery-ui-1.9.0.custom.min.js') }}"></script>
+{{ form_javascript(form) }}
 <h1>factura {{ 'views.new.creation'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
 
 <form class="well" action="{{ path('factura_create') }}" method="post" {{ form_enctype(form) }}>
@@ -56,14 +71,17 @@
     </table>
     {#{{ form_row(form.fecha) }}#}
     <div class="titulos">
-        <div class="titulo">Cantidad</div>
-        <div class="titulo">Total</div>
-        <div class="titulo">Producto</div>
+        <div class="tituloproducto">Producto</div>
+        <div class="tituloprecio">Precio</div>
+        <div class="titulocantidad">Cantidad</div>
+        <div class="titulototal">Total</div>
     </div>
     {#<h3>Lineas de Factura</h3>#}
     <ul class="tags" data-prototype="{{ form_widget(form.idLineaFactura.vars.prototype)|e }}">       
         {# iterate over each existing tag and render its only field: name #}
         {% for idLineaFactura in form.idLineaFactura %}
+            <li>{{ form_row(idLineaFactura.idTipoProducto) }}</li>
+            <li>{{ form_row(idLineaFactura.Precio) }}</li>
             <li>{{ form_row(idLineaFactura.cantidad) }}</li>
             <li>{{ form_row(idLineaFactura.total) }}</li>
             <li>{{ form_row(idLineaFactura.idTipoProducto) }}</li>
@@ -82,16 +100,16 @@
         </a>
     </div>
 </div>
-<script src="{{ asset('js/jquery-1.8.2.min.js') }}"></script>
-<script src="{{ asset('js/jquery-ui-1.9.0.custom.min.js') }}"></script>
-<script src="{{ asset('js/jquery-ui-timepicker-addon.js') }}"></script>
+
+{#<script src="{{ asset('js/jquery-ui-timepicker-addon.js') }}"></script>
 <script>
     $('.date').datetimepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,
             changeYear: true, showSecond: true, timeFormat: 'hh:mm:ss', })
     
-</script>
+</script>#}
 <script>
-    var collectionHolder = $('ul.tags');
+var cantidadAddJs = 0;
+var collectionHolder = $('ul.tags');
 
 // setup an "add a tag" link
 var $addTagLink = $('<a href="#" class="add_tag_link">Agregar Linea</a>');
@@ -99,9 +117,9 @@ var $newLinkLi = $('<li></li>').append($addTagLink);
 
 jQuery(document).ready(function() {
     // add a delete link to all of the existing tag form li elements
-    collectionHolder.find('li').each(function() {
-        addTagFormDeleteLink($(this));
-    });
+    //collectionHolder.find('li').each(function() {
+    //    addTagFormDeleteLink($(this));
+    //});
     // add the "add a tag" anchor and li to the tags ul
     collectionHolder.append($newLinkLi);
 
@@ -126,22 +144,25 @@ function addTagForm(collectionHolder, $newLinkLi) {
     var $newFormLi = $('<li></li>').append(newForm);
     $newLinkLi.before($newFormLi);
     
+    cantidadAddJs = cantidadAddJs+1;
+    cargarAddJs(cantidadAddJs);
     // add a delete link to the new form
-    addTagFormDeleteLink($newFormLi);
+    //addTagFormDeleteLink($newFormLi);
 }
 
-function addTagFormDeleteLink($tagFormLi) {
-    var $removeFormA = $('<a href="#" class="del_tag_link">Eliminar Linea</a>');
-    $tagFormLi.append($removeFormA);
-
-    $removeFormA.on('click', function(e) {
-        // prevent the link from creating a "#" on the URL
-        e.preventDefault();
-
-        // remove the li for the tag form
-        $tagFormLi.remove();
-    });
-}
+//function addTagFormDeleteLink($tagFormLi) {
+//    var $removeFormA = $('<a href="#" class="del_tag_link">Eliminar Linea</a>');
+//    $tagFormLi.append($removeFormA);
+//
+//    $removeFormA.on('click', function(e) {
+//        // prevent the link from creating a "#" on the URL
+//        e.preventDefault();
+//        
+//        cantidadAddJs = cantidadAddJs-1;
+//        // remove the li for the tag form
+//        $tagFormLi.remove();
+//    });
+//}
 </script>
 
 <script>
@@ -158,4 +179,113 @@ function addTagFormDeleteLink($tagFormLi) {
         }
     }
 </script>
+
+<script>
+    function cargarAddJs(cantidadAddJs){
+        //var $addTwig = " {\% set idProducto = "+cantidadAddJs+" \%} ";
+        //var $newAddTwig = $('<div><\/div>').append($addTwig);
+        //$newLinkLi.before($newAddTwig);
+        var $addJs =
+            "$('#sistema_adminbundle_facturatype_idLineaFactura_"+cantidadAddJs+"_idTipoProducto').change(function() {"+
+                "consultaPrecio($('#sistema_adminbundle_facturatype_idLineaFactura_"+cantidadAddJs+"_idTipoProducto').val(), "+cantidadAddJs+")"+
+            "});"+
+            "$('#sistema_adminbundle_facturatype_idLineaFactura_"+cantidadAddJs+"_cantidad').keyup(function() {"+
+                "calculaTotal("+cantidadAddJs+")"+
+            "});"
+        ;
+        var $newAddJs = $('<script><\/script>').append($addJs);
+        //$('<div></div>').append($newAddJs);
+        $newLinkLi.before($newAddJs);
+        
+//        var $div3 = $("<div />",
+//        {
+//            id: "Div3", //atributo directo, igual que si fuéramos con attr(“id”)
+//            "class": "Div3", //class entre comillas porque es una palabra reservada en javascript
+//            text: "Lorem ipsum", //text no es un atributo sino una propiedad de jQuery, por ejemplo: .text("Lorem ipsum")
+//            css: //propiedad de jQuery
+//                {
+//                "font-weight": "bold", "color": "White"
+//                },
+//            click: function (e) { //evento de jQuery
+//                alert("Hola mundo!");
+//                }
+//        });
+//        $newLinkLi.before($div3);
+    }
+    
+    function consultaPrecio(id, cantidadAddJs){
+        $.ajax({
+          url: '{{ path('factura_producto_precio') }}',
+          type: "POST",
+          data: { "id" : id },
+          success: function(data) {
+            //$('.result').html(data);
+            $('#sistema_adminbundle_facturatype_idLineaFactura_'+cantidadAddJs+'_Precio').val(data);
+            $('#sistema_adminbundle_facturatype_idLineaFactura_'+cantidadAddJs+'_cantidad').val(1);
+            $('#sistema_adminbundle_facturatype_idLineaFactura_'+cantidadAddJs+'_total').val(data);
+            //totalFacturado = $('#sistema_adminbundle_facturatype_total').val();
+            //totalLinea = $('#sistema_adminbundle_facturatype_idLineaFactura_'+cantidadAddJs+'_total').val();
+            //totalFacturado = totalFacturado + totalLinea;
+            //$('#sistema_adminbundle_facturatype_total').val(totalFacturado);
+            totalFacturado = 0;
+            collectionHolder.find('li').each(function(index) {
+                if(index != 0){
+                    totalLinea = parseInt($('#sistema_adminbundle_facturatype_idLineaFactura_'+index+'_total').val(), 10)
+                    if(!isNaN(totalLinea)){
+                        totalFacturado = totalFacturado + totalLinea;
+                    }
+                }
+            });
+            $('#sistema_adminbundle_facturatype_total').val(totalFacturado);
+          }
+        });
+    }
+    
+    function calculaTotal(cantidadAddJs){
+        valuePrecio = $('#sistema_adminbundle_facturatype_idLineaFactura_'+cantidadAddJs+'_Precio').val();
+        valueCantidad = $('#sistema_adminbundle_facturatype_idLineaFactura_'+cantidadAddJs+'_cantidad').val();
+        valueTotal = valuePrecio * valueCantidad;
+        $('#sistema_adminbundle_facturatype_idLineaFactura_'+cantidadAddJs+'_total').val(valueTotal);
+        totalFacturado = 0;
+        collectionHolder.find('li').each(function(index) {
+            if(index != 0){
+                totalLinea = parseInt($('#sistema_adminbundle_facturatype_idLineaFactura_'+index+'_total').val(), 10)
+                if(!isNaN(totalLinea)){
+                    totalFacturado = totalFacturado + totalLinea;
+                }
+            }
+        });
+        $('#sistema_adminbundle_facturatype_total').val(totalFacturado);
+    }
+</script>
+
+<script>
+function dump(obj) {
+    var out = '';
+    for (var i in obj) {
+        out += i + ": " + obj[i] + "\n";
+    }
+
+    alert(out);
+
+    // or, if you wanted to avoid alerts...
+
+    var pre = document.createElement('pre');
+    pre.innerHTML = out;
+    document.body.appendChild(pre)
+}
+</script>
+
+{#<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        var $autocompleter = $('#sistema_adminbundle_facturatype_idCliente');
+        var $configs = [];
+        $configs.source = function(request, response) {
+            $.getJSON('/app_dev.php/admin/factura/id_nombre_ajax', {
+            term: request.term
+            }, response);
+        };
+        $autocompleter.autocomplete($configs);
+    });
+</script>#}
 {% endblock %}
