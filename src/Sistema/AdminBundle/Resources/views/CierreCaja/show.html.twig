@@ -99,5 +99,10 @@
             <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
         </form>
     </div>
+        <div class="float-left">
+        <a class="btn btn-success" href="{{ path('cierrecaja_reporte', { 'id': entity.id }) }}">
+            Imprimir
+        </a>
+    </div>
 </div>
 {% endblock %}
