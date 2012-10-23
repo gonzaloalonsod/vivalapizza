@@ -59,6 +59,7 @@ class Caja {
 
     public function __construct() {
         $this->inicioCaja = new \DateTime();
+        $this->idFactura = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -156,13 +157,6 @@ class Caja {
 
     public function __toString() {
         return $this->getId();
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->idFactura = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**

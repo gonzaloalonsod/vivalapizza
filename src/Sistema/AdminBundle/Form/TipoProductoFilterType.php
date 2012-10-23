@@ -21,9 +21,9 @@ class TipoProductoFilterType extends AbstractType
 //            ->add('descripcion', 'filter_text')
 //            ->add('precio', 'filter_number_range')
 //            ->add('cantidad_vendido', 'filter_text')
-            ->add('idProducto', new TipoIdProductoFilterType(), array(
-                'label' => 'Producto'
-            ))
+//            ->add('idProducto', new TipoIdProductoFilterType(), array(
+//                'label' => 'Producto'
+//            ))
 //            ->add('descripcion', 'filter_text', array(
 //                'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
 //                    // add conditions you need :)
