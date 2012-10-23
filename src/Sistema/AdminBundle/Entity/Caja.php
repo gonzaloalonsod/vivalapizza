@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="caja")
  * @ORM\Entity
  */
-class Caja
-{
+class Caja {
+
     /**
      * @var integer $id
      *
@@ -52,15 +52,16 @@ class Caja
      */
     private $idCajero;
 
-
+    public function __construct() {
+        $this->inicioCaja = new \DateTime();
+    }
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -70,10 +71,9 @@ class Caja
      * @param \DateTime $inicioCaja
      * @return Caja
      */
-    public function setInicioCaja($inicioCaja)
-    {
+    public function setInicioCaja($inicioCaja) {
         $this->inicioCaja = $inicioCaja;
-    
+
         return $this;
     }
 
@@ -82,8 +82,7 @@ class Caja
      *
      * @return \DateTime 
      */
-    public function getInicioCaja()
-    {
+    public function getInicioCaja() {
         return $this->inicioCaja;
     }
 
@@ -93,10 +92,9 @@ class Caja
      * @param \DateTime $cierreCaja
      * @return Caja
      */
-    public function setCierreCaja($cierreCaja)
-    {
+    public function setCierreCaja($cierreCaja) {
         $this->cierreCaja = $cierreCaja;
-    
+
         return $this;
     }
 
@@ -105,8 +103,7 @@ class Caja
      *
      * @return \Time 
      */
-    public function getCierreCaja()
-    {
+    public function getCierreCaja() {
         return $this->cierreCaja;
     }
 
@@ -116,10 +113,9 @@ class Caja
      * @param string $montoInicial
      * @return Caja
      */
-    public function setMontoInicial($montoInicial)
-    {
+    public function setMontoInicial($montoInicial) {
         $this->montoInicial = $montoInicial;
-    
+
         return $this;
     }
 
@@ -128,8 +124,7 @@ class Caja
      *
      * @return string 
      */
-    public function getMontoInicial()
-    {
+    public function getMontoInicial() {
         return $this->montoInicial;
     }
 
@@ -139,10 +134,9 @@ class Caja
      * @param Sistema\AdminBundle\Entity\Persona $idCajero
      * @return Caja
      */
-    public function setIdCajero(\Sistema\AdminBundle\Entity\Persona $idCajero = null)
-    {
+    public function setIdCajero(\Sistema\AdminBundle\Entity\Persona $idCajero = null) {
         $this->idCajero = $idCajero;
-    
+
         return $this;
     }
 
@@ -151,13 +145,12 @@ class Caja
      *
      * @return Sistema\AdminBundle\Entity\Persona 
      */
-    public function getIdCajero()
-    {
+    public function getIdCajero() {
         return $this->idCajero;
     }
-    
-    public function __toString()
-    {
+
+    public function __toString() {
         return $this->getId();
     }
+
 }
