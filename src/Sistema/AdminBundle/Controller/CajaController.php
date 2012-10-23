@@ -165,6 +165,7 @@ class CajaController extends Controller
     public function createAction()
     {
         $entity  = new Caja();
+        //$entity->setInicioCaja(date("H:i:s"));
         $request = $this->getRequest();
         $form    = $this->createForm(new CajaType(), $entity);
         $form->bind($request);

@@ -11,7 +11,7 @@ class CajaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('inicioCaja')
+//            ->add('inicioCaja')
 //            ->add('cierreCaja')
             ->add('montoInicial')
             ->add('idCajero')
