@@ -9,12 +9,14 @@
         <tr>
             <td>Total de Ingresos: ${{ entity.ingresos }}</td>
         </tr>
-        
+        <br>
     </tbody>
+    <br>
+    <br>
 </table>
-<table>
+<table class="table-bordered">
 <tr>
-            <td>Pagos en Efectivo:</td>
+            <td class="th">Pagos en Efectivo:</td>
         </tr>
         </table>
 <br>
@@ -24,11 +26,71 @@
             <td class="th">Nro de Factura</td>
             <td class="th">Monto</td>            
         </tr>
-        
+        {% for efectivo in efectivos %}            
         <tr>
-            <td>hola</td>
-            <td>chau</td>            
+            <td>{{ efectivo.id }}</td>
+            <td>${{ efectivo.total }}</td>            
         </tr>
+        {% endfor %}
     </tbody>
-
+</table>
 <br>
+<table class="table-bordered">
+<tr>
+            <td class="th">Pagos con Tarjeta:</td>
+        </tr>
+        </table>
+<br>
+<table class="table-bordered">
+    <tbody>
+        <tr>
+            <td class="th">Nro de Factura</td>
+            <td class="th">Nro de Comprobante</td>
+            <td class="th">Monto</td>            
+        </tr>
+        {% for detalle in detalles %}            
+        <tr>
+            <td>{{ detalle.id }}</td>
+            <td>{{ detalle.nroComprobante }}</td>
+            <td>${{ detalle.total }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+<table>
+<tr>
+            <td>Total de Egresos: ${{ entity.egresos }}</td>
+        </tr>
+        <br>
+        </table>
+<table class="table-bordered">
+<tr>
+            <td class="th">Detalle de Egresos</td>
+        </tr>
+        
+<br>
+<table class="table-bordered">
+    <tbody>
+        <tr>
+            <td class="th">Nombre de Mozo</td>
+            <td class="th">Comision</td>
+                        
+        </tr>
+        {% for key, propina in propinas[0] %}
+            {% set nombre = propinas[1] %}            
+        <tr>
+            <td>{{ nombre[key] }}</td>
+            <td>{{ '$'~propina }}</td>            
+        </tr>
+        {% endfor %}
+        </tbody>
+</table>
+<table>
+    
+    <br>
+    
+<tr>
+            <td>Total Neto: ${{ entity.total }}</td>
+        </tr>
+</table>

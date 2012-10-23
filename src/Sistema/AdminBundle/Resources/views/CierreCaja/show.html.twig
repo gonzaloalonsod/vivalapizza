@@ -46,27 +46,8 @@
         </div>        <div class="control-group">
             <label class="control-label">Ingresos</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.ingresos }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Egresos</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.egresos }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Total</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.total }}</span>            </div>
         </div>
-        <div class="control-group">
-            {% if propinas %}
-            <label class="control-label">Detalle de egresos</label>
-            <div class="controls">
-                {% for key, propina in propinas[0] %}
-                    {% set nombre = propinas[1] %}
-                    <span class="input-xlarge uneditable-input">{{ nombre[key]~' - $'~propina }}</span>
-                    <br>
-                {% endfor %}
-            </div>
-            {% endif %}
-        </div>
-            
-    <div class="titulos">
+<div class="titulos">
         <div class="titulo">Pagos Con Tarjeta</div>        
     </div>
     {#<h3>Lineas de Factura</h3>#}
@@ -89,7 +70,28 @@
             <li>Número de Factura: {{ efectivo.id }}</li>           
             <li>Monto: ${{ efectivo.total }}</li>
             {% endfor %}     
-    </ul>
+    </ul>        <div class="control-group">
+            <label class="control-label">Egresos</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.egresos }}</span>            </div>
+        </div>
+<div class="titulos">
+        <div class="titulo">Detalle de Egresos</div>        
+    </div>
+    {#<h3>Lineas de Factura</h3>#}
+    <ul class="tags">       
+        {# iterate over each existing tag and render its only field: name #}
+            {% for key, propina in propinas[0] %}
+            {% set nombre = propinas[1] %}
+            <li>Nombre de Mozo: {{ nombre[key] }}</li>
+            <li>Comisión: {{ '$'~propina }}</li>            
+            {% endfor %}     
+    </ul>        <div class="control-group">
+            <label class="control-label">Total</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.total }}</span>            </div>
+        </div>
+        
+            
+    
             
         </fieldset>
 </form>

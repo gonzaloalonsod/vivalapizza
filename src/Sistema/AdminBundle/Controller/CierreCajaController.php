@@ -126,8 +126,9 @@ class CierreCajaController extends Controller
 
         $entity = $em->getRepository('SistemaAdminBundle:CierreCaja')->find($id);
         
-        $detalles = $this->calcularingresosdetalle($id);
-        $efectivo = $this->calcularingresosEfectivo($id);
+        
+        $detalles = $this->calcularingresosdetalle($entity->getIdCaja());
+        $efectivo = $this->calcularingresosEfectivo($entity->getIdCaja());
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CierreCaja entity.');
@@ -135,14 +136,14 @@ class CierreCajaController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
         
-        //$propinas = $this->calcularPorMozo($entity->getIdCaja());
+        $propinas = $this->calcularPorMozo($entity->getIdCaja());
 
         return array(
             'efectivos'   => $efectivo,
             'detalles'    => $detalles, 
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-            //'propinas'    => $propinas
+            'propinas'    => $propinas
         );
     }
 
@@ -410,8 +411,9 @@ class CierreCajaController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('SistemaAdminBundle:CierreCaja')->find($id);
-        $detalles = $this->calcularingresosdetalle($id);
-        $efectivo = $this->calcularingresosEfectivo($id);
+        $detalles = $this->calcularingresosdetalle($entity->getIdCaja());
+        $efectivo = $this->calcularingresosEfectivo($entity->getIdCaja());
+        $propinas = $this-> calcularPorMozo($entity->getIdCaja());
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CierreCaja entity.');
@@ -420,7 +422,8 @@ class CierreCajaController extends Controller
         $contenido = $this->renderView('SistemaAdminBundle:CierreCaja:reporteCierreCaja.pdf.twig', array(
             'entity'    => $entity,
             'detalles'    => $detalles,
-            'efectivos'    => $efectivo,            
+            'efectivos'    => $efectivo,
+            'propinas'    => $propinas,
         ));
 
         $pdf = <<<EOD
@@ -453,6 +456,34 @@ $contenido
 EOD;
 
         return $this->get('sistema_tcpdf')->quick_pdf($pdf);
+    }
+    
+    public function calcularPorMozo($id){
+        $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT p FROM SistemaAdminBundle:Factura p WHERE p.idCaja = :caja'
+        )->setParameter('caja', $id);
+        $ingresos = array();
+        $entity = $query->getResult();
+        if ($entity) {
+            foreach ($entity as $facturas) {
+                //echo $lf->getTotal();
+                $idMozo = $facturas->getIdMozo()->getId();
+                if(!isset($ingresos[$idMozo])){
+                    $ingresos[$idMozo] = 0;
+                    $nombres[$idMozo] = 0;
+                    $nombres[$idMozo] = $facturas->getIdMozo();
+                }
+                $propina = 0.15*$facturas->getTotal();
+                $ingresos[$idMozo] = $ingresos[$idMozo] + $propina;
+            }
+            $todo = array('0' => $ingresos, '1' => $nombres);
+        } else {
+            $todo = null;
+        }
+//        var_dump($todo);die;
+        return $todo;
+//        return $ingresos;
     }
     
 }
