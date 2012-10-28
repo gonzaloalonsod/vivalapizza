@@ -55,11 +55,11 @@
 
 <div>
     <div class="float-left">
-        <a class="btn" href="{{ path('factura') }}">
-            {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+        <a class="btn" href="{{ path('caja_show', { 'id': entity.idCaja }) }}">
+            Ver caja
         </a>
     </div>
-    <div class="float-left">
+    {#<div class="float-left">
         <a class="btn btn-primary" href="{{ path('factura_edit', { 'id': entity.id }) }}">
             {{ 'views.recordactions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
         </a>
@@ -69,7 +69,7 @@
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
         </form>
-    </div>
+    </div>#}
     <div class="float-left">
         <a class="btn btn-success" href="{{ path('factura_reporte', { 'id': entity.id }) }}">
             Imprimir

@@ -63,18 +63,24 @@
         <tr>
             <td><a href="{{ path('caja_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.inicioCaja|date('H:m:s') }}</td>
-            <td>{{ entity.cierreCaja|date('H:m:s') }}</td>
+            <td>{% if entity.cierreCaja is not null %}{{ entity.cierreCaja|date('H:m:s') }}{% endif %}</td>
             <td>{{ entity.montoInicial }}</td>
             <td>
-                <a class="btn btn-mini" href="{{ path('caja_show', { 'id': entity.id }) }}">
-                    {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-                </a>
-                {#<a class="btn btn-mini" href="{{ path('caja_edit', { 'id': entity.id }) }}">
-                    {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-                </a>#}
-                <a class="btn btn-mini" href="{{ path('cierrecaja_new', { 'id': entity.id }) }}">
-                    Cerrar caja
-                </a>
+                {% if entity.cierreCaja is null %}
+                    <a class="btn btn-mini" href="{{ path('caja_show', { 'id': entity.id }) }}">
+                        {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                    </a>
+                    {#<a class="btn btn-mini" href="{{ path('caja_edit', { 'id': entity.id }) }}">
+                        {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                    </a>#}
+                    <a class="btn btn-mini" href="{{ path('cierrecaja_new', { 'id': entity.id }) }}">
+                        Cerrar caja
+                    </a>
+                {% else %}
+                    <a class="btn btn-mini" href="{{ path('cierrecaja_show', { 'id': entity.id }) }}">
+                        {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} cierre
+                    </a>
+                {% endif %}
             </td>
         </tr>
     {% endfor %}

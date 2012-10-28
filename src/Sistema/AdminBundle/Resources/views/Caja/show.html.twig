@@ -17,7 +17,7 @@
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.inicioCaja|date('d/m/Y H:m:s') }}</span>            </div>
         </div>        <div class="control-group">
             <label class="control-label">Cierre</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.cierreCaja|date('d/m/Y H:m:s') }}</span>            </div>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{% if entity.cierreCaja is not null %}{{ entity.cierreCaja|date('d/m/Y H:m:s') }}{% endif %}</span>            </div>
         </div>        <div class="control-group">
             <label class="control-label">Monto inicial</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.montoInicial }}</span>            </div>
@@ -50,6 +50,9 @@
     <div class="float-left">
         <a class="btn" href="{{ path('caja') }}">
             {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+        </a>
+        <a class="btn btn-primary" href="{{ path('factura_new', { 'id': entity.id }) }}">
+            Facturar
         </a>
     </div>
     {#<div class="float-left">

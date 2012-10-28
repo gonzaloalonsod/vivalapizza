@@ -1,0 +1,24 @@
+{% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
+
+{% block page %}
+{% if error %}
+    <div><span class="label label-warning">{{ error|trans({}, 'FOSUserBundle') }}</span></div>
+{% endif %}
+<div class="login_form" style="text-align: center">
+	<form action="{{ path("fos_user_security_check") }}" method="post">
+	    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+	    <label for="username" style="width: 90%;">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
+	    <input type="text" id="username" name="_username" value="{{ last_username }}" class="corto" />
+<br/>
+	    <label for="password" style="width: 85%;">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
+	    <input type="password" id="password" name="_password" class="corto" />
+<br/>
+    {#
+	    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+	    <label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
+    #}
+	    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-primary" />
+	</form>
+</div>
+{% endblock page %}

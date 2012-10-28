@@ -21,7 +21,8 @@ class FacturaType extends AbstractType {
                         return $er->createQueryBuilder('c')
                                 ->where('c.cierreCaja IS NULL');
 //                                ->setParameter('value', null);
-                    }
+                    },
+                    'read_only' => true
                  ))
 //                ->add('fecha', 'date', array(
 //                    'widget' => 'single_text',

@@ -60,7 +60,7 @@ class Factura {
     /**
      * @var Caja
      *
-     * @ORM\ManyToOne(targetEntity="Caja")
+     * @ORM\ManyToOne(targetEntity="Caja", inversedBy="idFactura")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_caja", referencedColumnName="id")
      * })

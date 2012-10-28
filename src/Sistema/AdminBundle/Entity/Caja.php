@@ -24,14 +24,14 @@ class Caja {
     /**
      * @var \DateTime $inicioCaja
      *
-     * @ORM\Column(name="inicio_caja", type="time", nullable=false)
+     * @ORM\Column(name="inicio_caja", type="datetime", nullable=false)
      */
     private $inicioCaja;
 
     /**
      * @var \DateTime $cierreCaja
      *
-     * @ORM\Column(name="cierre_caja", type="time", nullable=true)
+     * @ORM\Column(name="cierre_caja", type="datetime", nullable=true)
      */
     private $cierreCaja;
 

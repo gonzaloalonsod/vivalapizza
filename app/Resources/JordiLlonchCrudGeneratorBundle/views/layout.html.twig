@@ -51,25 +51,32 @@
 		<div class="body5">
 			<div class="main">
             {% if is_granted('ROLE_ADMIN') %} {# el administrador está logueado #}
-                
                 <p>
                     <span class="label label-important">
                         Conectado como Administrador: {{ app.user.idPersona }}
                     </span>
                     <a href="{{ path('fos_user_security_logout') }}"><span class="label label-important">Cerrar sesión</span></a>
                 </p>
-                
+            {% elseif is_granted('ROLE_CAJERO') %}
+                <p>
+                    <span class="label label-important">
+                        Conectado como Cajero: {{ app.user.idPersona }}
+                    </span>
+                    <a href="{{ path('fos_user_security_logout') }}"><span class="label label-important">Cerrar sesión</span></a>
+                </p>
             {% endif %}
 <!-- header -->
 				<header>
-					<h1><a href="index.html" id="logo">Classic European Cuisine</a></h1>
+					<h1><a href="{{ path('admin_index') }}" id="logo">Classic European Cuisine</a></h1>
 					{#<nav>
 						<ul id="top_nav">
 							<li><a href="{{ path('admin_index') }}"><img src="/images/icon_1.gif" alt=""></a></li>
 							<li><a href="#"><img src="/images/icon_2.gif" alt=""></a></li>
 							<li class="end"><a href="Contacts.html"><img src="/images/icon_3.gif" alt=""></a></li>
+                                                        
 						</ul>
 					</nav>#}
+                                        <div style="position: absolute;right: 20px;top: 20px;"><a rel="shadowbox[Mixed];height=600" href="{{ asset('ayuda/index.htm') }}"><img src="{{ asset('images/icono_ayuda.jpg') }}"></a></div>
 					<nav>
 						<ul id="menu">
                                                     {% if is_granted('ROLE_ADMIN') %}
@@ -90,10 +97,10 @@
                                                             <a href="{{ path('caja') }}">Caja</a></li>
                                                         <li {% if app.request.pathinfo ==  '/admin/comprobante/' %} class="active" {% endif %}>
                                                             <a href="{{ path('comprobante') }}">Comprobante</a></li>
-                                                        <li {% if app.request.pathinfo ==  '/admin/factura/' %} class="active" {% endif %}>
+                                                        {#<li {% if app.request.pathinfo ==  '/admin/factura/' %} class="active" {% endif %}>
                                                             <a href="{{ path('factura') }}">Facturar</a></li>
                                                         <li {% if app.request.pathinfo ==  '/admin/lineafactura/' %} class="active" {% endif %}>
-                                                            <a href="{{ path('lineafactura') }}">L&iacute;nea de factura</a></li>
+                                                            <a href="{{ path('lineafactura') }}">L&iacute;nea de factura</a></li>#}
                                                         <li {% if app.request.pathinfo ==  '/admin/caja/' %} class="active" {% endif %}>
                                                             <a href="{{ path('caja') }}">Abrir Caja</a></li>
                                                         <li {% if app.request.pathinfo ==  '/admin/cierrecaja/' %} class="active" {% endif %}>
@@ -104,8 +111,8 @@
                                                             <a href="{{ path('admin_index') }}">Inicio</a></li>
                                                         <li {% if app.request.pathinfo ==  '/admin/caja/new' %} class="active" {% endif %}>
                                                             <a href="{{ path('caja_new') }}">Abrir Caja</a></li>
-                                                        <li {% if app.request.pathinfo ==  '/admin/cierrecaja/' %} class="active" {% endif %}>
-                                                            <a href="{{ path('cierrecaja') }}">Cerrar Caja</a></li>
+                                                        {#<li {% if app.request.pathinfo ==  '/admin/cierrecaja/' %} class="active" {% endif %}>
+                                                            <a href="{{ path('cierrecaja') }}">Cerrar Caja</a></li>#}
                                                     {% endif %}
 						</ul>
 					</nav>
@@ -168,3 +175,8 @@
 {% endblock %}
 </body>
 </html>
+<link rel="stylesheet" type="text/css" href="{{ asset('shadowbox-3.0.3/shadowbox.css') }}">
+<script type="text/javascript" src="{{ asset('shadowbox-3.0.3/shadowbox.js') }}"></script>
+<script type="text/javascript">
+Shadowbox.init();
+</script>

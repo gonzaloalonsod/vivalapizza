@@ -31,7 +31,7 @@ class CierreCaja
     /**
      * @var \DateTime $fecha
      *
-     * @ORM\Column(name="fecha", type="date", nullable=false)
+     * @ORM\Column(name="fecha", type="datetime", nullable=false)
      */
     private $fecha;
 
@@ -66,7 +66,9 @@ class CierreCaja
      */
     private $idCaja;
 
-
+    public function __construct() {
+        $this->fecha = new \DateTime();
+    }
 
     /**
      * Get id

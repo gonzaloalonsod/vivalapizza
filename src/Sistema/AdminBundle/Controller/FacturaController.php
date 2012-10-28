@@ -144,12 +144,17 @@ class FacturaController extends Controller
     /**
      * Displays a form to create a new Factura entity.
      *
-     * @Route("/new", name="factura_new")
+     * @Route("/{id}/new", name="factura_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($id)
     {
-        $entity = new Factura();            
+        $em = $this->getDoctrine()->getManager();
+        $caja = $em->getRepository('SistemaAdminBundle:Caja')->find($id);
+
+        $entity = new Factura();
+        $entity->setIdCaja($caja);
+        
         $form   = $this->createForm(new FacturaType(), $entity);
 
         return array(

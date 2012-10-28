@@ -21,11 +21,14 @@ class CierreCajaType extends AbstractType
                                 ->setParameter('cajero', 'cajero');
                     }
                  ))
-            ->add('fecha')
+//            ->add('fecha')
             //->add('ingresos')
             //->add('egresos')
             //->add('total')
-//            ->add('idCaja')
+            ->add('idCaja', null, array(
+                'label' => 'Caja',
+                'read_only' => true
+            ))
         ;
     }
 

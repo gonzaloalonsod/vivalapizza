@@ -178,18 +178,24 @@ class CierreCajaController extends Controller
     public function createAction()
     {
         $entity  = new CierreCaja();
-        
-                
+
         $request = $this->getRequest();
         $form    = $this->createForm(new CierreCajaType(), $entity);
         $form->bind($request);
         $caja = $entity->getIdCaja();
+        
+        $em = $this->getDoctrine()->getManager();
+        $idCaja = $em->getRepository('SistemaAdminBundle:Caja')->find($caja);
+        $fecha = new \DateTime();
+        $idCaja->setCierreCaja($fecha);
+        
         $entity->setIngresos($this->calcularingresos($caja));
         $entity->setEgresos($this->calcularegresos($caja));
         $entity->setTotal($this->calcularingresos($caja)-$this->calcularegresos($caja));
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
+            $em->persist($idCaja);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
 
