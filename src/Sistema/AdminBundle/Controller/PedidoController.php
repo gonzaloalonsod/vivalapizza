@@ -10,21 +10,21 @@ use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\View\TwitterBootstrapView;
 
-use Sistema\AdminBundle\Entity\Caja;
-use Sistema\AdminBundle\Form\CajaType;
-use Sistema\AdminBundle\Form\CajaFilterType;
+use Sistema\AdminBundle\Entity\Pedido;
+use Sistema\AdminBundle\Form\PedidoType;
+use Sistema\AdminBundle\Form\PedidoFilterType;
 
 /**
- * Caja controller.
+ * Pedido controller.
  *
- * @Route("/caja")
+ * @Route("/pedido")
  */
-class CajaController extends Controller
+class PedidoController extends Controller
 {
     /**
-     * Lists all Caja entities.
+     * Lists all Pedido entities.
      *
-     * @Route("/", name="caja")
+     * @Route("/", name="pedido")
      * @Template()
      */
     public function indexAction()
@@ -49,13 +49,13 @@ class CajaController extends Controller
     {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $filterForm = $this->createForm(new CajaFilterType());
+        $filterForm = $this->createForm(new PedidoFilterType());
         $em = $this->getDoctrine()->getManager();
-        $queryBuilder = $em->getRepository('SistemaAdminBundle:Caja')->createQueryBuilder('e');
+        $queryBuilder = $em->getRepository('SistemaAdminBundle:Pedido')->createQueryBuilder('e');
     
         // Reset filter
         if ($request->getMethod() == 'POST' && $request->get('filter_action') == 'reset') {
-            $session->remove('CajaControllerFilter');
+            $session->remove('PedidoControllerFilter');
         }
     
         // Filter action
@@ -68,13 +68,13 @@ class CajaController extends Controller
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
                 // Save filter to session
                 $filterData = $filterForm->getData();
-                $session->set('CajaControllerFilter', $filterData);
+                $session->set('PedidoControllerFilter', $filterData);
             }
         } else {
             // Get filter from session
-            if ($session->has('CajaControllerFilter')) {
-                $filterData = $session->get('CajaControllerFilter');
-                $filterForm = $this->createForm(new CajaFilterType(), $filterData);
+            if ($session->has('PedidoControllerFilter')) {
+                $filterData = $session->get('PedidoControllerFilter');
+                $filterForm = $this->createForm(new PedidoFilterType(), $filterData);
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
             }
         }
@@ -99,7 +99,7 @@ class CajaController extends Controller
         $me = $this;
         $routeGenerator = function($page) use ($me)
         {
-            return $me->generateUrl('caja', array('page' => $page));
+            return $me->generateUrl('pedido', array('page' => $page));
         };
     
         // Paginator - view
@@ -115,21 +115,28 @@ class CajaController extends Controller
     }
     
     /**
-     * Finds and displays a Caja entity.
+     * Finds and displays a Pedido entity.
      *
-     * @Route("/{id}/show", name="caja_show")
+     * @Route("/{id}/show", name="pedido_show")
      * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SistemaAdminBundle:Caja')->find($id);
-        
-        $pedidos = $em->getRepository('SistemaAdminBundle:Pedido')->buscarPedidoPorCaja($id);
+        $entity = $em->getRepository('SistemaAdminBundle:Pedido')->find($id);
+        $lineasPedido = $entity->getLineasPedido();
+        $productos = array();
+        foreach ($lineasPedido as $key => $linea) {
+//            var_dump($lineasProductos);
+            $idTipoProducto = $linea['idTipoProducto'];
+            $producto = $em->getRepository('SistemaAdminBundle:TipoProducto')->find($idTipoProducto);
+            $lineasPedido[$key]["idTipoProducto"] = $producto;
+        }
+        $entity->setLineasPedido($lineasPedido);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Caja entity.');
+            throw $this->createNotFoundException('Unable to find Pedido entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -137,20 +144,24 @@ class CajaController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-            'pedidos'     => $pedidos
         );
     }
 
     /**
-     * Displays a form to create a new Caja entity.
+     * Displays a form to create a new Pedido entity.
      *
-     * @Route("/new", name="caja_new")
+     * @Route("/{id}/new", name="pedido_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($id)
     {
-        $entity = new Caja();
-        $form   = $this->createForm(new CajaType(), $entity);
+        $em = $this->getDoctrine()->getManager();
+        $caja = $em->getRepository('SistemaAdminBundle:Caja')->find($id);
+        
+        $entity = new Pedido();
+        $entity->setIdCaja($caja);
+        
+        $form   = $this->createForm(new PedidoType(), $entity);
 
         return array(
             'entity' => $entity,
@@ -159,29 +170,35 @@ class CajaController extends Controller
     }
 
     /**
-     * Creates a new Caja entity.
+     * Creates a new Pedido entity.
      *
-     * @Route("/create", name="caja_create")
+     * @Route("/create", name="pedido_create")
      * @Method("post")
-     * @Template("SistemaAdminBundle:Caja:new.html.twig")
+     * @Template("SistemaAdminBundle:Pedido:new.html.twig")
      */
     public function createAction()
     {
-        $entity  = new Caja();
-        //$entity->setInicioCaja(date("H:i:s"));
+        $entity  = new Pedido();
         $request = $this->getRequest();
-        $form    = $this->createForm(new CajaType(), $entity);
+        
+        $pedido = $request->get('sistema_adminbundle_pedidotype');
+        $lineasPedido = $pedido['lineasPedido'];
+//        var_dump($lineasPedido);die;
+        
+        $form    = $this->createForm(new PedidoType(), $entity);
         $form->bind($request);
 
-        if ($form->isValid()) {
+//        if ($form->isValid()) {
+            $entity->setLineasPedido($lineasPedido);
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
 
-            return $this->redirect($this->generateUrl('caja_show', array('id' => $entity->getId())));        } else {
-            $this->get('session')->getFlashBag()->add('error', 'flash.create.error');
-        }
+            return $this->redirect($this->generateUrl('pedido_show', array('id' => $entity->getId())));
+//        } else {
+//            $this->get('session')->getFlashBag()->add('error', 'flash.create.error');
+//        }
 
         return array(
             'entity' => $entity,
@@ -189,22 +206,22 @@ class CajaController extends Controller
         );
     }
     /**
-     * Displays a form to edit an existing Caja entity.
+     * Displays a form to edit an existing Pedido entity.
      *
-     * @Route("/{id}/edit", name="caja_edit")
+     * @Route("/{id}/edit", name="pedido_edit")
      * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SistemaAdminBundle:Caja')->find($id);
+        $entity = $em->getRepository('SistemaAdminBundle:Pedido')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Caja entity.');
+            throw $this->createNotFoundException('Unable to find Pedido entity.');
         }
 
-        $editForm = $this->createForm(new CajaType(), $entity);
+        $editForm = $this->createForm(new PedidoType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -215,23 +232,23 @@ class CajaController extends Controller
     }
 
     /**
-     * Edits an existing Caja entity.
+     * Edits an existing Pedido entity.
      *
-     * @Route("/{id}/update", name="caja_update")
+     * @Route("/{id}/update", name="pedido_update")
      * @Method("post")
-     * @Template("SistemaAdminBundle:Caja:edit.html.twig")
+     * @Template("SistemaAdminBundle:Pedido:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SistemaAdminBundle:Caja')->find($id);
+        $entity = $em->getRepository('SistemaAdminBundle:Pedido')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Caja entity.');
+            throw $this->createNotFoundException('Unable to find Pedido entity.');
         }
 
-        $editForm   = $this->createForm(new CajaType(), $entity);
+        $editForm   = $this->createForm(new PedidoType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -243,7 +260,7 @@ class CajaController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
 
-            return $this->redirect($this->generateUrl('caja_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('pedido_edit', array('id' => $id)));
         } else {
             $this->get('session')->getFlashBag()->add('error', 'flash.update.error');
         }
@@ -255,9 +272,9 @@ class CajaController extends Controller
         );
     }
     /**
-     * Deletes a Caja entity.
+     * Deletes a Pedido entity.
      *
-     * @Route("/{id}/delete", name="caja_delete")
+     * @Route("/{id}/delete", name="pedido_delete")
      * @Method("post")
      */
     public function deleteAction($id)
@@ -269,10 +286,10 @@ class CajaController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SistemaAdminBundle:Caja')->find($id);
+            $entity = $em->getRepository('SistemaAdminBundle:Pedido')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Caja entity.');
+                throw $this->createNotFoundException('Unable to find Pedido entity.');
             }
 
             $em->remove($entity);
@@ -282,7 +299,7 @@ class CajaController extends Controller
             $this->get('session')->getFlashBag()->add('error', 'flash.delete.error');
         }
 
-        return $this->redirect($this->generateUrl('caja'));
+        return $this->redirect($this->generateUrl('pedido'));
     }
 
     private function createDeleteForm($id)

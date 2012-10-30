@@ -90,7 +90,7 @@
             {% for key, propina in propinas[0] %}            
             {% set nombre = propinas[1] %}                      
             <li>Nombre de Mozo: {{ nombre[key] }}</li>
-            <li>Comisión: {{ '$'~propina }}  <a href="{{ path('comprobante_reporte', { 'id': entity.id,'idmozo': key }) }}"><button style="background-color: #000000; color: #FFFFFF;">comprobante</button></a></li>
+            <li>Comisión: {{ '$'~propina }}  <a class="btn" href="{{ path('comprobante_reporte', { 'id': entity.id,'idmozo': key }) }}">comprobante</a></li>
             {% endfor %}
            
         {% endif %}

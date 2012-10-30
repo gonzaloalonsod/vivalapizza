@@ -564,7 +564,7 @@ EOD;
         /**
      * REPORTE DE TORNEO GRUPO EQUIPOS
      * 
-     * @Route("/{id}/rep", name="comprobante_reporte")
+     * @Route("/{id}/rep/{idmozo}", name="comprobante_reporte")
      * @Template()
      */
       public function reporteComprobanteAction($id)

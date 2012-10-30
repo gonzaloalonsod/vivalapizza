@@ -18,6 +18,17 @@ class FacturaRepository extends EntityRepository
          
          return $consulta->getResult();
     }
+    /**
+     * Busca pedidos por caja.
+     */
+    public function buscarPedidoPorCaja($id) {
+        $em = $this->getEntityManager();
+        $consulta = $em->createQuery('SELECT p FROM SistemaAdminBundle:Pedido p
+                                        WHERE p.idCaja = :id
+            ');
+        $consulta->setParameter('id', $id);
+        return $consulta->getResult();
+    }
 //    /**
 //     * Busca los equipos de un grupo de un torneo segun cualquier fecha del torneo.
 //     */

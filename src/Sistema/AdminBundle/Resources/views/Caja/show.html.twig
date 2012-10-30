@@ -43,6 +43,35 @@
         {% endfor %}
     </tbody>
 </table>
+        <div class="control-group">
+            <label class="control-label">Pedidos</label>
+        </div>
+<table class="table-bordered">
+    <tbody>
+        <tr>
+            <td class="th">Nro</td>
+            <td class="th">Fecha</td>
+            <td class="th">Cliente</td>
+            <td class="th">Total</td>
+            <td class="th">Estado</td>
+            <td class="th">Accion</td>
+        </tr>
+        {% for pedido in pedidos %}
+        <tr>
+            <td>{{ pedido.id }}</td>
+            <td>{{ pedido.fecha|date('Y-m-d H:i:s') }}</td>
+            <td>{{ pedido.idCliente }}</td>
+            <td>$ {{ pedido.total }}</td>
+            <td>En proceso</td>
+            <td>
+                <a class="btn btn-mini" href="{{ path('factura_new', { 'id': entity.id }) }}">
+                    Facturar
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
         </fieldset>
 </form>
 
@@ -53,6 +82,9 @@
         </a>
         <a class="btn btn-primary" href="{{ path('factura_new', { 'id': entity.id }) }}">
             Facturar
+        </a>
+        <a class="btn btn-success" href="{{ path('pedido_new', { 'id': entity.id }) }}">
+            Tomar pedido
         </a>
     </div>
     {#<div class="float-left">
