@@ -137,13 +137,16 @@ class CierreCajaController extends Controller
         $deleteForm = $this->createDeleteForm($id);
         
         $propinas = $this->calcularPorMozo($entity->getIdCaja());
+        
+        $ides = $this->obteneridMozo($entity->getIdCaja());
 
         return array(
             'efectivos'   => $efectivo,
             'detalles'    => $detalles, 
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-            'propinas'    => $propinas
+            'propinas'    => $propinas,
+            'ides'    => $ides
         );
     }
 
@@ -409,6 +412,20 @@ class CierreCajaController extends Controller
         //var_dump($entity);
     }
     
+    public function calcularDetallesMozo($id){
+         $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT p FROM SistemaAdminBundle:Factura p WHERE p.idMozo = :caja'
+        )->setParameter('caja', $id);  
+        $entity = $query->getResult();
+//        foreach ($entity as $lf) {
+//            //echo $lf->getTotal();
+//            //echo $lf->getFormaPago();
+//            //echo $lf->getBanco();
+//        }
+        return $entity;
+        //var_dump($entity);
+    }
     
         /**
      * REPORTE DE TORNEO GRUPO EQUIPOS
@@ -487,7 +504,7 @@ EOD;
                 $propina = 0.15*$facturas->getTotal();
                 $ingresos[$idMozo] = $ingresos[$idMozo] + $propina;
             }
-            $todo = array('0' => $ingresos, '1' => $nombres);
+            $todo = array('0' => $ingresos, '1' => $nombres, '2' => $idMozo);
         } else {
             $todo = null;
         }
@@ -495,5 +512,117 @@ EOD;
         return $todo;
 //        return $ingresos;
     }
+    
+    public function calcularPorMozoParticular($id){
+        $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT p FROM SistemaAdminBundle:Factura p WHERE p.idMozo = :caja'
+        )->setParameter('caja', $id);
+        $ingresos = array();
+        $entity = $query->getResult();
+        if ($entity) {
+            foreach ($entity as $facturas) {
+                //echo $lf->getTotal();
+                $idMozo = $facturas->getIdMozo()->getId();
+                if(!isset($ingresos[$idMozo])){
+                    $ingresos[$idMozo] = 0;
+                    $nombres[$idMozo] = 0;
+                    $nombres[$idMozo] = $facturas->getIdMozo();
+                }
+                $propina = 0.15*$facturas->getTotal();
+                $ingresos[$idMozo] = $ingresos[$idMozo] + $propina;
+            }
+            $todo = array('0' => $ingresos, '1' => $nombres, '2' => $idMozo);
+        } else {
+            $todo = null;
+        }
+//        var_dump($todo);die;
+        return $todo;
+//        return $ingresos;
+    }
+    
+    public function obteneridMozo($id){
+        $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT p FROM SistemaAdminBundle:Factura p WHERE p.idCaja = :caja'
+        )->setParameter('caja', $id);
+        
+        $entity = $query->getResult();
+        if ($entity) {
+            foreach ($entity as $facturas) {
+                //echo $lf->getTotal();
+                $idMozo = $facturas->getIdMozo()->getId();
+                
+            }
+           
+        } 
+//        var_dump($todo);die;
+        return $idMozo;
+//        return $ingresos;
+    }
+    
+        /**
+     * REPORTE DE TORNEO GRUPO EQUIPOS
+     * 
+     * @Route("/{id}/rep", name="comprobante_reporte")
+     * @Template()
+     */
+      public function reporteComprobanteAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('SistemaAdminBundle:CierreCaja')->find($id);
+        //$detalles = $this->calcularingresosdetalle($entity->getIdCaja());
+        //$efectivo = $this->calcularingresosEfectivo($entity->getIdCaja());
+        $request= $this->getRequest()->get('idmozo');
+        $propinas = $this->calcularPorMozoParticular($request);
+        $detalles=$this->calcularDetallesMozo($request);
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find CierreCaja entity.');
+        }
+        
+        $contenido = $this->renderView('SistemaAdminBundle:CierreCaja:reporteComprobante.pdf.twig', array(
+            'entity'    => $entity,
+            'detalles'    => $detalles,
+//            'efectivos'    => $efectivo,
+            'propinas'    => $propinas,
+        ));
+
+        $pdf = <<<EOD
+<style>
+table {
+    table-layout: fixed;
+    width: 100%;
+    font-size: 10pt;
+}
+.table-bordered {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-collapse: separate;
+    border-color: #DDDDDD;
+    border-image: none;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+}
+.table-bordered td {
+    border: solid thin #DDDDDD;
+}
+.table-bordered td.th {
+    font-weight: bold;
+}
+</style>
+$contenido
+EOD;
+
+        return $this->get('sistema_tcpdf')->quick_pdf($pdf);
+    }
+    
+   
+    
+    
     
 }

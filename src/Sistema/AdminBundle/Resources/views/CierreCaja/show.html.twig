@@ -87,11 +87,12 @@
     <ul class="tags">       
         {# iterate over each existing tag and render its only field: name #}
          {% if propinas[0] is defined %}
-            {% for key, propina in propinas[0] %}
-            {% set nombre = propinas[1] %}
+            {% for key, propina in propinas[0] %}            
+            {% set nombre = propinas[1] %}                      
             <li>Nombre de Mozo: {{ nombre[key] }}</li>
-            <li>Comisión: {{ '$'~propina }}  <a href="{{ path('comprobante_reporte', { 'id': entity.id }) }}"><button style="background-color: #000000; color: #FFFFFF;">comprobante</button></a></li>
+            <li>Comisión: {{ '$'~propina }}  <a href="{{ path('comprobante_reporte', { 'id': entity.id,'idmozo': key }) }}"><button style="background-color: #000000; color: #FFFFFF;">comprobante</button></a></li>
             {% endfor %}
+           
         {% endif %}
     </ul>        <div class="control-group">
             <label class="control-label">Total</label>
