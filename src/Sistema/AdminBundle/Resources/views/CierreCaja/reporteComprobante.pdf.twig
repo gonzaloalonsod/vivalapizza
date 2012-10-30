@@ -1,0 +1,42 @@
+<table class="table-bordered">
+    <tbody>
+        <tr>
+            <td class="th">Mozo</td>
+            <td class="th">Comision</td>
+            <td class="th">Fecha</td>
+                        
+        </tr>
+        {% for key, propina in propinas[0] %}
+            {% set nombre = propinas[1] %}            
+        <tr>
+            <td>{{ nombre[key] }}</td>
+            <td>{{ '$'~propina }}</td>
+            <td align="right">{{ entity.fecha|date('d-m-Y') }}</td>
+        </tr>
+        {% endfor %}
+       
+        </tbody>
+</table>
+
+<table class="table-bordered">
+    <tbody>
+        <tr>
+            <td class="th">Nro de Factura</td>
+            <td class="th">Monto</td>
+            <td class="th">Comisión</td>
+        </tr>        
+        {% for detalle in detalles %}            
+        <tr>
+            <td>{{ detalle.id }}</td>
+            <td>${{ detalle.total }}</td>
+            <td>${{ detalle.total*0.15 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+
+
+
+
+
