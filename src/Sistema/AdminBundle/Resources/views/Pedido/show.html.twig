@@ -16,18 +16,32 @@
         <div class="control-group">
             <label class="control-label">Detalle</label>
             <div class="controls">
+<table class="table-bordered">
+    <tbody>
+        <tr>
+            <td class="th">Producto</td>
+            <td class="th">Cantidad</td>
+            <td class="th">Total</td>
+        </tr>
                 {% for lineas in entity.lineasPedido %}
-                <span class="input-xxlarge uneditable-input">
-                    {% for key,linea in lineas %}
-                        {{ key~': '~linea }}
-                    {% endfor %}
-                </span>
-                <br>
+        <tr>
+            <td>
+                {{ lineas.idTipoProducto }}
+            </td>
+            <td style="text-align: center">
+                {{ lineas.cantidad }}
+            </td>
+            <td style="text-align: center">
+                {{ '$ '~lineas.total }}
+            </td>
+        </tr>
                 {% endfor %}
+    </tbody>
+</table>
             </div>
         </div>        <div class="control-group">
             <label class="control-label">Total</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.total }}</span>            </div>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ '$ '~entity.total }}</span>            </div>
         </div>        <div class="control-group">
             <label class="control-label">Caja</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.idCaja }}</span>            </div>
@@ -60,4 +74,12 @@
         </a>
     </div>
 </div>
+<style>
+.table-bordered td {
+    border: solid thin #DDDDDD;
+}
+.table-bordered td.th {
+    font-weight: bold;
+}
+</style>
 {% endblock %}

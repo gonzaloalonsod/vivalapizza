@@ -126,9 +126,8 @@ class PedidoController extends Controller
 
         $entity = $em->getRepository('SistemaAdminBundle:Pedido')->find($id);
         $lineasPedido = $entity->getLineasPedido();
-        $productos = array();
         foreach ($lineasPedido as $key => $linea) {
-//            var_dump($lineasProductos);
+//            var_dump($lineasPedido);die;
             $idTipoProducto = $linea['idTipoProducto'];
             $producto = $em->getRepository('SistemaAdminBundle:TipoProducto')->find($idTipoProducto);
             $lineasPedido[$key]["idTipoProducto"] = $producto;
