@@ -52,6 +52,7 @@
             <td class="th">Nro</td>
             <td class="th">Fecha</td>
             <td class="th">Cliente</td>
+            <td class="th">Dirección</td>
             <td class="th">Total</td>
             <td class="th">Estado</td>
             <td class="th">Accion</td>
@@ -61,6 +62,7 @@
             <td>{{ pedido.id }}</td>
             <td>{{ pedido.fecha|date('Y-m-d H:i:s') }}</td>
             <td>{{ pedido.idCliente }}</td>
+            <td>{{ pedido.direccion }}</td>
             <td>$ {{ pedido.total }}</td>
             <td>En proceso</td>
             <td>
