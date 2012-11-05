@@ -38,6 +38,7 @@ class AppKernel extends Kernel
             //GENERA LOS PDF
             new Io\TcpdfBundle\IoTcpdfBundle(),
             new Sistema\TcpdfBundle\SistemaTcpdfBundle(),//Bundle Propio - sobreescribo el bundle
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
