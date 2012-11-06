@@ -78,6 +78,13 @@ class Pedido
      * @ORM\JoinColumn(name="pedido_factura_id", referencedColumnName="id", nullable=true)
      */
     private $idFactura;
+    
+    /**
+     * @var string $direccion
+     *
+     * @ORM\Column(name="direccion", type="string")
+     */
+    private $direccion;
 
 
     public function __construct() {
@@ -253,5 +260,28 @@ class Pedido
     public function getIdCliente()
     {
         return $this->idCliente;
+    }
+    
+    /**
+     * Set direccion
+     *
+     * @param string $direccion
+     * @return Direccion
+     */
+    public function setDireccion($direccion)
+    {
+        $this->direccion = $direccion;
+    
+        return $this;
+    }
+
+    /**
+     * Get direccion
+     *
+     * @return string
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
     }
 }
