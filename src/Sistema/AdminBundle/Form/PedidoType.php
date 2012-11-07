@@ -25,6 +25,15 @@ class PedidoType extends AbstractType {
                 ->add('idCliente', null, array(
                     'label' => 'Cliente'
                 ))
+                ->add('idMotomandado', 'entity', array(
+                    'label' => 'Motomandado',
+                    'class' => 'SistemaAdminBundle:Persona',
+                    'query_builder' => function(EntityRepository $er) {
+                        return $er->createQueryBuilder('m')
+                                ->where('m.tipo = :mozo')
+                                ->setParameter('mozo', 'motomandado');
+                    }
+                 ))
 //            ->add('idFactura')
 //            ->add('lineasPedido', 'collection', array(
 //                'type' => 'collection'

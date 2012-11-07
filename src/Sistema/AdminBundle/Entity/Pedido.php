@@ -46,15 +46,15 @@ class Pedido
      */
     private $idCaja;
 
-//    /**
-//     * @var Persona
-//     *
-//     * @ORM\ManyToOne(targetEntity="Persona")
-//     * @ORM\JoinColumns({
-//     *   @ORM\JoinColumn(name="id_mozo", referencedColumnName="id")
-//     * })
-//     */
-//    private $idMozo;
+    /**
+     * @var Persona
+     *
+     * @ORM\ManyToOne(targetEntity="Persona")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_motomandado", referencedColumnName="id")
+     * })
+     */
+    private $idMotomandado;
 
     /**
      * @var Persona
@@ -216,28 +216,28 @@ class Pedido
         return $this->idCaja;
     }
 
-//    /**
-//     * Set idMozo
-//     *
-//     * @param Sistema\AdminBundle\Entity\Persona $idMozo
-//     * @return Pedido
-//     */
-//    public function setIdMozo(\Sistema\AdminBundle\Entity\Persona $idMozo = null)
-//    {
-//        $this->idMozo = $idMozo;
-//    
-//        return $this;
-//    }
-//
-//    /**
-//     * Get idMozo
-//     *
-//     * @return Sistema\AdminBundle\Entity\Persona 
-//     */
-//    public function getIdMozo()
-//    {
-//        return $this->idMozo;
-//    }
+    /**
+     * Set idMotomandado
+     *
+     * @param Sistema\AdminBundle\Entity\Persona $idMotomandado
+     * @return Pedido
+     */
+    public function setIdMotomandado(\Sistema\AdminBundle\Entity\Persona $idMotomandado = null)
+    {
+        $this->idMotomandado = $idMotomandado;
+    
+        return $this;
+    }
+
+    /**
+     * Get idMotomandado
+     *
+     * @return Sistema\AdminBundle\Entity\Persona 
+     */
+    public function getIdMotomandado()
+    {
+        return $this->idMotomandado;
+    }
 
     /**
      * Set idCliente

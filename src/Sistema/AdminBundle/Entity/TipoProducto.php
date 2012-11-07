@@ -38,7 +38,7 @@ class TipoProducto
     /**
      * @var Producto
      *
-     * @ORM\ManyToOne(targetEntity="Producto")
+     * @ORM\ManyToOne(targetEntity="Producto", inversedBy="idTipoProducto")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_producto", referencedColumnName="id")
      * })
