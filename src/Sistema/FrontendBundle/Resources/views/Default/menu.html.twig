@@ -1,0 +1,79 @@
+{% extends '::frontend.html.twig' %}
+
+{% block content %}
+<style>
+.wrap_gd {
+    margin-left: -5px;
+    padding-left: 5px;
+}
+.cols_gd {
+    float: left;
+    margin: 0 30px;
+    width: 400px;
+}
+
+.slider_bgd {
+    background: url("../images/bg_slider.jpg") no-repeat scroll 0 0 transparent;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    margin-bottom: 35px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    padding: 15px;
+}
+</style>
+<div class="slider_bgd">
+    <h2>MENU</h2>
+    <div class="slider_gd">
+        {% for entity in entities %}
+            <div class="wrap_gd">
+            <section class="cols_gd">
+                <div class="box">
+                    <div style="background: url('../images/box_top.png') repeat scroll 0 top transparent; padding: 5px;">
+                        <h4>{{ entity.nombre }}</h4>
+                    </div>
+                    <img style="float: right" src="{{ asset('/uploads/producto/'~entity.imagen) | apply_filter('miniatura_producto') }}" />
+                </div>
+                {% for tipoProducto in entity.idTipoProducto %}
+                    {{ tipoProducto.descripcion }}
+                    {{ '$'~tipoProducto.precio }}
+                    {{ tipoProducto.cantidadvendido }}
+                    <br>
+                {% endfor %}
+            </section>
+            </div>
+        {% endfor %}
+        &nbsp;
+    </div>
+</div>
+<div class="wrap">
+        <section class="cols">
+                <div class="box">
+                        <div>
+                            <h2>Delivery! <span>ver nuestro men&uacute;</span></h2>
+                            <figure><img src="/images/page1_img1.jpg" alt="" ></figure>									
+                            <a href="{{ path('frontend_menu') }}" class="button1">Ver men&uacute;</a>
+                        </div>
+                </div>
+        </section>
+        <section class="cols pad_left1">
+                <div class="box">
+                        <div>
+                                <h2>Promociones!  <span>todos los dias</span></h2>
+                                <figure><img src="/images/page1_img2.jpg" alt="" ></figure>
+                                <a href="#" class="button1 openerpromociones">Ver promociones</a>
+                        </div>
+                </div>
+        </section>
+        <section class="cols pad_left1">
+                <div class="box">
+                        <div>
+                            <h2>Contacto <span>tu opini&oacute;n</span></h2>
+                            <figure><img src="/images/page1_img3.jpg" alt="" ></figure>
+
+                            <a href="#" class="button1 openercontacto">Opinar</a>
+                        </div>
+                </div>
+        </section>
+</div>
+{% endblock %}

@@ -19,7 +19,8 @@ class PersonaFormType extends AbstractType {
                     ->add('tipo', 'choice', array(
                         'choices' => array('cliente' => 'Cliente',
                                            'cajero'  => 'Cajero',
-                                           'mozo' => 'Mozo'
+                                           'mozo' => 'Mozo',
+                                           'motomandado' => 'Motomandado'
                                           )
                     ))
                 ;

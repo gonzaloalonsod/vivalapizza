@@ -31,8 +31,26 @@
             modal: "true"
         });
  
-        $( "#openercontacto" ).click(function() {
+        $( ".openercontacto" ).click(function() {
             $( "#divcontacto" ).dialog( "open" );
+            return false;
+        });
+        
+        $( ".openerpromociones" ).click(function() {
+            var divpromo = $('<div title="Promociones"></div>');
+            $.ajax({
+              url: '{{ path('frontend_promociones') }}',
+              success: function(data) {
+                divpromo.html(data);
+              }
+            });
+            divpromo.dialog({
+                autoOpen: true,
+                show: "blind",
+                hide: "explode",
+                width: "920",
+                modal: "true"
+            });
             return false;
         });
     });
@@ -62,7 +80,7 @@
 						<ul id="top_nav">
 							<li><a href="{{ path('frontend_index') }}"><img src="/images/icon_1.gif" alt=""></a></li>
 							<li><a href="{{ path('admin_index') }}"><img src="/images/icon_2.gif" alt=""></a></li>
-							<li class="end"><a href="#" id="openercontacto"><img src="/images/icon_3.gif" alt=""></a></li>
+							<li class="end"><a href="#" class="openercontacto"><img src="/images/icon_3.gif" alt=""></a></li>
 						</ul>
 					</nav>
 					{#<nav>

@@ -60,15 +60,7 @@ class Producto
      * @ORM\OneToMany(targetEntity="TipoProducto", mappedBy="idProducto", cascade={"persist", "remove"})
      */
     private $idTipoProducto;
-    
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->idTipoProducto = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     public function __toString() {
         return $this->nombre;
@@ -244,38 +236,5 @@ class Producto
         if ($file = $this->getAbsolutePath()) {
             unlink($file);
         }
-    }
-    
-    /**
-     * Add idTipoProducto
-     *
-     * @param Sistema\AdminBundle\Entity\TipoProducto $idTipoProducto
-     * @return Producto
-     */
-    public function addIdTipoProducto(\Sistema\AdminBundle\Entity\TipoProducto $idTipoProducto)
-    {
-        $this->idTipoProducto[] = $idTipoProducto;
-    
-        return $this;
-    }
-
-    /**
-     * Remove idTipoProducto
-     *
-     * @param Sistema\AdminBundle\Entity\TipoProducto $idTipoProducto
-     */
-    public function removeIdTipoProducto(\Sistema\AdminBundle\Entity\TipoProducto $idTipoProducto)
-    {
-        $this->idTipoProducto->removeElement($idTipoProducto);
-    }
-
-    /**
-     * Get idTipoProducto
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getIdTipoProducto()
-    {
-        return $this->idTipoProducto;
     }
 }
