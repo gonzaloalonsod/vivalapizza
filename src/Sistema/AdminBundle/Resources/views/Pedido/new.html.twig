@@ -45,8 +45,8 @@
             map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
           }
 
-          function codeAddress() {
-            var address = document.getElementById('address').value;
+          function codeAddress() {            
+            var address = "Resistencia, Chaco".concat(document.getElementById('sistema_adminbundle_pedidotype_direccion').value);
             geocoder.geocode( { 'address': address}, function(results, status) {
               if (status == google.maps.GeocoderStatus.OK) {
                 map.setCenter(results[0].geometry.location);
@@ -149,14 +149,13 @@
                     </ul>
     {{ form_row(form.direccion) }}
                         </div>
-                    <div>
-                        <input style="width: 300px" id="address" type="textbox" value="Resistencia, Chaco">
+                                            
                         <div class="no1">
                         <input type="button" value="Marcar" onclick="codeAddress()">
                     <a href="javascript:window.print()">Imprimir</a>
                     </div>
-                    </div>
-                    <div id="map_canvas" style="height:500px;width:500px;top:50px"></div>  
+                    
+                    <div id="map_canvas" style="height:400px;width:550px;top:50px"></div>  
                     <div class="no1">
     {{ form_row(form.total) }}
 
