@@ -1,589 +1,71 @@
- 
-{% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <title>Google Maps JavaScript API v3 Example: Geocoding Simple</title>
+        <link href="/maps/documentation/javascript/examples/default.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/reset.css" type="text/css" media="all">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="all">
+    <link rel="stylesheet" href="/css/style.css" type="text/css" media="all">
+    <script type="text/javascript" src="/js/jquery-1.6.js" ></script>
+    <script type="text/javascript" src="/js/cufon-yui.js"></script>
+    <script type="text/javascript" src="/js/cufon-replace.js"></script>  
+    <script type="text/javascript" src="/js/Forum_400.font.js"></script>
+    <script type="text/javascript" src="/js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="/js/tms-0.3.js"></script>
+    <script type="text/javascript" src="/js/tms_presets.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
+    <script type="text/javascript" src="/js/atooltip.jquery.js"></script>
+    <link href="{{ asset('bundles/jordillonchcrudgenerator/css/bootstrap.css') }}" rel="stylesheet">
+    {#<style>
+        body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        }
+    </style>#}
+    <link href="{{ asset('bundles/jordillonchcrudgenerator/css/bootstrap-responsive.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/jordillonchcrudgenerator/css/crud.css') }}" rel="stylesheet">
 
-{% block title %}
-{{ parent() }} - Pedido {{ 'views.new.creation'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-{% endblock %}
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="{{ asset('bundles/sistemaadmin/css/modificaadmin.css') }}" rel="stylesheet">
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script>
+          var geocoder;
+          var map;
+          function initialize() {
+            geocoder = new google.maps.Geocoder();
+            var latlng = new google.maps.LatLng(-34.397, 150.644);
+            var mapOptions = {
+              zoom: 15,
+              center: latlng,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+          }
 
-{% block page %}
-<style>
-    div.olMap {
-    z-index: 0;
-    padding: 0 !important;
-    margin: 0 !important;
-    cursor: default;
-}
-
-div.olMapViewport {
-    text-align: left;
-}
-
-div.olLayerDiv {
-   -moz-user-select: none;
-   -khtml-user-select: none;
-}
-
-.olLayerGoogleCopyright {
-    left: 2px;
-    bottom: 2px;
-}
-.olLayerGoogleV3.olLayerGoogleCopyright {
-    right: auto !important;
-}
-.olLayerGooglePoweredBy {
-    left: 2px;
-    bottom: 15px;
-}
-.olLayerGoogleV3.olLayerGooglePoweredBy {
-    bottom: 15px !important;
-}
-.olControlAttribution {
-    font-size: smaller;
-    right: 3px;
-    bottom: 4.5em;
-    position: absolute;
-    display: block;
-}
-.olControlScale {
-    right: 3px;
-    bottom: 3em;
-    display: block;
-    position: absolute;
-    font-size: smaller;
-}
-.olControlScaleLine {
-   display: block;
-   position: absolute;
-   left: 10px;
-   bottom: 15px;
-   font-size: xx-small;
-}
-.olControlScaleLineBottom {
-   border: solid 2px black;
-   border-bottom: none;
-   margin-top:-2px;
-   text-align: center;
-}
-.olControlScaleLineTop {
-   border: solid 2px black;
-   border-top: none;
-   text-align: center;
-}
-
-.olControlPermalink {
-    right: 3px;
-    bottom: 1.5em;
-    display: block;
-    position: absolute;
-    font-size: smaller;
-}
-
-div.olControlMousePosition {
-    bottom: 0;
-    right: 3px;
-    display: block;
-    position: absolute;
-    font-family: Arial;
-    font-size: smaller;
-}
-
-.olControlOverviewMapContainer {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-}
-
-.olControlOverviewMapElement {
-    padding: 10px 18px 10px 10px;
-    background-color: #00008B;
-    -moz-border-radius: 1em 0 0 0;
-}
-
-.olControlOverviewMapMinimizeButton,
-.olControlOverviewMapMaximizeButton {
-    height: 18px;
-    width: 18px;
-    right: 0;
-    bottom: 80px;
-    cursor: pointer;
-}
-
-.olControlOverviewMapExtentRectangle {
-    overflow: hidden;
-    background-image: url("img/blank.gif");
-    cursor: move;
-    border: 2px dotted red;
-}
-.olControlOverviewMapRectReplacement {
-    overflow: hidden;
-    cursor: move;
-    background-image: url("img/overview_replacement.gif");
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.olLayerGeoRSSDescription {
-    float:left;
-    width:100%;
-    overflow:auto;
-    font-size:1.0em;
-}
-.olLayerGeoRSSClose {
-    float:right;
-    color:gray;
-    font-size:1.2em;
-    margin-right:6px;
-    font-family:sans-serif;
-}
-.olLayerGeoRSSTitle {
-    float:left;font-size:1.2em;
-}
-
-.olPopupContent {
-    padding:5px;
-    overflow: auto;
-}
-
-.olControlNavigationHistory {
-   background-image: url("img/navigation_history.png");
-   background-repeat: no-repeat;
-   width:  24px;
-   height: 24px;
-
-}
-.olControlNavigationHistoryPreviousItemActive {
-  background-position: 0 0;
-}
-.olControlNavigationHistoryPreviousItemInactive {
-   background-position: 0 -24px;
-}
-.olControlNavigationHistoryNextItemActive {
-   background-position: -24px 0;
-}
-.olControlNavigationHistoryNextItemInactive {
-   background-position: -24px -24px;
-}
-
-div.olControlSaveFeaturesItemActive {
-    background-image: url(img/save_features_on.png);
-    background-repeat: no-repeat;
-    background-position: 0 1px;
-}
-div.olControlSaveFeaturesItemInactive {
-    background-image: url(img/save_features_off.png);
-    background-repeat: no-repeat;
-    background-position: 0 1px;
-}
-
-.olHandlerBoxZoomBox {
-    border: 2px solid red;
-    position: absolute;
-    background-color: white;
-    opacity: 0.50;
-    font-size: 1px;
-    filter: alpha(opacity=50);
-}
-.olHandlerBoxSelectFeature {
-    border: 2px solid blue;
-    position: absolute;
-    background-color: white;
-    opacity: 0.50;
-    font-size: 1px;
-    filter: alpha(opacity=50);
-}
-
-.olControlPanPanel {
-    top: 10px;
-    left: 5px;
-}
-
-.olControlPanPanel div {
-    background-image: url(img/pan-panel.png);
-    height: 18px;
-    width: 18px;
-    cursor: pointer;
-    position: absolute;
-}
-
-.olControlPanPanel .olControlPanNorthItemInactive {
-    top: 0;
-    left: 9px;
-    background-position: 0 0;
-}
-.olControlPanPanel .olControlPanSouthItemInactive {
-    top: 36px;
-    left: 9px;
-    background-position: 18px 0;
-}
-.olControlPanPanel .olControlPanWestItemInactive {
-    position: absolute;
-    top: 18px;
-    left: 0;
-    background-position: 0 18px;
-}
-.olControlPanPanel .olControlPanEastItemInactive {
-    top: 18px;
-    left: 18px;
-    background-position: 18px 18px;
-}
-
-.olControlZoomPanel {
-    top: 71px;
-    left: 14px;
-}
-
-.olControlZoomPanel div {
-    background-image: url(img/zoom-panel.png);
-    position: absolute;
-    height: 18px;
-    width: 18px;
-    cursor: pointer;
-}
-
-.olControlZoomPanel .olControlZoomInItemInactive {
-    top: 0;
-    left: 0;
-    background-position: 0 0;
-}
-
-.olControlZoomPanel .olControlZoomToMaxExtentItemInactive {
-    top: 18px;
-    left: 0;
-    background-position: 0 -18px;
-}
-
-.olControlZoomPanel .olControlZoomOutItemInactive {
-    top: 36px;
-    left: 0;
-    background-position: 0 18px;
-}
-
-/*
- * When a potential text is bigger than the image it move the image
- * with some headers (closes #3154)
- */
-.olControlPanZoomBar div {
-    font-size: 1px;
-}
-
-.olPopupCloseBox {
-  background: url("img/close.gif") no-repeat;
-  cursor: pointer;
-}
-
-.olFramedCloudPopupContent {
-    padding: 5px;
-    overflow: auto;
-}
-
-.olControlNoSelect {
- -moz-user-select: none;
- -khtml-user-select: none;
-}
-
-.olImageLoadError {
-    background-color: pink;
-    opacity: 0.5;
-    filter: alpha(opacity=50); /* IE */
-}
-
-/**
- * Cursor styles
- */
-
-.olCursorWait {
-    cursor: wait;
-}
-.olDragDown {
-    cursor: move;
-}
-.olDrawBox {
-    cursor: crosshair;
-}
-.olControlDragFeatureOver {
-    cursor: move;
-}
-.olControlDragFeatureActive.olControlDragFeatureOver.olDragDown {
-    cursor: -moz-grabbing;
-}
-
-/**
- * Layer switcher
- */
-.olControlLayerSwitcher {
-    position: absolute;
-    top: 25px;
-    right: 0;
-    width: 20em;
-    font-family: sans-serif;
-    font-weight: bold;
-    margin-top: 3px;
-    margin-left: 3px;
-    margin-bottom: 3px;
-    font-size: smaller;
-    color: white;
-    background-color: transparent;
-}
-
-.olControlLayerSwitcher .layersDiv {
-    padding-top: 5px;
-    padding-left: 10px;
-    padding-bottom: 5px;
-    padding-right: 10px;
-    background-color: darkblue;
-}
-
-.olControlLayerSwitcher .layersDiv .baseLbl,
-.olControlLayerSwitcher .layersDiv .dataLbl {
-    margin-top: 3px;
-    margin-left: 3px;
-    margin-bottom: 3px;
-}
-
-.olControlLayerSwitcher .layersDiv .baseLayersDiv,
-.olControlLayerSwitcher .layersDiv .dataLayersDiv {
-    padding-left: 10px;
-}
-
-.olControlLayerSwitcher .maximizeDiv,
-.olControlLayerSwitcher .minimizeDiv {
-    width: 18px;
-    height: 18px;
-    top: 5px;
-    right: 0;
-    cursor: pointer;
-}
-
-.olBingAttribution {
-    color: #DDD;
-}
-.olBingAttribution.road {
-    color: #333;
-}
-
-.olGoogleAttribution.hybrid, .olGoogleAttribution.satellite {
-    color: #EEE;
-}
-.olGoogleAttribution {
-    color: #333;
-}
-span.olGoogleAttribution a {
-    color: #77C;
-}
-span.olGoogleAttribution.hybrid a, span.olGoogleAttribution.satellite a {
-    color: #EEE;
-}
-
-/**
- * Editing and navigation icons.
- * (using the editing_tool_bar.png sprint image)
- */
-.olControlNavToolbar ,
-.olControlEditingToolbar {
-    margin: 5px 5px 0 0;
-}
-.olControlNavToolbar div,
-.olControlEditingToolbar div {
-    background-image: url("/images/editing_tool_bar.png");
-    background-repeat: no-repeat;
-    margin: 0 0 5px 5px;
-    width: 24px;
-    height: 22px;
-    cursor: pointer
-}
-/* positions */
-.olControlEditingToolbar {
-    right: 0;
-    top: 0;
-}
-.olControlNavToolbar {
-    top: 295px;
-    left: 9px;
-}
-/* layouts */
-.olControlEditingToolbar div {
-    float: right;
-}
-/* individual controls */
-.olControlNavToolbar .olControlNavigationItemInactive,
-.olControlEditingToolbar .olControlNavigationItemInactive {
-    background-position: -103px -1px;
-}
-.olControlNavToolbar .olControlNavigationItemActive ,
-.olControlEditingToolbar .olControlNavigationItemActive  {
-    background-position: -103px -24px;
-}
-.olControlNavToolbar .olControlZoomBoxItemInactive {
-    background-position: -128px -1px;
-}
-.olControlNavToolbar .olControlZoomBoxItemActive  {
-    background-position: -128px -24px;
-}
-.olControlEditingToolbar .olControlDrawFeaturePointItemInactive {
-    background-position: -77px -1px;
-}
-.olControlEditingToolbar .olControlDrawFeaturePointItemActive {
-    background-position: -77px -24px;
-}
-.olControlEditingToolbar .olControlDrawFeaturePathItemInactive {
-    background-position: -51px -1px;
-}
-.olControlEditingToolbar .olControlDrawFeaturePathItemActive {
-    background-position: -51px -24px;
-}
-.olControlEditingToolbar .olControlDrawFeaturePolygonItemInactive{
-    background-position: -26px -1px;
-}
-.olControlEditingToolbar .olControlDrawFeaturePolygonItemActive {
-    background-position: -26px -24px;
-}
-
-div.olControlZoom {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    background: rgba(255,255,255,0.4);
-    border-radius: 4px;
-    padding: 2px;
-}
-div.olControlZoom a {
-    display: block;
-    margin: 1px;
-    padding: 0;
-    color: white;
-    font-size: 18px;
-    font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    text-decoration: none;
-    text-align: center;
-    height: 22px;
-    width:22px;
-    line-height: 19px;
-    background: #130085; /* fallback for IE - IE6 requires background shorthand*/
-    background: rgba(0, 60, 136, 0.5);
-    filter: alpha(opacity=80);
-}
-div.olControlZoom a:hover {
-    background: #130085; /* fallback for IE */
-    background: rgba(0, 60, 136, 0.7);
-    filter: alpha(opacity=100);
-}
-@media only screen and (max-width: 600px) {
-    div.olControlZoom a:hover {
-        background: rgba(0, 60, 136, 0.5);
-    }
-}
-a.olControlZoomIn {
-    border-radius: 4px 4px 0 0;
-}
-a.olControlZoomOut {
-    border-radius: 0 0 4px 4px;
-}
-
-
-/**
- * Animations
- */
-
-.olLayerGrid .olTileImage {
-    -webkit-transition: opacity 0.2s linear;
-    -moz-transition: opacity 0.2s linear;
-    -o-transition: opacity 0.2s linear;
-    transition: opacity 0.2s linear;
-}
-/**
- * CSS Reset
- * From Blueprint reset.css
- * http://blueprintcss.googlecode.com
- */
-
-table {border-collapse:separate;border-spacing:0;}
-caption, th, td {text-align:left;font-weight:normal;}
-table, td, th {vertical-align:middle;}
-blockquote:before, blockquote:after, q:before, q:after {content:"";}
-blockquote, q {quotes:"" "";}
-a img {border:none;}
-
-/**
- * Basic Typography
- */
-pre, code {
-    margin: 1.5em 0;
-    white-space: pre;
-}
-pre, code {
-    font: 1em 'andale mono', 'lucida console', monospace;
-    line-height:1.5;
-}
-.olControlAttribution {
-    bottom: 5px;
-}
-
-/**
- * Map Examples Specific
- */
-.smallmap {
-    width: 512px;
-    height: 256px;
-    border: 1px solid #ccc;
-}
-#tags {
-    display: none;
-}
-
-#docs p {
-    margin-bottom: 0.5em;
-}
-/* mobile specific */
-@media only screen and (max-width: 600px) {
-    body {
-        height           : 100%;
-        margin           : 0;
-        padding          : 0;
-        width            : 100%;
-    }
-    #map {
-        background : #7391ad;
-        width      : 100%;
-    }
-    #map {
-        border : 0;
-        height : 250px;
-    }
-    #title {
-        font-size   : 1.3em;
-        line-height : 2em;
-        text-indent : 1em;
-        margin      : 0;
-        padding     : 0;
-    }
-    #docs {
-        bottom     : 0;
-        padding    : 1em;
-    }
-    #shortdesc {
-        color      : #aaa;
-        font-size  : 0.8em;
-        padding    : 1em;
-        text-align : right;
-    }
-    #tags {
-        display : none;
-    }
-}
-@media only screen and (orientation: landscape) and (max-width: 600px) {
-    #shortdesc {
-       float: right;
-       width: 25%;
-    }
-    #map {
-        width: 70%;
-    }
-    #docs {
-        font-size: 12px;
-    }
-}
-body {
+          function codeAddress() {            
+            var address = "Resistencia, Chaco".concat(document.getElementById('sistema_adminbundle_pedidotype_direccion').value);
+            geocoder.geocode( { 'address': address}, function(results, status) {
+              if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+              } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+              }
+            });
+          }
+      
+          google.maps.event.addDomListener(window, 'load', initialize);
+            </script>
+        </head>
+        <body>
+            <style>
+            body {
     -webkit-text-size-adjust: none;
 }
 
@@ -618,59 +100,72 @@ body {
     .del_tag_link{
         font-size: 14px;
         font-weight: bold;
-        color: #FFFFFF;
-    }
+        color: #000000;
+    }    
+@media print {
+.no1 {display:none;}
+.sf-toolbarreset {display:none;}
+}
+
 </style>
-
-<link href="{{ asset('css/blitzer/jquery-ui-1.9.0.custom.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('css/blitzer/jquery-ui-1.9.0.custom.min.css') }}" rel="stylesheet">
 {{ form_stylesheet(form) }}
-<script src="{{ asset('js/jquery-1.8.2.min.js') }}"></script>
-<script src="{{ asset('js/jquery-ui-1.9.0.custom.min.js') }}"></script>
+            <script src="{{ asset('js/jquery-1.8.2.min.js') }}"></script>
+            <script src="{{ asset('js/jquery-ui-1.9.0.custom.min.js') }}"></script>
 {{ form_javascript(form) }}
-
-<h2>Realizar pedido </h2>
-
-<form class="well" action="{{ path('pedido_create') }}" method="post" {{ form_enctype(form) }}>
-    <table>
-        <thead>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ form_row(form.idCaja) }}</td>
-                <td>{{ form_row(form.idCliente) }}</td>
-                <td>{{ form_row(form.idMotomandado) }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <div class="no1">
+            <h2>Realizar pedido </h2>
+            </div>
+            <form class="well" action="{{ path('pedido_create') }}" method="post" {{ form_enctype(form) }}>
+                <div class="no1">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ form_row(form.idCaja) }}</td>
+                            <td>{{ form_row(form.idCliente) }}</td>
+                            <td>{{ form_row(form.idMotomandado) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
     {# form_widget(form) #}
-    <div class="titulos">
-        <div class="tituloproducto">Producto</div>
-        <div class="tituloprecio">Precio</div>
-        <div class="titulocantidad">Cantidad</div>
-        <div class="titulototal">Total</div>
-    </div>
+                <div class="titulos">
+                    <div class="tituloproducto">Producto</div>
+                    <div class="tituloprecio">Precio</div>
+                    <div class="titulocantidad">Cantidad</div>
+                    <div class="titulototal">Total</div>
+                </div>
 
-    <ul class="tags" data-prototype="{{ form_widget(form.lineasPedido.vars.prototype)|e }}">
+                <ul class="tags" data-prototype="{{ form_widget(form.lineasPedido.vars.prototype)|e }}">
         {# iterate over each existing tag and render its only field: name #}
         {% for linea in form.lineasPedido %}
-            <li>{{ form_row(linea.idTipoProducto) }}</li>
-            <li>{{ form_row(linea.Precio) }}</li>
-            <li>{{ form_row(linea.cantidad) }}</li>
-            <li>{{ form_row(linea.total) }}</li>
-            <li>{{ form_row(linea.idTipoProducto) }}</li>
+                        <li>{{ form_row(linea.idTipoProducto) }}</li>
+                        <li>{{ form_row(linea.Precio) }}</li>
+                        <li>{{ form_row(linea.cantidad) }}</li>
+                        <li>{{ form_row(linea.total) }}</li>
+                        <li>{{ form_row(linea.idTipoProducto) }}</li>
         {% endfor %}            
-    </ul>
+                    </ul>
     {{ form_row(form.direccion) }}
-    <div id="map" class="smallmap"></div>       
-       
+                        </div>
+                                            
+                        <div class="no1">
+                        <input type="button" value="Marcar" onclick="codeAddress()">
+                    <a href="javascript:window.print()">Imprimir</a>
+                    </div>
+                    
+                    <div id="map_canvas" style="height:400px;width:550px;top:50px"></div>  
+                    <div class="no1">
     {{ form_row(form.total) }}
-        
-    {# form_row(form.idFactura) #}
-    <p>
-        <button type="submit" class="btn btn-success">{{ 'views.new.create'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-    </p>
-</form>
 
+    {# form_row(form.idFactura) #}
+                    <p>
+                        <button type="submit" class="btn btn-success">{{ 'views.new.create'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                    </p>
+                    </div>
+                </form>
+            <div class="no1">
 <div>
     <div class="float-left">
         <a class="btn" href="{{ path('pedido') }}">
@@ -678,8 +173,8 @@ body {
         </a>
     </div>
 </div>
-
-<script>
+                    </div>
+            <script>
 var cantidadAddJs = 0;
 var collectionHolder = $('ul.tags');
 
@@ -832,40 +327,5 @@ function dump(obj) {
     document.body.appendChild(pre)
 }
 </script>
- <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
-<script src="http://openlayers.org/dev/OpenLayers.js"></script>
-        <script>
-            var map = new OpenLayers.Map("map");
-
-var ol_wms = new OpenLayers.Layer.WMS(
-    "OpenLayers WMS",
-    "http://vmap0.tiles.osgeo.org/wms/vmap0",
-    {layers: "basic"}
-);
-
-var dm_wms = new OpenLayers.Layer.Google(
-        "Google Streets", // the default
-        {numZoomLevels: 20, visibility: false}
-);
-vlayer = new OpenLayers.Layer.Vector( "Editable" );
-
-map.addLayers([dm_wms, vlayer]);
-//map.addControl(new OpenLayers.Control.LayerSwitcher());
-map.addControl(
-                new OpenLayers.Control.MousePosition({
-                    prefix: '<a target="_blank" ' +
-                        'href="http://spatialreference.org/ref/epsg/4326/">' +
-                        'EPSG:4326</a> coordinates: ',
-                    separator: ' | ',
-                    numDigits: 2,
-                    emptyString: 'Mouse is not over map.'
-                })
-            );
-map.addControl(new OpenLayers.Control.EditingToolbar(vlayer));
-map.zoomToMaxExtent();
-map.setCenter(new OpenLayers.LonLat(-58.99, -27.45).transform(
-        new OpenLayers.Projection("EPSG:4326"),
-        map.getProjectionObject()
-    ), 12);
-        </script>
-{% endblock %}
+            </body>
+        </html>
