@@ -1,7 +1,7 @@
 {% extends '::frontend.html.twig' %}
 
 {% block content %}
-<script type="text/javascript" language="javascript" src="{{ asset('/bundles/sistemagkvaloracion/js/jquery.min.js') }}"></script>
+{#<script type="text/javascript" language="javascript" src="{{ asset('/bundles/sistemagkvaloracion/js/jquery.min.js') }}"></script>#}
 <script type="text/javascript" language="javascript" src="{{ asset('/bundles/sistemagkvaloracion/js/jquery.raty.min.js') }}"></script>
 <script>
     $.fn.raty.defaults.path = '/bundles/sistemagkvaloracion/img/';
@@ -16,6 +16,7 @@
     float: left;
     margin: 0 30px;
     width: 400px;
+    min-height: 150px;
 }
 
 .slider_bgd {
@@ -41,11 +42,11 @@
                     <img style="float: right" src="{{ asset('/uploads/producto/'~entity.imagen) | apply_filter('miniatura_producto') }}" />
                 </div>
                 {% for tipoProducto in entity.idTipoProducto %}
-                    ----------------------------
+                    {#----------------------------
                     {{ dump(tipoProducto) }}
-                    --------------------------------
+                    --------------------------------#}
                     {% if tipoProducto.idValoracion['id'] is defined %}
-                        {% set valor_score = tipoProducto.idValoracion['total_value'] %}
+                        {% set valor_score = (tipoProducto.idValoracion['total_value'])/tipoProducto.idValoracion['total_votos'] %}
                     {% else %}
                         {% set valor_score = 0 %}
                     {% endif %}
@@ -53,6 +54,7 @@
                     <div style="float:left;">{{ tipoProducto.descripcion }}&nbsp;</div>
                     <div style="float:left;">{{ '$'~tipoProducto.precio }}</div>
                     <div style="float:left;">{{ tipoProducto.cantidad_vendido }}</div>
+                    <div id="valor_score_{{ tipoProducto.id }}" style="float:right;">{{ valor_score|number_format(2, '.', ',') }}</div>
                     <div id="star_{{ tipoProducto.id }}" style="float:right;"></div>
                     <script>
                         $('#star_{{ tipoProducto.id }}').raty({
@@ -65,7 +67,7 @@
                                   url: '{{ path('valoracion_rating_star') }}',
                                   data: { id_product: "{{ tipoProducto.id }}", value: score },
                                   success: function(data) {
-                                    //divpromo.html(data);
+                                    $('#valor_score_{{ tipoProducto.id }}').html(data);
                                   }
                               });
                             }

@@ -26,10 +26,10 @@ class DefaultController extends Controller
     function rating_starAction() {
         $id_product = $this->getRequest()->get('id_product');
         $value = $this->getRequest()->get('value');
-        echo $id_product;echo $value;
+//        echo $id_product;echo $value;
 //        die;
         //set some variables
-        echo $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = $_SERVER['REMOTE_ADDR'];
 //        if (!$units) {$units = 10;}
 //        if (!$static) {$static = FALSE;}
         
@@ -45,6 +45,9 @@ class DefaultController extends Controller
             $tipoProducto->setIdValoracion($valoracion);
             $em->persist($tipoProducto);
 //            throw $this->createNotFoundException('Unable to find valoracion.');
+            $em->flush();
+            
+            $valor_score = $value;
         }  else {
             $totalVotos = $valoracion->getTotalVotos() + 1;
             $totalValue = $valoracion->getTotalValue() + $value;
@@ -52,8 +55,33 @@ class DefaultController extends Controller
             $valoracion->setTotalVotos($totalVotos);
             $valoracion->setTotalValue($totalValue);
             $em->persist($valoracion);
+            $em->flush();
+            
+            $valor_score = $totalValue / $totalVotos;
         }
-        $em->flush();
-        
+        return array('valor_score' => $valor_score);
+//        return array('jsstar' => $this->creaJSstar($id_product,$valor_score));
+    }
+    
+    function creaJSstar($id_product,$valor_score) {
+        $js = "
+            <script>
+                $('#star_".$id_product."').raty({
+                    half  : true,
+                    score : ".$valor_score.",
+                    click: function(score, evt) {
+                      $.ajax({
+                          type: 'POST',
+                          url: '{{ path('valoracion_rating_star') }}',
+                          data: { id_product: '".$id_product."', value: score },
+                          success: function(data) {
+                            //divpromo.html(data);
+                          }
+                      });
+                    }
+                  });
+            </script>
+        ";
+        return $js;
     }
 }
