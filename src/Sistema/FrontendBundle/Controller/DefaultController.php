@@ -45,7 +45,8 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SistemaAdminBundle:Producto')->findAll();
+        $entities = $em->getRepository('SistemaAdminBundle:Producto')->allProductoTipoProducto();
+//        var_dump($entities);die;
         return array(
             'entities' => $entities,
         );

@@ -41,26 +41,9 @@ class Promocion
      * @ORM\Column(name="valido_hasta", type="date", nullable=false)
      */
     private $validoHasta;
-
-//    /**
-//     * @var \Doctrine\Common\Collections\ArrayCollection
-//     *
-//     * @ORM\ManyToMany(targetEntity="Producto", inversedBy="idPromocion")
-//     * @ORM\JoinTable(name="Producto_de_Promocion",
-//     *   joinColumns={
-//     *     @ORM\JoinColumn(name="id_Promocion", referencedColumnName="id")
-//     *   },
-//     *   inverseJoinColumns={
-//     *     @ORM\JoinColumn(name="id_Producto", referencedColumnName="id")
-//     *   }
-//     * )
-//     */
-//    private $idProducto;
     
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="TipoProducto", inversedBy="idPromocion")
+     * @ORM\ManyToMany(targetEntity="TipoProducto")
      * @ORM\JoinTable(name="TipoProducto_de_Promocion",
      *   joinColumns={
      *     @ORM\JoinColumn(name="id_Promocion", referencedColumnName="id")
@@ -188,39 +171,6 @@ class Promocion
     {
         return $this->nombre;
     }
-
-//    /**
-//     * Add idProducto
-//     *
-//     * @param Sistema\AdminBundle\Entity\Producto $idProducto
-//     * @return Promocion
-//     */
-//    public function addIdProducto(\Sistema\AdminBundle\Entity\Producto $idProducto)
-//    {
-//        $this->idProducto[] = $idProducto;
-//    
-//        return $this;
-//    }
-//
-//    /**
-//     * Remove idProducto
-//     *
-//     * @param Sistema\AdminBundle\Entity\Producto $idProducto
-//     */
-//    public function removeIdProducto(\Sistema\AdminBundle\Entity\Producto $idProducto)
-//    {
-//        $this->idProducto->removeElement($idProducto);
-//    }
-//
-//    /**
-//     * Get idProducto
-//     *
-//     * @return Doctrine\Common\Collections\Collection 
-//     */
-//    public function getIdProducto()
-//    {
-//        return $this->idProducto;
-//    }
 
     /**
      * Add idProducto

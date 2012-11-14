@@ -24,3 +24,8 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+services:
+    acme_hello.twig.extension.debug:
+        class:        Twig_Extension_Debug
+        tags:
+             - { name: 'twig.extension' }

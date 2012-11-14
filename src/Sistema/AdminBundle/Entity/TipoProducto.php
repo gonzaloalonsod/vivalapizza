@@ -51,6 +51,12 @@ class TipoProducto
      * @ORM\Column(name="cantidad_vendido", type="string", length=200, nullable=true)
      */
     private $cantidad_vendido;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Sistema\GKValoracionBundle\Entity\Valoracion", cascade={"persist", "remove"})
+     */
+    private $idValoracion;
+    
 
     public function __toString() {
         return $this->idProducto->getNombre().' - '.$this->descripcion;
@@ -156,5 +162,28 @@ class TipoProducto
     public function getCantidadVendido()
     {
         return $this->cantidad_vendido;
+    }
+
+    /**
+     * Set idValoracion
+     *
+     * @param Sistema\GKValoracionBundle\Entity\Valoracion $idValoracion
+     * @return TipoProducto
+     */
+    public function setIdValoracion(\Sistema\GKValoracionBundle\Entity\Valoracion $idValoracion = null)
+    {
+        $this->idValoracion = $idValoracion;
+    
+        return $this;
+    }
+
+    /**
+     * Get idValoracion
+     *
+     * @return Sistema\GKValoracionBundle\Entity\Valoracion 
+     */
+    public function getIdValoracion()
+    {
+        return $this->idValoracion;
     }
 }

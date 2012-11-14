@@ -25,6 +25,7 @@
         "gergelypolonkai/tcpdfbundle": "*",
         "genemu/form-bundle": "2.1.*",
         "doctrine/doctrine-fixtures-bundle": "dev-master"
+//        "avro/rating-bundle": "*"
     },
     "scripts": {
         "post-install-cmd": [

@@ -1,5 +1,5 @@
 {
-    "hash": "dc30e1064da2034e1e63a21e6ee53919",
+    "hash": "c6aeaa2271c8058ca08d5425785f8361",
     "packages": [
         {
             "name": "avalanche123/imagine-bundle",
@@ -47,6 +47,45 @@
                 "image manipulation",
                 "imagine"
             ]
+        },
+        {
+            "name": "avro/rating-bundle",
+            "version": "dev-master",
+            "target-dir": "Avro/RatingBundle",
+            "source": {
+                "type": "git",
+                "url": "http://github.com/jdewit/AvroRatingBundle",
+                "reference": "0d93f10001d5eff4697861dda184c54ae5d4c321"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/jdewit/AvroRatingBundle/zipball/0d93f10001d5eff4697861dda184c54ae5d4c321",
+                "reference": "0d93f10001d5eff4697861dda184c54ae5d4c321",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "friendsofsymfony/user-bundle": "*"
+            },
+            "time": "1346863670",
+            "type": "symfony-bundle",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Avro\\RatingBundle": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joris de Wit",
+                    "email": "joris.w.dewit@gmail.com"
+                }
+            ],
+            "description": "Symfony2 Star Rating Bundle",
+            "homepage": "http://github.com/avro/AvroRatingBundle"
         },
         {
             "name": "craue/formflow-bundle",

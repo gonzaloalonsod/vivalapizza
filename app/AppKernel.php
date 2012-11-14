@@ -38,7 +38,11 @@ class AppKernel extends Kernel
             //GENERA LOS PDF
             new Io\TcpdfBundle\IoTcpdfBundle(),
             new Sistema\TcpdfBundle\SistemaTcpdfBundle(),//Bundle Propio - sobreescribo el bundle
+            //FIXTURES
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            //VALORAR
+            new Sistema\GKValoracionBundle\SistemaGKValoracionBundle(),
+//            new Avro\RatingBundle\AvroRatingBundle
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

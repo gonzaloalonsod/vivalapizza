@@ -1,6 +1,12 @@
 {% extends '::frontend.html.twig' %}
 
 {% block content %}
+<script type="text/javascript" language="javascript" src="{{ asset('/bundles/sistemagkvaloracion/js/jquery.min.js') }}"></script>
+<script type="text/javascript" language="javascript" src="{{ asset('/bundles/sistemagkvaloracion/js/jquery.raty.min.js') }}"></script>
+<script>
+    $.fn.raty.defaults.path = '/bundles/sistemagkvaloracion/img/';
+</script>
+<link rel="stylesheet" type="text/css" href="{{ asset('/bundles/sistemagkvaloracion/doc/css/stylesheet.css') }}" />
 <style>
 .wrap_gd {
     margin-left: -5px;
@@ -35,10 +41,37 @@
                     <img style="float: right" src="{{ asset('/uploads/producto/'~entity.imagen) | apply_filter('miniatura_producto') }}" />
                 </div>
                 {% for tipoProducto in entity.idTipoProducto %}
-                    {{ tipoProducto.descripcion }}
-                    {{ '$'~tipoProducto.precio }}
-                    {{ tipoProducto.cantidadvendido }}
-                    <br>
+                    ----------------------------
+                    {{ dump(tipoProducto) }}
+                    --------------------------------
+                    {% if tipoProducto.idValoracion['id'] is defined %}
+                        {% set valor_score = tipoProducto.idValoracion['total_value'] %}
+                    {% else %}
+                        {% set valor_score = 0 %}
+                    {% endif %}
+                  <div style="margin-bottom: 20px;">
+                    <div style="float:left;">{{ tipoProducto.descripcion }}&nbsp;</div>
+                    <div style="float:left;">{{ '$'~tipoProducto.precio }}</div>
+                    <div style="float:left;">{{ tipoProducto.cantidad_vendido }}</div>
+                    <div id="star_{{ tipoProducto.id }}" style="float:right;"></div>
+                    <script>
+                        $('#star_{{ tipoProducto.id }}').raty({
+                            half  : true,
+                            score : {{ valor_score }},
+                            click: function(score, evt) {
+                              //alert('ID: ' + $(this).attr('id') + '\nscore: ' + score + '\nevent: ' + evt);
+                              $.ajax({
+                                  type: "POST",
+                                  url: '{{ path('valoracion_rating_star') }}',
+                                  data: { id_product: "{{ tipoProducto.id }}", value: score },
+                                  success: function(data) {
+                                    //divpromo.html(data);
+                                  }
+                              });
+                            }
+                          });
+                    </script>
+                  </div>
                 {% endfor %}
             </section>
             </div>
