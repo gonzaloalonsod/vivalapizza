@@ -16,6 +16,7 @@
     <script type="text/javascript" src="/js/tms_presets.js"></script>
     <script type="text/javascript" src="/js/script.js"></script>
     <script type="text/javascript" src="/js/atooltip.jquery.js"></script>
+    
     <link href="{{ asset('bundles/jordillonchcrudgenerator/css/bootstrap.css') }}" rel="stylesheet">
     {#<style>
         body {
@@ -81,6 +82,7 @@
         }
         total = total / 1000.
         document.getElementById('total').innerHTML = total + ' km';
+        document.getElementById('precio').innerHTML = total*5;
       }
       
           google.maps.event.addDomListener(window, 'load', initialize);
@@ -132,14 +134,24 @@
         <div class="control-group">
             <label class="control-label">Dirección</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.direccion }}</span>            </div>
-        </div> 
+        </div>
+        <div class="control-group">
+            <label class="control-label">Distancia</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input"><span id="total"></span></span>            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Precio: $</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input"><span id="precio"></span></span>            </div>
+        </div>
         <div id="map_canvas" style="height:400px;width:550px;top:50px"></div>
          <div id="directionsPanel" style="width:30%;">
    
-    </div>            
+    </div>
+        <div class="no1">
+        <a href="javascript:window.print()">Imprimir Mapa</a>
+        </div>
         </fieldset>
-</form>
- <p>Distancia Total: <span id="total"></span></p>
+</form> 
 <div>
     {#<div class="float-left">
         <a class="btn" href="{{ path('pedido') }}">
@@ -157,12 +169,13 @@
             <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
         </form>
     </div>#}
-         
+        <div class="no1">    
     <div class="float-left">
         <a class="btn" href="{{ path('caja_show', { 'id': entity.idCaja }) }}">
             Ver caja
         </a>
     </div>
+                </div>
 </div>
 <style>
 .table-bordered td {
@@ -170,6 +183,10 @@
 }
 .table-bordered td.th {
     font-weight: bold;
+}
+@media print {
+.no1 {display:none;}
+.sf-toolbarreset {display:none;}
 }
 </style>
         </html>
